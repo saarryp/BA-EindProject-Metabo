@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class EineindprojectBackEndMetaboApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(EineindprojectBackEndMetaboApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(EineindprojectBackEndMetaboApplication.class, args);
+    }
 
 }
