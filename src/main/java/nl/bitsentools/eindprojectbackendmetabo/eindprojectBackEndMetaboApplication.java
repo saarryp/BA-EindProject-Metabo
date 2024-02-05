@@ -1,13 +1,13 @@
-package nl.bitsentools.eineindprojectbackendmetabo;
+package nl.bitsentools.eindprojectbackendmetabo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class EineindprojectBackEndMetaboApplication {
+public class eindprojectBackEndMetaboApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(EineindprojectBackEndMetaboApplication.class, args);
+        SpringApplication.run(eindprojectBackEndMetaboApplication.class, args);
     }
 
 }

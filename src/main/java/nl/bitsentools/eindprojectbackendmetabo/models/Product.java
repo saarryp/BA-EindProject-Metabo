@@ -1,10 +1,8 @@
-package nl.bitsentools.eineindprojectbackendmetabo.models;
+package nl.bitsentools.eindprojectbackendmetabo.models;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
 
 @Entity
 @Table(name = "product")
@@ -12,7 +10,7 @@ import jakarta.persistence.Table;
 
 public class Product {
 
-
+@Id
 
     private Long id;
     private String brandName;
@@ -21,10 +19,12 @@ public class Product {
     private double price;
 
     @Enumerated(EnumType.STRING)
-    private String typeOfMachine;
+    private TypeOfMachine typeOfMachine;
+
+    public  Product(){}
 
 
-    public Product(Long id, String brandName, String productName, int productNumber, double price, String typeOfMachine, String typeOfAccessory) {
+    public Product(Long id, String brandName, String productName, int productNumber, double price, TypeOfMachine typeOfMachine) {
         this.id = id;
         this.brandName = brandName;
         this.productName = productName;
@@ -32,7 +32,11 @@ public class Product {
         this.price = price;
         this.typeOfMachine = typeOfMachine;
 
+        System.out.println("Product instance created: " + this);
+
     }
+
+
 
     public Long getId() {
         return id;
@@ -74,11 +78,11 @@ public class Product {
         this.price = price;
     }
 
-    public String getTypeOfMachine() {
+    public TypeOfMachine getTypeOfMachine() {
         return typeOfMachine;
     }
 
-    public void setTypeOfMachine(String typeOfMachine) {
+    public void setTypeOfMachine(TypeOfMachine typeOfMachine) {
         this.typeOfMachine = typeOfMachine;
     }
 

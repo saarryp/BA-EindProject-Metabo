@@ -1,4 +1,4 @@
-package nl.bitsentools.eineindprojectbackendmetabo.models.enums;
+package nl.bitsentools.eindprojectbackendmetabo.models.enums;
 
 public enum TypeOfMachine {
 
