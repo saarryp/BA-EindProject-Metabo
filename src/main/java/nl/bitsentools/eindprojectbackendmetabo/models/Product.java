@@ -8,15 +8,23 @@ import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
 @Table(name = "product")
 
 
+
 public class Product {
 
 @Id
+@GeneratedValue
+@Column
 
     private Long id;
+@Column
     private String brandName;
+@Column
     private String productName;
+@Column
     private int productNumber;
+@Column
     private double price;
+@Column
 
     @Enumerated(EnumType.STRING)
     private TypeOfMachine typeOfMachine;
@@ -24,8 +32,7 @@ public class Product {
     public  Product(){}
 
 
-    public Product(Long id, String brandName, String productName, int productNumber, double price, TypeOfMachine typeOfMachine) {
-        this.id = id;
+    public Product( String brandName, String productName, int productNumber, double price, TypeOfMachine typeOfMachine) {
         this.brandName = brandName;
         this.productName = productName;
         this.productNumber = productNumber;
