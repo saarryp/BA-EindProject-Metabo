@@ -1,5 +1,7 @@
 package nl.bitsentools.eindprojectbackendmetabo.controllers;
 
+import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductInputDto;
+import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.models.Product;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.ProductRepository;
 import org.springframework.http.HttpStatus;
@@ -21,9 +23,10 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts() {
-        List<Product> products = productRepository.findAll();
-        return new ResponseEntity<>(products, HttpStatus.OK);
+    public ResponseEntity<List<ProductOutputDto>> getAllProducts() {
+//        List<Product> products = productRepository.findAll();
+//        return new ResponseEntity<>(products, HttpStatus.OK);
+        return ResponseEntity.ok(productService.getAllProducts);
     }
 
     @GetMapping("{id}")
