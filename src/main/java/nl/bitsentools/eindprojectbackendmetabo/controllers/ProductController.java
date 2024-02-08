@@ -27,7 +27,7 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Product>getProduct(@PathVariable("id") Long id){
+    public ResponseEntity<Product>getOneProduct(@PathVariable("id") Long id){
     Product savedProduct = productRepository.getReferenceById(id);
 
  //hier kan je de exception opgooien
@@ -35,7 +35,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         //product toevoegen
         //201 status returnen
     Product savedProduct = productRepository.save(product);
@@ -44,9 +44,8 @@ public class ProductController {
 
     }
 
-//
     @PutMapping("/products/{id}")
-    public ResponseEntity<Object>changeProduct(@PathVariable Long id, @RequestBody String product){
+    public ResponseEntity<Object>updateProduct(@PathVariable Long id, @RequestBody String product){
         return ResponseEntity.noContent().build();
     }
 
