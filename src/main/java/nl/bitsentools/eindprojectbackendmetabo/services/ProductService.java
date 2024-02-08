@@ -1,7 +1,7 @@
 package nl.bitsentools.eindprojectbackendmetabo.services;
 
 
-import nl.bitsentools.eindprojectbackendmetabo.dto.ProductDto;
+import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.Product;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.ProductRepository;
@@ -41,7 +41,7 @@ public class ProductService {
 
 
     //POST
-    public ProductDto createProduct(ProductDto createProductDto) {
+    public ProductInputDto createProduct(ProductInputDto createProductDto) {
         Product product = new Product();
         product.setId(createProductDto.id);
         product.setBrandName(createProductDto.brandName);
@@ -57,7 +57,7 @@ public class ProductService {
 
     //PUT
 
-    public ProductDto updateProduct(Long id, ProductDto productDto) {
+    public ProductInputDto updateProduct(Long id, ProductInputDto productDto) {
         Optional<Product> existingProductOptional = productRepository.findById(id);
 
         if (existingProductOptional.isPresent()) {
@@ -89,8 +89,8 @@ public class ProductService {
 
 
     // Helper method to convert Product to ProductDto
-    public ProductDto productToProductDto(Product product) {
-        ProductDto productDto = new ProductDto();
+    public ProductInputDto productToProductDto(Product product) {
+        ProductInputDto productDto = new ProductInputDto();
         productDto.id = product.getId();
         productDto.brandName = product.getBrandName();
         productDto.productName = product.getProductName();

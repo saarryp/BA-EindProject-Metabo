@@ -1,11 +1,10 @@
-package nl.bitsentools.eindprojectbackendmetabo.dto;
+package nl.bitsentools.eindprojectbackendmetabo.dto.product;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
 
-public class ProductDto {
+public class ProductInputDto {
 
    public Long id;
 
