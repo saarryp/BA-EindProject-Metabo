@@ -29,6 +29,8 @@ public class ProductController {
     @GetMapping("{id}")
     public ResponseEntity<Product>getProduct(@PathVariable("id") Long id){
     Product savedProduct = productRepository.getReferenceById(id);
+
+ //hier kan je de exception opgooien
     return ResponseEntity.ok(savedProduct);
     }
 
