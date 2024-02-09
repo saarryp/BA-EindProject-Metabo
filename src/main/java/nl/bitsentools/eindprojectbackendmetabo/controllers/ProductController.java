@@ -3,12 +3,12 @@ package nl.bitsentools.eindprojectbackendmetabo.controllers;
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.models.Product;
-import nl.bitsentools.eindprojectbackendmetabo.repositories.ProductRepository;
-import org.springframework.http.HttpStatus;
+import nl.bitsentools.eindprojectbackendmetabo.services.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.ArrayList;
+import java.net.URI;
 import java.util.List;
 
 
@@ -16,39 +16,51 @@ import java.util.List;
 @RestController
 public class ProductController {
 
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
-    public ProductController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping
     public ResponseEntity<List<ProductOutputDto>> getAllProducts() {
 //        List<Product> products = productRepository.findAll();
 //        return new ResponseEntity<>(products, HttpStatus.OK);
-        return ResponseEntity.ok(productService.getAllProducts);
+//        return ResponseEntity.ok(productService.getAllProducts());
+        List<ProductOutputDto> products = productService.getAllProducts();
+
+        return ResponseEntity.ok(products);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Product>getOneProduct(@PathVariable("id") Long id){
-    Product savedProduct = productRepository.getReferenceById(id);
+    public ResponseEntity<ProductOutputDto>getOneProduct(@PathVariable("id") Long id){
+        ProductOutputDto productOutputDto = productService.getOneProductById(id);
+//        Product savedProduct = productRepository.getReferenceById(id);
 
  //hier kan je de exception opgooien
-    return ResponseEntity.ok(savedProduct);
+    return ResponseEntity.ok(productOutputDto);
     }
 
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+    public ResponseEntity<ProductOutputDto> createProduct(@RequestBody ProductInputDto productInputDto) {
         //product toevoegen
         //201 status returnen
-    Product savedProduct = productRepository.save(product);
-    return ResponseEntity.created(null).body(savedProduct);
 
+
+    ProductOutputDto savedProduct = productService.createProduct(productInputDto);
+
+        URI uri = URI.create(
+                ServletUriComponentsBuilder
+                        .fromCurrentRequest()
+                        .path("/" + savedProduct.id)
+                        .toUriString());
+
+        return ResponseEntity.created(uri).body(savedProduct);
 
     }
 
     @PutMapping("/products/{id}")
-    public ResponseEntity<Object>updateProduct(@PathVariable Long id, @RequestBody String product){
+    public ResponseEntity<ProductOutputDto>updateProduct(@PathVariable Long id, @RequestBody String product){
         return ResponseEntity.noContent().build();
     }
 
@@ -56,7 +68,7 @@ public class ProductController {
     @DeleteMapping("{id}")
     public ResponseEntity<Object>deleteProduct(@PathVariable Long id){
         //hier komt straks de ProductService te staan
-//
+        productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
 }
