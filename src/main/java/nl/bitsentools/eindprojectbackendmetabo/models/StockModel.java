@@ -21,6 +21,8 @@ public class StockModel {
     private String productName;
     @Column
     private int productNumber;
+    @Column @Enumerated(EnumType.STRING)
+    private String typeOfMachine;
     @Column
     private int productInStock;
     @Column
@@ -38,8 +40,7 @@ public class StockModel {
 
 
 
-
-    public StockModel(Long id, String brandName, String productName, int productNumber, int productInStock, Date orderPlacedDate, int weeksToDelivery, int productSold, int quantityInStock, boolean outOfStock) {
+    public StockModel(Long id, String brandName, String productName, int productNumber, int productInStock, Date orderPlacedDate, int weeksToDelivery, int productSold, int quantityInStock, boolean outOfStock, String typeOfMachine) {
         this.id = id;
         this.brandName = brandName;
         this.productName = productName;
@@ -50,6 +51,7 @@ public class StockModel {
         this.productSold = productSold;
         this.quantityInStock = quantityInStock;
         this.outOfStock = outOfStock;
+        this.typeOfMachine = typeOfMachine;
     }
 
     public StockModel() {
@@ -134,5 +136,13 @@ public class StockModel {
 
     public void setOutOfStock(boolean outOfStock) {
         this.outOfStock = outOfStock;
+    }
+
+    public String getTypeOfMachine() {
+        return typeOfMachine;
+    }
+
+    public void setTypeOfMachine(String typeOfMachine) {
+        this.typeOfMachine = typeOfMachine;
     }
 }
