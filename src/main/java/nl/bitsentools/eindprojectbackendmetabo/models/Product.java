@@ -73,8 +73,8 @@ public class Product {
         return productNumber;
     }
 
-    public int setProductNumber(int productNumber) {
-      return productNumber;
+    public void  setProductNumber(int productNumber) {
+      this.productNumber = productNumber;
     }
 
     public double getPrice() {
