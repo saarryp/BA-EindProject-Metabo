@@ -48,23 +48,6 @@ public class ProductService {
     }
 
 
-
-    //POST
-//    public ProductOutputDto createProduct(ProductInputDto createProductDto) {
-//        Product product = new Product();
-//        //id weglaten dat doet @GeneratedValu in service. Client mag geen id toevoegen.
-////        product.setId(createProductDto.id);
-//        product.setBrandName(createProductDto.brandName);
-//        product.setProductName(createProductDto.productName);
-//        product.setProductNumber(createProductDto.productNumber);
-//        product.setPrice(createProductDto.price);
-//        product.setTypeOfMachine(createProductDto.typeOfMachine);
-//
-//        productRepository.save(product);
-//
-//        return transferToDto(product);
-//    }
-
     public ProductOutputDto createProduct(ProductInputDto createProductDto) {
         Product product = transferToProduct(createProductDto);
         productRepository.save(product);
