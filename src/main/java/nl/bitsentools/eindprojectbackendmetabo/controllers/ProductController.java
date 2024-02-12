@@ -8,12 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
-
-@RequestMapping("/products")
 @RestController
+@RequestMapping("/products")
+
 public class ProductController {
 
     private final ProductService productService;
@@ -56,14 +57,16 @@ public class ProductController {
 
     }
 
-    @PutMapping("/products/{id}")
-    public ResponseEntity<ProductOutputDto>updateProduct(@PathVariable Long id, @RequestBody String product){
-        return ResponseEntity.noContent().build();
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductOutputDto>updateProduct(@PathVariable("id") Long id, @Valid @RequestBody ProductInputDto updateProduct ){
+
+        ProductOutputDto dto = productService.updateProduct(id, updateProduct);
+        return ResponseEntity.ok().body(dto);
     }
 
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Object>deleteProduct(@PathVariable Long id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object>deleteProduct(@PathVariable("id") Long id){
         //hier komt straks de ProductService te staan
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
