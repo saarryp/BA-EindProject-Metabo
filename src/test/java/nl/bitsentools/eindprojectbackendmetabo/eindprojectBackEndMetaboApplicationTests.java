@@ -1,10 +1,10 @@
-package nl.bitsentools.eineindprojectbackendmetabo;
+package nl.bitsentools.eindprojectbackendmetabo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class EineindprojectBackEndMetaboApplicationTests {
+class eindprojectBackEndMetaboApplicationTests {
 
     @Test
     void contextLoads() {
