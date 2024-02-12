@@ -5,9 +5,11 @@ import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.Product;
+import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.ProductRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +31,9 @@ public class ProductService {
         List<Product>productList = productRepository.findAll();
         List<ProductOutputDto> productOutputDtoList = new ArrayList<>();
         for(Product product : productList) {
-            productOutputDtoList.add(productToProductDto(product));
+            productOutputDtoList.add(transferToDto(product));
         }
         return productOutputDtoList;
-
     }
 
     //GET-byId
@@ -40,7 +41,7 @@ public class ProductService {
     public ProductOutputDto getOneProductById(Long id) {
         Optional<Product> productOptional = productRepository.findById(id);
         if (productOptional.isPresent()) {
-            return productToProductDto(productOptional.get());
+            return transferToDto(productOptional.get());
         } else {
             throw new RecordNotFoundException("product with id :" + id + " not found");
         }
@@ -51,7 +52,8 @@ public class ProductService {
     //POST
     public ProductOutputDto createProduct(ProductInputDto createProductDto) {
         Product product = new Product();
-        product.setId(createProductDto.id);
+        //id weglaten dat doet @GeneratedValu in service. Client mag geen id toevoegen.
+//        product.setId(createProductDto.id);
         product.setBrandName(createProductDto.brandName);
         product.setProductName(createProductDto.productName);
         product.setProductNumber(createProductDto.productNumber);
@@ -60,9 +62,8 @@ public class ProductService {
 
         productRepository.save(product);
 
-        return productToProductDto(product);
+        return transferToDto(product);
     }
-
     //PUT
 
     public ProductOutputDto updateProduct(Long id, ProductInputDto productDto) {
@@ -70,7 +71,7 @@ public class ProductService {
 
         if (existingProductOptional.isPresent()) {
             Product excistingProduct = existingProductOptional.get();
-            excistingProduct.setId(productDto.id);
+//            excistingProduct.setId(productDto.id);
             excistingProduct.setBrandName(productDto.brandName);
             excistingProduct.setProductName(productDto.productName);
             excistingProduct.setProductNumber(productDto.productNumber);
@@ -78,7 +79,7 @@ public class ProductService {
             excistingProduct.setTypeOfMachine(productDto.typeOfMachine);
 
             productRepository.save(excistingProduct);
-            return productToProductDto(excistingProduct);
+            return transferToDto(excistingProduct);
 
         } else {
             throw new RecordNotFoundException("Product with id: " + id + " not found");
@@ -95,25 +96,13 @@ public class ProductService {
         }
     }
 
-
-    // Helper method to convert Product to ProductDto
-//    public ProductOutputDto productToProductOutputDto(Product product) {
-//        ProductInputDto productInputDto = new ProductInputDto();
-//        productO.id = product.getId();
-//        productDto.brandName = product.getBrandName();
-//        productDto.productName = product.getProductName();
-//        productDto.productNumber = product.getProductNumber();
-//        productDto.price = product.getPrice();
-//        productDto.typeOfMachine = product.getTypeOfMachine();
-//        return ProductOutputDto;
-//    }
     // Dit is de vertaal methode van productInputDto naar product.
 
     //twee helperfuncties maken van inputdto naar model en van model naar outputdto
     public Product transferToProduct(ProductInputDto dto){
         var product = new Product();
 
-        product.setId(dto.id);
+//        product.setId(dto.id);
         product.setBrandName(dto.brandName);
         product.setProductName(dto.productName);
         product.setProductNumber(dto.productNumber);
@@ -127,23 +116,15 @@ public class ProductService {
     public ProductOutputDto transferToDto(Product product){
        ProductOutputDto dto = new ProductOutputDto();
 
-        dto.setId(television.getId());
-        dto.setType(television.getType());
-        dto.setBrand(television.getBrand());
-        dto.setName(television.getName());
-        dto.setPrice(television.getPrice());
-        dto.setAvailableSize(television.getAvailableSize());
-        dto.setRefreshRate(television.getRefreshRate());
-        dto.setScreenType(television.getScreenType());
-        dto.setScreenQuality(television.getScreenQuality());
-        dto.setSmartTv(television.getWifi());
-        dto.setWifi(television.getWifi());
-        dto.setVoiceControl(television.getVoiceControl());
-        dto.setHdr(television.getHdr());
-        dto.setBluetooth(television.getBluetooth());
-        dto.setAmbiLight(television.getAmbiLight());
-        dto.setOriginalStock(television.getOriginalStock());
-        dto.setSold(television.getSold());
+       //deze omzetten naar product
+
+        dto.setId(product.getId());
+        dto.setBrandName(product.getBrandName());
+        dto.setProductName(product.getProductName());
+        dto.setProductNumber(product.getProductNumber());
+        dto.setPrice(product.getPrice());
+        dto.setTypeOfMachine(product.getTypeOfMachine());
+
 
         return dto;
     }

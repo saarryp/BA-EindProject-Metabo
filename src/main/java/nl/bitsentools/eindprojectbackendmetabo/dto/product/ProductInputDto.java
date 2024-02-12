@@ -6,7 +6,7 @@ import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
 
 public class ProductInputDto {
 
-   public Long id;
+//   public Long id;
 
    public String brandName;
 
