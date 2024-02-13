@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class StockController {
         this.stockService = stockService;
     }
 
-//getall
+      //getAll
 
     @GetMapping
     public ResponseEntity<List<StockOutputDto>> getAllStocks(){
@@ -58,6 +59,13 @@ public class StockController {
 
 
     //Put-updateById
+
+    @PutMapping("/{id}")
+    public ResponseEntity<StockOutputDto>updateStock(@PathVariable("id") Long id, @Valid @RequestBody StockInputDto updateStock ){
+
+        StockOutputDto dto = stockService.updateStock(id, updateStock);
+        return ResponseEntity.ok().body(dto);
+    }
 
     //Delete-byId
 }

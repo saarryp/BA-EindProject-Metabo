@@ -48,34 +48,58 @@ public class StockService {
 
     //Post-addStock
     public StockOutputDto createStock(StockInputDto createStockDto) {
-        StockModel stock = transferToStock(createStockDto);
+        StockModel stockModel = new StockModel();
+        StockModel stock = transferToStock(stockModel, createStockDto);
         stockRepository.save(stock);
         return transferToDto(stock);
     }
 
-
-
     //Put-createStock
+
+    public StockOutputDto updateStock(Long id, StockInputDto stockDto) {
+        StockModel existingStock = stockRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException("Product with id: " + id + " not found"));
+
+        transferToStock(existingStock, stockDto);
+
+        stockRepository.save(existingStock);
+        return transferToDto(existingStock);
+    }
+
+
+
 
     //DeleteStockbyId
 
     //twee methodes aanmaken om inputDto naar model om te zetten
     //en model naar outputDto
 
-    public StockModel transferToStock(StockInputDto dto){
-        var stock = new StockModel();
+    public StockModel transferToStock(StockModel stock,StockInputDto dto){
+//       var stock = new StockModel();
 
 
-        stock.setBrandName(dto.brandName);
-        stock.setProductName(dto.productName);
-        stock.setProductNumber(dto.productNumber);
-        stock.setProductInStock(dto.productInStock);
-        stock.setOrderPlacedDate(dto.orderPlacedDate);
-        stock.setWeeksToDelivery(dto.weeksToDelivery);
-        stock.setProductSold(dto.productSold);
-        stock.setQuantityInStock(dto.quantityInStock);
-        stock.setOutOfStock(dto.outOfStock);
-        stock.setTypeOfMachine(dto.typeOfMachine);
+        stock.setBrandName(dto.getBrandName());
+        stock.setProductName(dto.getProductName());
+        stock.setProductNumber(dto.getProductNumber());
+        stock.setProductInStock(dto.getProductInStock());
+        stock.setOrderPlacedDate(dto.getOrderPlacedDate());
+        stock.setWeeksToDelivery(dto.getWeeksToDelivery());
+        stock.setProductSold(dto.getProductSold());
+        stock.setQuantityInStock(dto.getQuantityInStock());
+        stock.setOutOfStock(dto.isOutOfStock());
+        stock.setTypeOfMachine(dto.getTypeOfMachine());
+
+
+//        stock.setBrandName(dto.brandName);
+//        stock.setProductName(dto.productName);
+//        stock.setProductNumber(dto.productNumber);
+//        stock.setProductInStock(dto.productInStock);
+//        stock.setOrderPlacedDate(dto.orderPlacedDate);
+//        stock.setWeeksToDelivery(dto.weeksToDelivery);
+//        stock.setProductSold(dto.productSold);
+//        stock.setQuantityInStock(dto.quantityInStock);
+//        stock.setOutOfStock(dto.outOfStock);
+//        stock.setTypeOfMachine(dto.typeOfMachine);
 
         return stock;
     }
