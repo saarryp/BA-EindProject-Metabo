@@ -8,6 +8,7 @@ import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundExceptio
 import nl.bitsentools.eindprojectbackendmetabo.models.ProductModel;
 import nl.bitsentools.eindprojectbackendmetabo.models.StockModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.StockRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class StockService {
 
     public StockOutputDto updateStock(Long id, StockInputDto stockDto) {
         StockModel existingStock = stockRepository.findById(id)
-                .orElseThrow(() -> new RecordNotFoundException("Product with id: " + id + " not found"));
+                .orElseThrow(() -> new RecordNotFoundException("Stockproduct with id: " + id + " not found"));
 
         transferToStock(existingStock, stockDto);
 
@@ -67,9 +68,17 @@ public class StockService {
     }
 
 
-
-
     //DeleteStockbyId
+
+    public void deleteStock(Long id) {
+        try {
+            stockRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException ex){
+            throw new RecordNotFoundException("Stockproduct with id: " + id + "not found");
+        }
+    }
+
+
 
     //twee methodes aanmaken om inputDto naar model om te zetten
     //en model naar outputDto
@@ -89,25 +98,12 @@ public class StockService {
         stock.setOutOfStock(dto.isOutOfStock());
         stock.setTypeOfMachine(dto.getTypeOfMachine());
 
-
-//        stock.setBrandName(dto.brandName);
-//        stock.setProductName(dto.productName);
-//        stock.setProductNumber(dto.productNumber);
-//        stock.setProductInStock(dto.productInStock);
-//        stock.setOrderPlacedDate(dto.orderPlacedDate);
-//        stock.setWeeksToDelivery(dto.weeksToDelivery);
-//        stock.setProductSold(dto.productSold);
-//        stock.setQuantityInStock(dto.quantityInStock);
-//        stock.setOutOfStock(dto.outOfStock);
-//        stock.setTypeOfMachine(dto.typeOfMachine);
-
         return stock;
     }
 
     public StockOutputDto transferToDto(StockModel stockModel){
         StockOutputDto dto = new StockOutputDto();
 
-        //deze omzetten naar product
 
         dto.setId(stockModel.getId());
         dto.setBrandName(stockModel.getBrandName());

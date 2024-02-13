@@ -68,4 +68,10 @@ public class StockController {
     }
 
     //Delete-byId
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object>deleteStock(@PathVariable("id")Long id){
+        stockService.deleteStock(id);
+    return ResponseEntity.noContent().build();
+    }
 }
