@@ -20,9 +20,19 @@ public class StockController {
         this.stockService = stockService;
     }
 
+//getall
+
     @GetMapping
     public ResponseEntity<List><StockOutputDto>> getAllStocks(){
         List<StockOutputDto> stocks = stockService.getAllStocks();
         return ResponseEntity.ok(stocks);
     }
+
+    //GetById
+
+    //Post-create
+
+    //Put-updateById
+
+    //Delete-byId
 }
