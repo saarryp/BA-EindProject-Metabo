@@ -2,11 +2,12 @@ package nl.bitsentools.eindprojectbackendmetabo.models;
 
 
 import jakarta.persistence.*;
+import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
 
 import java.util.Date;
 
 @Entity
-@Table(name = "stock")
+@Table(name = "stocks")
 public class StockModel {
 
     @Id
@@ -22,7 +23,7 @@ public class StockModel {
     @Column
     private int productNumber;
     @Column @Enumerated(EnumType.STRING)
-    private String typeOfMachine;
+    private TypeOfMachine typeOfMachine;
     @Column
     private int productInStock;
     @Column
@@ -40,7 +41,7 @@ public class StockModel {
 
 
 
-    public StockModel(Long id, String brandName, String productName, int productNumber, int productInStock, Date orderPlacedDate, int weeksToDelivery, int productSold, int quantityInStock, boolean outOfStock, String typeOfMachine) {
+    public StockModel(Long id, String brandName, String productName, int productNumber, int productInStock, Date orderPlacedDate, int weeksToDelivery, int productSold, int quantityInStock, boolean outOfStock, TypeOfMachine typeOfMachine) {
         this.id = id;
         this.brandName = brandName;
         this.productName = productName;
@@ -138,11 +139,11 @@ public class StockModel {
         this.outOfStock = outOfStock;
     }
 
-    public String getTypeOfMachine() {
+    public TypeOfMachine getTypeOfMachine() {
         return typeOfMachine;
     }
 
-    public void setTypeOfMachine(String typeOfMachine) {
+    public void setTypeOfMachine(TypeOfMachine typeOfMachine) {
         this.typeOfMachine = typeOfMachine;
     }
 }

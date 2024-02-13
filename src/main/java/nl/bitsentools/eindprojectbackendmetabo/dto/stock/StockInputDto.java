@@ -2,6 +2,7 @@ package nl.bitsentools.eindprojectbackendmetabo.dto.stock;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
 
 import java.util.Date;
 
@@ -14,7 +15,7 @@ public class StockInputDto {
 
         public int productNumber;
         @Enumerated(EnumType.STRING)
-        public String typeOfMachine;
+        public TypeOfMachine typeOfMachine;
 
         public int productInStock;
 

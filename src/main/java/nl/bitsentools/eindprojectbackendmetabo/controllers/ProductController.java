@@ -32,7 +32,6 @@ public class ProductController {
     @GetMapping("{id}")
     public ResponseEntity<ProductOutputDto>getOneProduct(@PathVariable("id") Long id){
         ProductOutputDto productOutputDto = productService.getOneProductById(id);
-//        Product savedProduct = productRepository.getReferenceById(id);
 
  //hier kan je de exception opgooien
     return ResponseEntity.ok(productOutputDto);
@@ -40,9 +39,6 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<ProductOutputDto> createProduct(@RequestBody ProductInputDto productInputDto) {
-        //product toevoegen
-        //201 status returnen
-
 
     ProductOutputDto savedProduct = productService.createProduct(productInputDto);
 
@@ -70,5 +66,7 @@ public class ProductController {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
+
+
 }
 
