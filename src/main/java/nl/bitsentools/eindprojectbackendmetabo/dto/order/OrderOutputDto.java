@@ -1,21 +1,9 @@
-package nl.bitsentools.eindprojectbackendmetabo.models;
+package nl.bitsentools.eindprojectbackendmetabo.dto.order;
 
+import jakarta.persistence.Column;
 
-import jakarta.persistence.*;
+public class OrderOutputDto {
 
-@Entity
-@Table(name = "order")
-
-public class OrderModel {
-
-    @Id
-    @GeneratedValue
-    @Column
-
-    private Long id;
-
-    @Column
-    //foreignkey
     private int userId;
     @Column
     private String userEmail;
@@ -29,30 +17,8 @@ public class OrderModel {
     private int productNumber;
     @Column
     private double price;
-    @Column
-    private int numberOfProducts;
 
-    public OrderModel(){}
 
-    public OrderModel(Long id, int userId, String userEmail, String userDetails, int orderNumber, int productName, int productNumber, double price, int numberOfProducts) {
-        this.id = id;
-        this.userId = userId;
-        this.userEmail = userEmail;
-        this.userDetails = userDetails;
-        this.orderNumber = orderNumber;
-        this.productName = productName;
-        this.productNumber = productNumber;
-        this.price = price;
-        this.numberOfProducts = numberOfProducts;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public int getUserId() {
         return userId;
@@ -117,4 +83,10 @@ public class OrderModel {
     public void setNumberOfProducts(int numberOfProducts) {
         this.numberOfProducts = numberOfProducts;
     }
+
+    @Column
+    private int numberOfProducts;
+
+
+
 }
