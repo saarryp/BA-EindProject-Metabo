@@ -1,6 +1,7 @@
 package nl.bitsentools.eindprojectbackendmetabo.controllers;
 
 
+import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.services.OrderService;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,8 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductOutputDto>>getAllOrders() {
-        List<ProductOutputDto> orders = OrderService.getAllOrders();
+    public ResponseEntity<List<OrderOutputDto>>getAllOrders() {
+        List<OrderOutputDto> orders = OrderService.getAllOrders();
 
         return ResponseEntity.ok(orders);
     }

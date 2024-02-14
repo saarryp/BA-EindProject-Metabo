@@ -4,20 +4,22 @@ import jakarta.persistence.Column;
 
 public class OrderOutputDto {
 
-    private int userId;
-    @Column
-    private String userEmail;
-    @Column
-    private String userDetails;
-    @Column
-    private int orderNumber;
-    @Column
-    private int productName;
-    @Column
-    private int productNumber;
-    @Column
-    private double price;
+public int userId;
 
+public String userEmail;
+
+public String userDetails;
+
+public int orderNumber;
+
+public int productName;
+
+public int productNumber;
+
+public double price;
+public int numberOfProducts;
+
+public OrderOutputDto(){}
 
 
     public int getUserId() {
@@ -31,6 +33,7 @@ public class OrderOutputDto {
     public String getUserEmail() {
         return userEmail;
     }
+
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
@@ -83,10 +86,6 @@ public class OrderOutputDto {
     public void setNumberOfProducts(int numberOfProducts) {
         this.numberOfProducts = numberOfProducts;
     }
-
-    @Column
-    private int numberOfProducts;
-
 
 
 }
