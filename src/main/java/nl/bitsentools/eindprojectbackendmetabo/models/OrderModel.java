@@ -4,7 +4,7 @@ package nl.bitsentools.eindprojectbackendmetabo.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 
 public class OrderModel {
 

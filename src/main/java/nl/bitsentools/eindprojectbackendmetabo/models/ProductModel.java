@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
 
 @Entity
-@Table(name = "product")
+@Table(name = "products")
 
 
 

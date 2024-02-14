@@ -20,6 +20,7 @@ public class ProductService {
 
 
     public ProductService(ProductRepository productRepository) {
+
         this.productRepository = productRepository;
     }
 
@@ -46,6 +47,7 @@ public class ProductService {
         }
     }
 
+    //POST
 
     public ProductOutputDto createProduct(ProductInputDto createProductDto) {
         ProductModel product = transferToProduct(createProductDto);
