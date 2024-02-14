@@ -4,8 +4,7 @@ package nl.bitsentools.eindprojectbackendmetabo.services;
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
-import nl.bitsentools.eindprojectbackendmetabo.models.Product;
-import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
+import nl.bitsentools.eindprojectbackendmetabo.models.ProductModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.ProductRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -28,9 +27,9 @@ public class ProductService {
     //GET-all
 
     public List<ProductOutputDto> getAllProducts() {
-        List<Product>productList = productRepository.findAll();
+        List<ProductModel>productList = productRepository.findAll();
         List<ProductOutputDto> productOutputDtoList = new ArrayList<>();
-        for(Product product : productList) {
+        for(ProductModel product : productList) {
             productOutputDtoList.add(transferToDto(product));
         }
         return productOutputDtoList;
@@ -39,7 +38,7 @@ public class ProductService {
     //GET-byId
 
     public ProductOutputDto getOneProductById(Long id) {
-        Optional<Product> productOptional = productRepository.findById(id);
+        Optional<ProductModel> productOptional = productRepository.findById(id);
         if (productOptional.isPresent()) {
             return transferToDto(productOptional.get());
         } else {
@@ -49,7 +48,7 @@ public class ProductService {
 
 
     public ProductOutputDto createProduct(ProductInputDto createProductDto) {
-        Product product = transferToProduct(createProductDto);
+        ProductModel product = transferToProduct(createProductDto);
         productRepository.save(product);
         return transferToDto(product);
     }
@@ -57,10 +56,10 @@ public class ProductService {
     //PUT
 
     public ProductOutputDto updateProduct(Long id, ProductInputDto productDto) {
-        Optional<Product> existingProductOptional = productRepository.findById(id);
+        Optional<ProductModel> existingProductOptional = productRepository.findById(id);
 
         if (existingProductOptional.isPresent()) {
-            Product excistingProduct = existingProductOptional.get();
+            ProductModel excistingProduct = existingProductOptional.get();
 //            excistingProduct.setId(productDto.id);
             excistingProduct.setBrandName(productDto.brandName);
             excistingProduct.setProductName(productDto.productName);
@@ -89,8 +88,8 @@ public class ProductService {
     // Dit is de vertaal methode van productInputDto naar product.
 
     //twee helperfuncties maken van inputdto naar model en van model naar outputdto
-    public Product transferToProduct(ProductInputDto dto){
-        var product = new Product();
+    public ProductModel transferToProduct(ProductInputDto dto){
+        var product = new ProductModel();
 
 //        product.setId(dto.id);
         product.setBrandName(dto.brandName);
@@ -103,7 +102,7 @@ public class ProductService {
     }
 
     // Dit is de vertaal methode van Product naar ProductDto
-    public ProductOutputDto transferToDto(Product product){
+    public ProductOutputDto transferToDto(ProductModel product){
        ProductOutputDto dto = new ProductOutputDto();
 
        //deze omzetten naar product

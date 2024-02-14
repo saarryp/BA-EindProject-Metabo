@@ -9,7 +9,7 @@ import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
 
 
 
-public class Product {
+public class ProductModel {
 
 @Id
 @GeneratedValue
@@ -29,10 +29,10 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private TypeOfMachine typeOfMachine;
 
-    public  Product(){}
+    public ProductModel(){}
 
 
-    public Product( String brandName, String productName, int productNumber, double price, TypeOfMachine typeOfMachine) {
+    public ProductModel(String brandName, String productName, int productNumber, double price, TypeOfMachine typeOfMachine) {
         this.brandName = brandName;
         this.productName = productName;
         this.productNumber = productNumber;
