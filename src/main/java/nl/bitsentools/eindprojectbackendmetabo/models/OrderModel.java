@@ -24,7 +24,7 @@ public class OrderModel {
     @Column
     private int orderNumber;
     @Column
-    private int productName;
+    private String productName;
     @Column
     private int productNumber;
     @Column
@@ -34,7 +34,7 @@ public class OrderModel {
 
     public OrderModel(){}
 
-    public OrderModel(Long id, int userId, String userEmail, String userDetails, int orderNumber, int productName, int productNumber, double price, int numberOfProducts) {
+    public OrderModel(Long id, int userId, String userEmail, String userDetails, int orderNumber, String productName, int productNumber, double price, int numberOfProducts) {
         this.id = id;
         this.userId = userId;
         this.userEmail = userEmail;
@@ -86,11 +86,11 @@ public class OrderModel {
         this.orderNumber = orderNumber;
     }
 
-    public int getProductName() {
+    public String getProductName() {
         return productName;
     }
 
-    public void setProductName(int productName) {
+    public void setProductName(String productName) {
         this.productName = productName;
     }
 

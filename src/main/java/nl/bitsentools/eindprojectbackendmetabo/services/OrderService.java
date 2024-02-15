@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderOutputDto;
-import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.OrderModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.OrderRepository;
@@ -60,6 +59,11 @@ public class OrderService {
     public OrderModel transferToOrder(OrderInputDto dto){
         var order = new OrderModel();
 
+//
+        order.setOrderNumber(dto.orderNumber);
+        order.setProductName(dto.productName);
+        order.setPrice(dto.price);
+
         order.setUserEmail(dto.userEmail);
         order.setUserDetails(dto.userDetails);
         order.setNumberOfProducts(dto.numberOfProducts);
@@ -68,18 +72,18 @@ public class OrderService {
     }
     //van orderModel naar orderOutputDto
 
-    public OrderOutputDto transferToDto(OrderModel order){
+    public OrderOutputDto transferToDto(OrderModel orderModel){
 
         OrderOutputDto dto = new OrderOutputDto();
-        dto.setId(order.getId());
-        dto.setUserId(order.getUserId());
-        dto.setUserEmail(order.getUserEmail());
-        dto.setUserDetails(order.getUserDetails());
-        dto.setOrderNumber(order.getOrderNumber());
-        dto.setProductName(order.getProductName());
-        dto.setPrice(order.getPrice());
-        dto.setProductName(order.getProductName());
-        dto.setNumberOfProducts(order.getNumberOfProducts());
+        dto.setId(orderModel.getId());
+        dto.setUserId(orderModel.getUserId());
+        dto.setUserEmail(orderModel.getUserEmail());
+        dto.setUserDetails(orderModel.getUserDetails());
+        dto.setOrderNumber(orderModel.getOrderNumber());
+        dto.setProductName(orderModel.getProductName());
+        dto.setPrice(orderModel.getPrice());
+        dto.setProductNumber(orderModel.getProductNumber());
+        dto.setNumberOfProducts(orderModel.getNumberOfProducts());
 
         return dto;
     }

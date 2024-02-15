@@ -6,22 +6,24 @@ public class OrderOutputDto {
 
     public Long id;
 
-public int userId;
+    public int userId;
 
-public String userEmail;
+    public String userEmail;
 
-public String userDetails;
+    public String userDetails;
 
-public int orderNumber;
+    public int orderNumber;
 
-public int productName;
+    public String productName;
 
-public int productNumber;
+    public int productNumber;
 
-public double price;
-public int numberOfProducts;
+    public double price;
+    public int numberOfProducts;
 
-public OrderOutputDto(){}
+
+
+    public OrderOutputDto(){}
 
     public Long getId() {
         return id;
@@ -32,84 +34,66 @@ public OrderOutputDto(){}
     }
 
     public int getUserId() {
-
-    return userId;
+        return userId;
     }
 
     public void setUserId(int userId) {
-
-    this.userId = userId;
+        this.userId = userId;
     }
 
     public String getUserEmail() {
         return userEmail;
     }
 
-
     public void setUserEmail(String userEmail) {
-
-    this.userEmail = userEmail;
+        this.userEmail = userEmail;
     }
 
     public String getUserDetails() {
-
-    return userDetails;
+        return userDetails;
     }
 
     public void setUserDetails(String userDetails) {
-
-    this.userDetails = userDetails;
+        this.userDetails = userDetails;
     }
 
     public int getOrderNumber() {
-
-    return orderNumber;
+        return orderNumber;
     }
 
     public void setOrderNumber(int orderNumber) {
-
-    this.orderNumber = orderNumber;
+        this.orderNumber = orderNumber;
     }
 
-    public int getProductName() {
-
-    return productName;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setProductName(int productName) {
-
-    this.productName = productName;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public int getProductNumber() {
-
-    return productNumber;
+        return productNumber;
     }
 
     public void setProductNumber(int productNumber) {
-
-    this.productNumber = productNumber;
+        this.productNumber = productNumber;
     }
 
     public double getPrice() {
-
-    return price;
+        return price;
     }
 
     public void setPrice(double price) {
-
-    this.price = price;
+        this.price = price;
     }
 
     public int getNumberOfProducts() {
-        
-    return numberOfProducts;
+        return numberOfProducts;
     }
 
     public void setNumberOfProducts(int numberOfProducts) {
-
-    this.numberOfProducts = numberOfProducts;
+        this.numberOfProducts = numberOfProducts;
     }
-
-
 }
