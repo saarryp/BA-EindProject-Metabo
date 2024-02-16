@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -51,5 +52,11 @@ public class OrderController {
                         .path("/" + savedOrder.id)
                         .toUriString());
         return ResponseEntity.created(uri).body(savedOrder);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<OrderOutputDto>updateOrder(@PathVariable("id") Long id, @Valid @RequestBody OrderInputDto updateOrder){
+    OrderOutputDto dto = orderService.updateOrder(id, updateOrder);
+    return ResponseEntity.ok().body(dto);
     }
 }

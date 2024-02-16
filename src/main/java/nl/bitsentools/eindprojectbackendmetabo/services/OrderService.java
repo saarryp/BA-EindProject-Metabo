@@ -45,30 +45,53 @@ public class OrderService {
     //POST
 
     public OrderOutputDto createOrder(OrderInputDto createOrderDto){
+        OrderModel order = new OrderModel();
         OrderModel orderModel = transferToOrder(createOrderDto);
         orderRepository.save(orderModel);
         return transferToDto(orderModel);
     }
 
     //PutById
+public OrderOutputDto updateOrder(Long id, OrderInputDto updateDto) {
+        OrderModel existingOrder = orderRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException("Order with id: " + id + "is not found."));
+
+//   transferToOrder(existingOrder, updateDto);
+//   orderRepository.save(existingOrder);
+//   return transferToDto(existingOrder);
+
+    existingOrder.setOrderNumber(updateDto.getOrderNumber());
+    existingOrder.setProductName(updateDto.getProductName());
+    existingOrder.setPrice(updateDto.getPrice());
+    existingOrder.setUserEmail(updateDto.getUserEmail());
+    existingOrder.setUserDetails(updateDto.getUserDetails());
+    existingOrder.setNumberOfProducts(updateDto.getNumberOfProducts());
+    existingOrder.setProductNumber(updateDto.getProductNumber());
+    orderRepository.save(existingOrder);
+
+    return transferToDto(existingOrder);
+
+}
+
 
     //deleteById
 
     //twee methodes voor orderInputDto naar orderModel
 
-    public OrderModel transferToOrder(OrderInputDto dto){
-        var order = new OrderModel();
+    public OrderModel transferToOrder(  OrderInputDto dto){
+
+       var existingOrder = new OrderModel();
 
 //
-        order.setOrderNumber(dto.orderNumber);
-        order.setProductName(dto.productName);
-        order.setPrice(dto.price);
+        existingOrder.setOrderNumber(dto.orderNumber);
+        existingOrder.setProductName(dto.productName);
+        existingOrder.setPrice(dto.price);
 
-        order.setUserEmail(dto.userEmail);
-        order.setUserDetails(dto.userDetails);
-        order.setNumberOfProducts(dto.numberOfProducts);
-        order.setProductNumber(dto.productNumber);
-        return order;
+        existingOrder.setUserEmail(dto.userEmail);
+        existingOrder.setUserDetails(dto.userDetails);
+        existingOrder.setNumberOfProducts(dto.numberOfProducts);
+        existingOrder.setProductNumber(dto.productNumber);
+        return existingOrder;
     }
     //van orderModel naar orderOutputDto
 
