@@ -7,7 +7,11 @@ import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.OrderModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.OrderRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,9 +76,16 @@ public OrderOutputDto updateOrder(Long id, OrderInputDto updateDto) {
     return transferToDto(existingOrder);
 
 }
-
-
     //deleteById
+@DeleteMapping("/{id}")
+public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
+    try {
+        orderRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    } catch (EmptyResultDataAccessException ex) {
+        throw new RecordNotFoundException("Order with id: " + id + " not found");
+    }
+}
 
     //twee methodes voor orderInputDto naar orderModel
 

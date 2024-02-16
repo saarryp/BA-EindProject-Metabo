@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.ReportAsSingleViolation;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -59,4 +60,11 @@ public class OrderController {
     OrderOutputDto dto = orderService.updateOrder(id, updateOrder);
     return ResponseEntity.ok().body(dto);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object>deleteOrder(@PathVariable("id") Long id){
+        orderService.deleteOrder(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
