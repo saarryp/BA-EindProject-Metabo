@@ -1,6 +1,7 @@
 package nl.bitsentools.eindprojectbackendmetabo.controllers;
 
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.BadRequestException;
+import nl.bitsentools.eindprojectbackendmetabo.exceptions.IllegalArgumentException;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,5 +25,12 @@ public class ExceptionController {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<Object>BadRequest(BadRequestException badRequestException){
         return new ResponseEntity<>(badRequestException.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value= IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<Object>IllegalArgument(IllegalArgumentException illegalArgumentException)
+    {
+    return new ResponseEntity<>(illegalArgumentException.getMessage(), HttpStatus.NOT_ACCEPTABLE);
     }
 }

@@ -20,6 +20,7 @@ public class ProductService {
 
 
     public ProductService(ProductRepository productRepository) {
+
         this.productRepository = productRepository;
     }
 
@@ -45,6 +46,9 @@ public class ProductService {
             throw new RecordNotFoundException("product with id :" + id + " not found");
         }
     }
+
+    //POST
+
 
 
     public ProductOutputDto createProduct(ProductInputDto createProductDto) {
