@@ -1,7 +1,11 @@
 package nl.bitsentools.eindprojectbackendmetabo.services;
 
+import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceOutputDto;
+import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductInputDto;
+import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
+import nl.bitsentools.eindprojectbackendmetabo.models.ProductModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.InvoiceRepository;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +27,7 @@ public class InvoiceService {
         List<InvoiceModel> invoiceList = invoiceRepository.findAll();
         List<InvoiceOutputDto> invoiceOutputDtoList = new ArrayList<>();
         for(InvoiceModel invoiceModel : invoiceList) {
-            invoiceOutputDtoList.add(transferToDto(invoice));
+            invoiceOutputDtoList.add(transferToDto(invoiceModel));
         }
         return invoiceOutputDtoList;
     }
@@ -37,5 +41,45 @@ public class InvoiceService {
     //DELETE
 
     //2 METHODE VAN INVOICE NAAR DTO
+
+    public InvoiceModel transferToModel(InvoiceInputDto dto){
+        var invoice = new InvoiceModel();
+
+//        product.setId(dto.id);
+       invoice.setInvoiceId(dto.invoiceId);
+       invoice.setProductName(dto.productName);
+       invoice.setTotalPrice(dto.totalPrice);
+       invoice.setVat21ProductPrice(dto.vat21ProductPrice);
+       invoice.setVat9ProductPrice(dto.vat9ProductPrice);
+       invoice.setUserId(dto.userId);
+       invoice.setUserAddress(dto.userAddress);
+       invoice.setProductWarranty(dto.productWarranty);
+       invoice.setWarrantyInMonths(dto.warrantyInMonths);
+       invoice.setDateOfPurchase(dto.dateOfPurchase);
+
+        return invoice;
+    }
+
+    public InvoiceOutputDto transferToDto(InvoiceModel invoiceModel){
+        InvoiceOutputDto dto = new InvoiceOutputDto();
+
+        dto.setId(invoiceModel.getId());
+        dto.setInvoiceId(invoiceModel.getInvoiceId());
+        dto.setProductName(invoiceModel.getProductName());
+        dto.setTotalPrice(invoiceModel.getTotalPrice());
+        dto.setVat21ProductPrice(invoiceModel.getVat21ProductPrice());
+        dto.setVat9ProductPrice(invoiceModel.getVat9ProductPrice());
+        dto.setUserId(invoiceModel.getUserId());
+        dto.setUserAddress(invoiceModel.getUserAddress());
+        dto.setWarrantyInMonths(invoiceModel.getWarrantyInMonths());
+        dto.setDateOfPurchase(invoiceModel.getDateOfPurchase());
+
+        //deze omzetten naar product
+
+
+
+        return dto;
+    }
+
     //VAN DTO NAAR INVOICE
 }

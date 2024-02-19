@@ -23,7 +23,7 @@ public class InvoiceController {
 
     @GetMapping
     public ResponseEntity<List<InvoiceOutputDto>> getAllInvoices(){
-        List<InvoiceOutputDto>invoices = InvoiceService.getAllInvoices();
+        List<InvoiceOutputDto> invoices = invoiceService.getAllInvoices();
         return ResponseEntity.ok(invoices);
     }
 
