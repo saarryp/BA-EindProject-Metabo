@@ -5,6 +5,7 @@ import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.services.InvoiceService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +26,12 @@ public class InvoiceController {
     public ResponseEntity<List<InvoiceOutputDto>> getAllInvoices(){
         List<InvoiceOutputDto> invoices = invoiceService.getAllInvoices();
         return ResponseEntity.ok(invoices);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<InvoiceOutputDto>getOneInvoice(@PathVariable("id") Long id){
+        InvoiceOutputDto invoiceOutputDto = invoiceService.getOneInvoiceById(id);
+        return ResponseEntity.ok(invoiceOutputDto);
     }
 
 }

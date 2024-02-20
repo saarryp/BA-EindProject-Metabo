@@ -4,6 +4,7 @@ import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
+import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
 import nl.bitsentools.eindprojectbackendmetabo.models.ProductModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.InvoiceRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class InvoiceService {
@@ -33,6 +35,15 @@ public class InvoiceService {
     }
 
     //GET-BYID
+
+    public InvoiceOutputDto getOneInvoiceById(Long id){
+        Optional<InvoiceModel> invoiceModelOptional = invoiceRepository.findById(id);
+        if (invoiceModelOptional.isPresent()){
+            return  transferToDto(invoiceModelOptional.get());
+        } else {
+            throw new RecordNotFoundException("Invoice with id :" + id + "was not found.");
+        }
+    }
 
     //POST
 
