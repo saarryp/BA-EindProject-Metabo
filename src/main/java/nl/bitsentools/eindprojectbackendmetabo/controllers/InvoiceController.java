@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -48,6 +49,18 @@ public class InvoiceController {
                         .toUriString());
 
         return ResponseEntity.created(uri).body(savedInvoice);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<InvoiceOutputDto>updateInvoice(@PathVariable("id") Long id, @Valid @RequestBody InvoiceInputDto updateInvoice){
+        InvoiceOutputDto dto = invoiceService.updateInvoice(id, updateInvoice);
+        return ResponseEntity.ok().body(dto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object>deleteInvoice(@PathVariable("id")Long id){
+        invoiceService.deleteInvoice(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

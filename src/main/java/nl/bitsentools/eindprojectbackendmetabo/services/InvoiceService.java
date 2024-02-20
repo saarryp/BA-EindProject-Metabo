@@ -5,6 +5,7 @@ import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.InvoiceRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,31 +45,39 @@ public class InvoiceService {
     //POST
 
     public InvoiceOutputDto createInvoice(InvoiceInputDto createInvoiceDto) {
-        InvoiceModel invoice = transferToInvoice(createInvoiceDto);
+        InvoiceModel invoiceModel = new InvoiceModel();
+        InvoiceModel invoice = transferToInvoice(invoiceModel, createInvoiceDto);
         invoiceRepository.save(invoice);
         return transferToDto(invoice);
     }
 
     //PUT
-//    public InvoiceOutputDto updateStock(Long id, InvoiceInputDto invoiceInputDto) {
-//        InvoiceModel.existingInvoice
-//                = invoiceRepository.findById(id)
-//                .orElseThrow(() -> new RecordNotFoundException("Invoice with id: " + id + " not found"));
-//
-//        transferToInvoice(existingInvoice, invoiceInputDto);
-//
-//        invoiceRepository.save(existingInvoice);
-//        return transferToDto(existingInvoice);
-//    }
+    public InvoiceOutputDto updateInvoice(Long id, InvoiceInputDto updateDto) {
+        InvoiceModel existingInvoice
+                = invoiceRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException("Invoice with id: " + id + " not found"));
 
-    //PUT
+        transferToInvoice(existingInvoice, updateDto);
+
+        invoiceRepository.save(existingInvoice);
+        return transferToDto(existingInvoice);
+    }
+
 
     //DELETE
 
+    public void deleteInvoice(Long id) {
+        try {
+            invoiceRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException ex){
+            throw new RecordNotFoundException("Invoice with id :" + id + "is not found");
+        }
+    }
+
     //2 METHODE VAN INVOICE NAAR DTO
 
-    public InvoiceModel transferToInvoice( InvoiceInputDto dto){
-        var invoice = new InvoiceModel();
+    public InvoiceModel transferToInvoice(InvoiceModel invoice, InvoiceInputDto dto){
+//        var invoice = new InvoiceModel();
 
 //        product.setId(dto.id);
        invoice.setInvoiceId(dto.invoiceId);
