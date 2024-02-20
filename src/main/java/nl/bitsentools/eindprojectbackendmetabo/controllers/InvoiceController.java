@@ -1,14 +1,16 @@
 package nl.bitsentools.eindprojectbackendmetabo.controllers;
 
 
+import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceOutputDto;
+import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
+import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
 import nl.bitsentools.eindprojectbackendmetabo.services.InvoiceService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -32,6 +34,20 @@ public class InvoiceController {
     public ResponseEntity<InvoiceOutputDto>getOneInvoice(@PathVariable("id") Long id){
         InvoiceOutputDto invoiceOutputDto = invoiceService.getOneInvoiceById(id);
         return ResponseEntity.ok(invoiceOutputDto);
+    }
+
+    @PostMapping
+    public ResponseEntity<InvoiceOutputDto>createInvoice(@RequestBody InvoiceInputDto invoiceInputDto) {
+
+        InvoiceOutputDto savedInvoice = invoiceService.createInvoice(invoiceInputDto);
+
+        URI uri = URI.create(
+                ServletUriComponentsBuilder
+                        .fromCurrentRequest()
+                        .path("/" + savedInvoice.id)
+                        .toUriString());
+
+        return ResponseEntity.created(uri).body(savedInvoice);
     }
 
 }

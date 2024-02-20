@@ -2,14 +2,10 @@ package nl.bitsentools.eindprojectbackendmetabo.services;
 
 import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceOutputDto;
-import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductInputDto;
-import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
-import nl.bitsentools.eindprojectbackendmetabo.models.ProductModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.InvoiceRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -47,13 +43,31 @@ public class InvoiceService {
 
     //POST
 
+    public InvoiceOutputDto createInvoice(InvoiceInputDto createInvoiceDto) {
+        InvoiceModel invoice = transferToInvoice(createInvoiceDto);
+        invoiceRepository.save(invoice);
+        return transferToDto(invoice);
+    }
+
+    //PUT
+//    public InvoiceOutputDto updateStock(Long id, InvoiceInputDto invoiceInputDto) {
+//        InvoiceModel.existingInvoice
+//                = invoiceRepository.findById(id)
+//                .orElseThrow(() -> new RecordNotFoundException("Invoice with id: " + id + " not found"));
+//
+//        transferToInvoice(existingInvoice, invoiceInputDto);
+//
+//        invoiceRepository.save(existingInvoice);
+//        return transferToDto(existingInvoice);
+//    }
+
     //PUT
 
     //DELETE
 
     //2 METHODE VAN INVOICE NAAR DTO
 
-    public InvoiceModel transferToModel(InvoiceInputDto dto){
+    public InvoiceModel transferToInvoice( InvoiceInputDto dto){
         var invoice = new InvoiceModel();
 
 //        product.setId(dto.id);
