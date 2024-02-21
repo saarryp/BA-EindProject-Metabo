@@ -6,7 +6,7 @@ public class WarrantyInputDto {
 
         public boolean productWarranty;
 
-        public int warrantyInMoths;
+        public int warrantyInMonths;
 
         public Date warrantyStart;
 
@@ -21,11 +21,11 @@ public class WarrantyInputDto {
     }
 
     public int getWarrantyInMoths() {
-        return warrantyInMoths;
+        return warrantyInMonths;
     }
 
-    public void setWarrantyInMoths(int warrantyInMoths) {
-        this.warrantyInMoths = warrantyInMoths;
+    public void setWarrantyInMoths(int warrantyInMonths) {
+        this.warrantyInMonths = warrantyInMonths;
     }
 
     public Date getWarrantyStart() {

@@ -56,13 +56,23 @@ public class WarrantyService {
 
     //put
 
+    public WarrantyOutputDto updateWarranty(Long id, WarrantyInputDto warrantyInputDto){
+        WarrantyModel existingWarranty = warrantyRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException("This Warranty with id :" + id + "is not found."));
+    transferToWarranty(existingWarranty, warrantyInputDto);
+
+    warrantyRepository.save(existingWarranty);
+    return transferToDto(existingWarranty);
+
+    }
+
     //delete
 
     //twee methodes van dto naar warranty en waarranty naar model
 
     public WarrantyModel transferToWarranty(WarrantyModel warrantyModel, WarrantyInputDto dto) {
         warrantyModel.setProductWarranty(dto.isProductWarranty());
-        warrantyModel.setWarrantyInMoths(dto.getWarrantyInMoths());
+        warrantyModel.setWarrantyInMonths(dto.getWarrantyInMoths());
         warrantyModel.setWarrantyStart(dto.getWarrantyStart());
         warrantyModel.setWarrantyEnds(dto.getWarrantyEnds());
         return warrantyModel;
@@ -74,7 +84,7 @@ public class WarrantyService {
 
         dto.setId(warrantyModel.getId());
         dto.setProductWarranty(warrantyModel.isProductWarranty());
-        dto.setWarrantyInMoths(warrantyModel.getWarrantyInMoths());
+        dto.setWarrantyInMonths(warrantyModel.getWarrantyInMonths());
         dto.setWarrantyStart(warrantyModel.getWarrantyStart());
         dto.setWarrantyEnds(warrantyModel.getWarrantyEnds());
         return dto;

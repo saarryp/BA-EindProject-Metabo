@@ -8,7 +8,7 @@ public class WarrantyOutputDto {
 
     public boolean productWarranty;
 
-    public int warrantyInMoths;
+    public int warrantyInMonths;
 
     public Date warrantyStart;
 
@@ -30,12 +30,12 @@ public class WarrantyOutputDto {
         this.productWarranty = productWarranty;
     }
 
-    public int getWarrantyInMoths() {
-        return warrantyInMoths;
+    public int getWarrantyInMonths() {
+        return warrantyInMonths;
     }
 
-    public void setWarrantyInMoths(int warrantyInMoths) {
-        this.warrantyInMoths = warrantyInMoths;
+    public void setWarrantyInMonths(int warrantyInMonths) {
+        this.warrantyInMonths = warrantyInMonths;
     }
 
     public Date getWarrantyStart() {

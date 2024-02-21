@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -53,6 +54,12 @@ public class WarrantyController {
     }
 
     //put
+
+    @PutMapping("{id}")
+    public ResponseEntity<WarrantyOutputDto>updateWarranty(@PathVariable("id") Long id, @Valid @RequestBody WarrantyInputDto updateWarranty){
+        WarrantyOutputDto dto = warrantyService.updateWarranty(id, updateWarranty);
+        return ResponseEntity.ok().body(dto);
+    }
 
     //delete
 }
