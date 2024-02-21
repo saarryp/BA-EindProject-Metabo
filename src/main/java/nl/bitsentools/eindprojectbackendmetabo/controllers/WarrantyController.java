@@ -1,13 +1,13 @@
 package nl.bitsentools.eindprojectbackendmetabo.controllers;
 
+import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.services.WarrantyService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 
@@ -38,6 +38,19 @@ public class WarrantyController {
     }
 
     //post
+
+    @PostMapping
+    public ResponseEntity<WarrantyOutputDto>createWarranty(@RequestBody WarrantyInputDto warrantyInputDto){
+        WarrantyOutputDto savedWarranty = warrantyService.createWarranty(warrantyInputDto);
+
+        URI uri = URI.create(
+                ServletUriComponentsBuilder
+                        .fromCurrentRequest()
+                        .path("/" + savedWarranty.id)
+                        .toUriString());
+
+        return ResponseEntity.created(uri).body(savedWarranty);
+    }
 
     //put
 

@@ -46,11 +46,27 @@ public class WarrantyService {
 
     //post
 
+    public WarrantyOutputDto createWarranty(WarrantyInputDto createWarrantyDto) {
+        WarrantyModel warrantyModel = new WarrantyModel();
+        WarrantyModel warranty = transferToWarranty(warrantyModel, createWarrantyDto);
+        warrantyRepository.save(warranty);
+        return transferToDto(warranty);
+
+    }
+
     //put
 
     //delete
 
     //twee methodes van dto naar warranty en waarranty naar model
+
+    public WarrantyModel transferToWarranty(WarrantyModel warrantyModel, WarrantyInputDto dto) {
+        warrantyModel.setProductWarranty(dto.isProductWarranty());
+        warrantyModel.setWarrantyInMoths(dto.getWarrantyInMoths());
+        warrantyModel.setWarrantyStart(dto.getWarrantyStart());
+        warrantyModel.setWarrantyEnds(dto.getWarrantyEnds());
+        return warrantyModel;
+    }
 
 
     public WarrantyOutputDto transferToDto(WarrantyModel warrantyModel){
