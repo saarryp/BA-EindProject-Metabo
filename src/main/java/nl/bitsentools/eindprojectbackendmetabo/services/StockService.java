@@ -2,6 +2,7 @@ package nl.bitsentools.eindprojectbackendmetabo.services;
 
 import nl.bitsentools.eindprojectbackendmetabo.dto.stock.StockInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.stock.StockOutputDto;
+import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.StockModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.StockRepository;
@@ -32,6 +33,7 @@ public class StockService {
     }
 
     //GetStockById
+
 
     public StockOutputDto getOneStockById(Long id){
         Optional<StockModel> stockModelOptional = stockRepository.findById(id);

@@ -4,6 +4,7 @@ import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.services.WarrantyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,8 +29,13 @@ public class WarrantyController {
         return ResponseEntity.ok(warranties);
     }
 
-
     //get-byId
+
+    @GetMapping("{id}")
+    public ResponseEntity<WarrantyOutputDto>getOneWarranty(@PathVariable("id")Long id){
+        WarrantyOutputDto warrantyOutputDto = warrantyService.getOneWarrantyById(id);
+        return ResponseEntity.ok(warrantyOutputDto);
+    }
 
     //post
 

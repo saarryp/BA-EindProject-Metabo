@@ -1,15 +1,16 @@
 package nl.bitsentools.eindprojectbackendmetabo.services;
 
-import nl.bitsentools.eindprojectbackendmetabo.dto.stock.StockOutputDto;
+
 import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyOutputDto;
-import nl.bitsentools.eindprojectbackendmetabo.models.StockModel;
+import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.WarrantyModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.WarrantyRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WarrantyService {
@@ -32,6 +33,16 @@ public class WarrantyService {
     }
 
     //GetbyID
+
+    public WarrantyOutputDto getOneWarrantyById(Long id){
+        Optional<WarrantyModel> warrantyModelOptional = warrantyRepository.findById(id);
+        if (warrantyModelOptional.isPresent()){
+            return transferToDto(warrantyModelOptional.get());
+        } else {
+            throw new RecordNotFoundException("Warranty with id : " + id + "is not found");
+        }
+    }
+
 
     //post
 
