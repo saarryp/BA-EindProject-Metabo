@@ -6,6 +6,7 @@ import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.WarrantyModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.WarrantyRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -67,6 +68,14 @@ public class WarrantyService {
     }
 
     //delete
+
+public void deleteWarranty(Long id) {
+        try {
+            warrantyRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException ex) {
+            throw new RecordNotFoundException("Warranty with id :" + id + "is not found.");
+        }
+}
 
     //twee methodes van dto naar warranty en waarranty naar model
 

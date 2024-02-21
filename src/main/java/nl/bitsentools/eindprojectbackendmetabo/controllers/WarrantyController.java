@@ -55,11 +55,17 @@ public class WarrantyController {
 
     //put
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<WarrantyOutputDto>updateWarranty(@PathVariable("id") Long id, @Valid @RequestBody WarrantyInputDto updateWarranty){
         WarrantyOutputDto dto = warrantyService.updateWarranty(id, updateWarranty);
         return ResponseEntity.ok().body(dto);
     }
 
     //delete
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object>deleteWarranty(@PathVariable("id") Long id){
+        warrantyService.deleteWarranty(id);
+        return ResponseEntity.noContent().build();
+    }
 }
