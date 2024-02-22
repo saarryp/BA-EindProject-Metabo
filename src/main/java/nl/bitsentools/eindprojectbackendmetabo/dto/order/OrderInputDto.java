@@ -13,7 +13,7 @@ public class OrderInputDto {
     public double price;
     public int quantity;
 
-    public double totalPriceOrder;
+
 
     public OrderInputDto(){}
 
@@ -21,7 +21,8 @@ public class OrderInputDto {
         return userEmail;
     }
 
-    public OrderInputDto(String userEmail, String userDetails, int orderNumber, String productName, int quantity, int productNumber, double price, double totalPriceOrder) {
+    public OrderInputDto(String userEmail, String userDetails, int orderNumber, String productName, int quantity,
+                         int productNumber, double price) {
         this.userEmail = userEmail;
         this.userDetails = userDetails;
         this.orderNumber = orderNumber;
@@ -29,7 +30,7 @@ public class OrderInputDto {
         this.quantity = quantity;
         this.productNumber = productNumber;
         this.price = price;
-        this.totalPriceOrder = totalPriceOrder;
+
     }
 
 //    public OrderInputDto(String userEmail, String userDetails, int quantity, int productNumber) {
@@ -96,11 +97,4 @@ public class OrderInputDto {
         this.price = price;
     }
 
-    public double getTotalPriceOrder() {
-        return totalPriceOrder;
-    }
-
-    public void setTotalPriceOrder(double totalPriceOrder) {
-        this.totalPriceOrder = totalPriceOrder;
-    }
 }

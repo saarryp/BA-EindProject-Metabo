@@ -50,20 +50,10 @@ public class OrderService {
         OrderModel order = new OrderModel();
         OrderModel orderModel = transferToOrder(createOrderDto);
 
-        // calculeren van totaalbedrag op basis van hoeveelheid producten x prijs
-
-        double totalPriceOrder = calculateTotalPriceOrder(createOrderDto.getQuantity(), createOrderDto.getPrice());
-        orderModel.setTotalPriceOrder(totalPriceOrder);
-
-
-
         orderRepository.save(orderModel);
         return transferToDto(orderModel);
     }
 
-    private double calculateTotalPriceOrder(int quantity, double price) {
-        return quantity * price;
-    }
 
     //PutById
 public OrderOutputDto updateOrder(Long id, OrderInputDto updateDto) {
@@ -112,7 +102,7 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
         existingOrder.setUserDetails(dto.userDetails);
         existingOrder.setQuantity(dto.quantity);
         existingOrder.setProductNumber(dto.productNumber);
-        existingOrder.setTotalPriceOrder(dto.totalPriceOrder);
+        existingOrder.setTotalPriceOrder(dto.getPrice() * dto.getQuantity());
         return existingOrder;
     }
     //van orderModel naar orderOutputDto
