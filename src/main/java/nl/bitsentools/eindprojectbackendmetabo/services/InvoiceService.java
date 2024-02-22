@@ -47,6 +47,31 @@ public class InvoiceService {
     public InvoiceOutputDto createInvoice(InvoiceInputDto createInvoiceDto) {
         InvoiceModel invoiceModel = new InvoiceModel();
         InvoiceModel invoice = transferToInvoice(invoiceModel, createInvoiceDto);
+
+        //Berekening BTW
+
+        double vatAmount;
+        if (createInvoiceDto.getVatRate() == 9){
+            vatAmount = invoice.getNetPriceWithoutVat() * 0.09;
+        } else {
+            vatAmount = invoice.getNetPriceWithoutVat() * 0.21;
+        }
+        double totalPriceWithoutVat = invoiceModel.getNetPriceWithoutVat();
+        double totalPrice = invoice.getNetPriceWithoutVat() + vatAmount;
+
+        //aantal producten moet uit order komen icm type en prductnummerzxx
+
+//        double totalAmountWithoutVat = totalPriceWithoutVat * numberOfProducts;
+//        double totalAmountWithVat = totalPriceWithVat * numberOfProducts;
+
+        // Zet de totale prijzen inclusief en exclusief BTW in het factuurmodel
+//        invoice.setTotalPrice(totalAmountWithVat);
+//        invoice.setNetPriceWithoutVat(totalAmountWithoutVat);
+
+        invoice.setTotalPrice(totalPrice);
+
+
+
         invoiceRepository.save(invoice);
         return transferToDto(invoice);
     }
@@ -85,11 +110,15 @@ public class InvoiceService {
        invoice.setTotalPrice(dto.totalPrice);
        invoice.setVat21ProductPrice(dto.vat21ProductPrice);
        invoice.setVat9ProductPrice(dto.vat9ProductPrice);
+       invoice.setNetPriceWithoutVat(dto.netPriceWithoutVat);
+       invoice.setVatRate(dto.vatRate);
        invoice.setUserId(dto.userId);
        invoice.setUserAddress(dto.userAddress);
        invoice.setProductWarranty(dto.productWarranty);
        invoice.setWarrantyInMonths(dto.warrantyInMonths);
        invoice.setDateOfPurchase(dto.dateOfPurchase);
+
+       //berekening VAT
 
         return invoice;
     }
@@ -103,6 +132,8 @@ public class InvoiceService {
         dto.setTotalPrice(invoiceModel.getTotalPrice());
         dto.setVat21ProductPrice(invoiceModel.getVat21ProductPrice());
         dto.setVat9ProductPrice(invoiceModel.getVat9ProductPrice());
+        dto.setNetPriceWithoutVat(invoiceModel.getNetPriceWithoutVat());
+        dto.setVatRate(invoiceModel.getVatRate());
         dto.setUserId(invoiceModel.getUserId());
         dto.setUserAddress(invoiceModel.getUserAddress());
         dto.setWarrantyInMonths(invoiceModel.getWarrantyInMonths());
@@ -110,10 +141,9 @@ public class InvoiceService {
 
         //deze omzetten naar product
 
-
+//HIER VATBEREKENING TOEVOEGEN.
 
         return dto;
     }
 
-    //VAN DTO NAAR INVOICE
 }

@@ -3,7 +3,7 @@ package nl.bitsentools.eindprojectbackendmetabo.controllers;
 
 import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceOutputDto;
-import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
+
 import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
 import nl.bitsentools.eindprojectbackendmetabo.services.InvoiceService;
 import org.springframework.http.ResponseEntity;

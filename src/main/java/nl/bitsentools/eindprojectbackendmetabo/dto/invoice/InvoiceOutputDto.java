@@ -15,6 +15,12 @@ public class InvoiceOutputDto {
 
     public double vat9ProductPrice;
 
+    public  double netPriceWithoutVat;
+
+    public double vatRate;
+
+    public double vatAmount;
+
     public int userId;
 
     public String userAddress;
@@ -49,6 +55,19 @@ public class InvoiceOutputDto {
 
     public void setVat9ProductPrice(double vat9ProductPrice) {
         this.vat9ProductPrice = vat9ProductPrice;
+    }
+
+    public void setNetPriceWithoutVat(double netPriceWithoutVat) {
+        this.netPriceWithoutVat = netPriceWithoutVat;
+    }
+
+    public void setVatRate(double vatRate) {
+        this.vatRate = vatRate;
+    }
+
+
+    public void setVatAmount(double vatAmount) {
+        this.vatAmount = vatAmount;
     }
 
     public void setUserId(int userId) {

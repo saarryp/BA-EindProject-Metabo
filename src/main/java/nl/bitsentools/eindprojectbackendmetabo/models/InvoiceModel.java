@@ -27,6 +27,12 @@ public class InvoiceModel {
     @Column
     private double vat9ProductPrice;
     @Column
+    private double netPriceWithoutVat;
+    @Column
+    private double vatRate;
+    @Column
+    private double vatAmount;
+    @Column
     private int userId;
     @Column
     private String userAddress;
@@ -37,7 +43,9 @@ public class InvoiceModel {
     @Column
     private LocalDate dateOfPurchase;
 
-    public InvoiceModel(Long id, String invoiceId, int productNumber, String productName, double totalPrice, double vat21ProductPrice, double vat9ProductPrice, int userId, String userAddress, boolean productWarranty, int warrantyInMonths, LocalDate dateOfPurchase) {
+
+
+    public InvoiceModel(Long id, String invoiceId, int productNumber, String productName, double totalPrice, double vat21ProductPrice, double vat9ProductPrice, double netPriceWithoutVat,double vatRate, double vatAmount, int userId, String userAddress, boolean productWarranty, int warrantyInMonths, LocalDate dateOfPurchase) {
         this.id = id;
         this.invoiceId = invoiceId;
         this.productNumber = productNumber;
@@ -45,6 +53,9 @@ public class InvoiceModel {
         this.totalPrice = totalPrice;
         this.vat21ProductPrice = vat21ProductPrice;
         this.vat9ProductPrice = vat9ProductPrice;
+        this.netPriceWithoutVat = netPriceWithoutVat;
+        this.vatRate = vatRate;
+        this.vatAmount = vatAmount;
         this.userId = userId;
         this.userAddress = userAddress;
         this.productWarranty = productWarranty;
@@ -56,6 +67,14 @@ public class InvoiceModel {
 
     public Long getId() {
         return id;
+    }
+
+    public double getNetPriceWithoutVat() {
+        return netPriceWithoutVat;
+    }
+
+    public void setNetPriceWithoutVat(double netPriceWithoutVat) {
+        this.netPriceWithoutVat = netPriceWithoutVat;
     }
 
     public void setId(Long id) {
@@ -108,6 +127,22 @@ public class InvoiceModel {
 
     public void setVat9ProductPrice(double vat9ProductPrice) {
         this.vat9ProductPrice = vat9ProductPrice;
+    }
+
+    public double getVatRate() {
+        return vatRate;
+    }
+
+    public void setVatRate(double vatRate) {
+        this.vatRate = vatRate;
+    }
+
+    public double getVatAmount() {
+        return vatAmount;
+    }
+
+    public void setVatAmount(double vatAmount) {
+        this.vatAmount = vatAmount;
     }
 
     public int getUserId() {
