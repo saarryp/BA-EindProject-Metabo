@@ -61,8 +61,8 @@ public class InvoiceService {
 
         //aantal producten moet uit order komen icm type en prductnummerzxx
 
-//        double totalAmountWithoutVat = totalPriceWithoutVat * numberOfProducts;
-//        double totalAmountWithVat = totalPriceWithVat * numberOfProducts;
+//        double totalAmountWithoutVat = totalPriceWithoutVat * quantity;
+//        double totalAmountWithVat = totalPriceWithVat * quantity;
 
         // Zet de totale prijzen inclusief en exclusief BTW in het factuurmodel
 //        invoice.setTotalPrice(totalAmountWithVat);
