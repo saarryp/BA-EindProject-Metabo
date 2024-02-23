@@ -16,16 +16,16 @@ public class InvoiceService {
 
     private final InvoiceRepository invoiceRepository;
 
-    public InvoiceService(InvoiceRepository invoiceRepository){
+    public InvoiceService(InvoiceRepository invoiceRepository) {
         this.invoiceRepository = invoiceRepository;
     }
 
     //  GET-ALL
 
-    public List<InvoiceOutputDto>getAllInvoices(){
+    public List<InvoiceOutputDto> getAllInvoices() {
         List<InvoiceModel> invoiceList = invoiceRepository.findAll();
         List<InvoiceOutputDto> invoiceOutputDtoList = new ArrayList<>();
-        for(InvoiceModel invoiceModel : invoiceList) {
+        for (InvoiceModel invoiceModel : invoiceList) {
             invoiceOutputDtoList.add(transferToDto(invoiceModel));
         }
         return invoiceOutputDtoList;
@@ -33,10 +33,10 @@ public class InvoiceService {
 
     //GET-BYID
 
-    public InvoiceOutputDto getOneInvoiceById(Long id){
+    public InvoiceOutputDto getOneInvoiceById(Long id) {
         Optional<InvoiceModel> invoiceModelOptional = invoiceRepository.findById(id);
-        if (invoiceModelOptional.isPresent()){
-            return  transferToDto(invoiceModelOptional.get());
+        if (invoiceModelOptional.isPresent()) {
+            return transferToDto(invoiceModelOptional.get());
         } else {
             throw new RecordNotFoundException("Invoice with id :" + id + "was not found.");
         }
@@ -86,9 +86,7 @@ public class InvoiceService {
         double totalPrice = invoice.getNetPriceWithoutVat() + vatAmount;
 
 
-
         invoice.setTotalPrice(totalPrice);
-
 
 
         invoiceRepository.save(invoice);
@@ -113,36 +111,36 @@ public class InvoiceService {
     public void deleteInvoice(Long id) {
         try {
             invoiceRepository.deleteById(id);
-        } catch (EmptyResultDataAccessException ex){
+        } catch (EmptyResultDataAccessException ex) {
             throw new RecordNotFoundException("Invoice with id :" + id + "is not found");
         }
     }
 
     //2 METHODE VAN INVOICE NAAR DTO
 
-    public InvoiceModel transferToInvoice(InvoiceModel invoice, InvoiceInputDto dto){
+    public InvoiceModel transferToInvoice(InvoiceModel invoice, InvoiceInputDto dto) {
 //        var invoice = new InvoiceModel();
 
 //        product.setId(dto.id);
-       invoice.setInvoiceId(dto.invoiceId);
-       invoice.setProductName(dto.productName);
-       invoice.setTotalPrice(dto.totalPrice);
-       invoice.setVat21ProductPrice(dto.vat21ProductPrice);
-       invoice.setVat9ProductPrice(dto.vat9ProductPrice);
-       invoice.setNetPriceWithoutVat(dto.netPriceWithoutVat);
-       invoice.setVatRate(dto.vatRate);
-       invoice.setUserId(dto.userId);
-       invoice.setUserAddress(dto.userAddress);
-       invoice.setProductWarranty(dto.productWarranty);
-       invoice.setWarrantyInMonths(dto.warrantyInMonths);
-       invoice.setDateOfPurchase(dto.dateOfPurchase);
+        invoice.setInvoiceId(dto.invoiceId);
+        invoice.setProductName(dto.productName);
+        invoice.setTotalPrice(dto.totalPrice);
+        invoice.setVat21ProductPrice(dto.vat21ProductPrice);
+        invoice.setVat9ProductPrice(dto.vat9ProductPrice);
+        invoice.setNetPriceWithoutVat(dto.netPriceWithoutVat);
+        invoice.setVatRate(dto.vatRate);
+        invoice.setUserId(dto.userId);
+        invoice.setUserAddress(dto.userAddress);
+        invoice.setProductWarranty(dto.productWarranty);
+        invoice.setWarrantyInMonths(dto.warrantyInMonths);
+        invoice.setDateOfPurchase(dto.dateOfPurchase);
 
-       //berekening VAT
+        //berekening VAT
 
         return invoice;
     }
 
-    public InvoiceOutputDto transferToDto(InvoiceModel invoiceModel){
+    public InvoiceOutputDto transferToDto(InvoiceModel invoiceModel) {
         InvoiceOutputDto dto = new InvoiceOutputDto();
 
         dto.setId(invoiceModel.getId());
