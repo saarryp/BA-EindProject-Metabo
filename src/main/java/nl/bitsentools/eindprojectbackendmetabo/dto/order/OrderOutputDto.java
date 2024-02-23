@@ -1,7 +1,5 @@
 package nl.bitsentools.eindprojectbackendmetabo.dto.order;
 
-import jakarta.persistence.Column;
-
 public class OrderOutputDto {
 
     public Long id;
@@ -19,7 +17,9 @@ public class OrderOutputDto {
     public int productNumber;
 
     public double price;
-    public int numberOfProducts;
+    public int quantity;
+
+    public double totalPriceOrder;
 
 
 
@@ -89,11 +89,19 @@ public class OrderOutputDto {
         this.price = price;
     }
 
-    public int getNumberOfProducts() {
-        return numberOfProducts;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setNumberOfProducts(int numberOfProducts) {
-        this.numberOfProducts = numberOfProducts;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getTotalPriceOrder() {
+        return totalPriceOrder;
+    }
+
+    public void setTotalPriceOrder(double totalPriceOrder) {
+        this.totalPriceOrder = totalPriceOrder;
     }
 }

@@ -6,12 +6,14 @@ public class OrderInputDto {
     public String userEmail;
     public String userDetails;
     public int orderNumber;
-    public String productName;
 
-    public int numberOfProducts;
+    public String productName;
 
     public int productNumber;
     public double price;
+    public int quantity;
+
+
 
     public OrderInputDto(){}
 
@@ -19,22 +21,24 @@ public class OrderInputDto {
         return userEmail;
     }
 
-    public OrderInputDto(String userEmail, String userDetails, int orderNumber, String productName, int numberOfProducts, int productNumber, double price) {
+    public OrderInputDto(String userEmail, String userDetails, int orderNumber, String productName, int quantity,
+                         int productNumber, double price) {
         this.userEmail = userEmail;
         this.userDetails = userDetails;
         this.orderNumber = orderNumber;
         this.productName = productName;
-        this.numberOfProducts = numberOfProducts;
+        this.quantity = quantity;
         this.productNumber = productNumber;
         this.price = price;
+
     }
 
-    public OrderInputDto(String userEmail, String userDetails, int numberOfProducts, int productNumber) {
-        this.userEmail = userEmail;
-        this.userDetails = userDetails;
-        this.numberOfProducts = numberOfProducts;
-        this.productNumber = productNumber;
-    }
+//    public OrderInputDto(String userEmail, String userDetails, int quantity, int productNumber) {
+//        this.userEmail = userEmail;
+//        this.userDetails = userDetails;
+//        this.quantity = quantity;
+//        this.productNumber = productNumber;
+//    }
 
     private static final int MINIMUM_NUMBER_OF_PRODUCTS = 1;
 
@@ -50,15 +54,15 @@ public class OrderInputDto {
         this.userDetails = userDetails;
     }
 
-    public int getNumberOfProducts() {
-        return numberOfProducts;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setNumberOfProducts(int numberOfProducts) {
-        if (numberOfProducts < MINIMUM_NUMBER_OF_PRODUCTS) {
+    public void setQuantity(int quantity) {
+        if (quantity < MINIMUM_NUMBER_OF_PRODUCTS) {
             throw new IllegalArgumentException("Aantal orders kan niet onder minimum van 1 liggen");
         }
-        this.numberOfProducts = numberOfProducts;
+        this.quantity = quantity;
     }
 
     public int getProductNumber() {
@@ -92,4 +96,5 @@ public class OrderInputDto {
     public void setPrice(double price) {
         this.price = price;
     }
+
 }

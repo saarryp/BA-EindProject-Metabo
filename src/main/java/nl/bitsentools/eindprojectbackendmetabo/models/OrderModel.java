@@ -30,11 +30,13 @@ public class OrderModel {
     @Column
     private double price;
     @Column
-    private int numberOfProducts;
+    private int quantity;
+    @Column
+    private double totalPriceOrder;
 
     public OrderModel(){}
 
-    public OrderModel(Long id, int userId, String userEmail, String userDetails, int orderNumber, String productName, int productNumber, double price, int numberOfProducts) {
+    public OrderModel(Long id, int userId, String userEmail, String userDetails, int orderNumber, String productName, int productNumber, double price, int quantity, double totalPriceOrder) {
         this.id = id;
         this.userId = userId;
         this.userEmail = userEmail;
@@ -43,7 +45,8 @@ public class OrderModel {
         this.productName = productName;
         this.productNumber = productNumber;
         this.price = price;
-        this.numberOfProducts = numberOfProducts;
+        this.quantity = quantity;
+        this.totalPriceOrder = totalPriceOrder;
     }
 
     public Long getId() {
@@ -110,11 +113,19 @@ public class OrderModel {
         this.price = price;
     }
 
-    public int getNumberOfProducts() {
-        return numberOfProducts;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setNumberOfProducts(int numberOfProducts) {
-        this.numberOfProducts = numberOfProducts;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getTotalPriceOrder() {
+        return totalPriceOrder;
+    }
+
+    public void setTotalPriceOrder(double totalPriceOrder) {
+        this.totalPriceOrder = totalPriceOrder;
     }
 }

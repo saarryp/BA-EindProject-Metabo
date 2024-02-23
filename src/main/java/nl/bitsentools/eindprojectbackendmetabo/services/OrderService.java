@@ -1,7 +1,5 @@
 package nl.bitsentools.eindprojectbackendmetabo.services;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
@@ -51,9 +49,11 @@ public class OrderService {
     public OrderOutputDto createOrder(OrderInputDto createOrderDto){
         OrderModel order = new OrderModel();
         OrderModel orderModel = transferToOrder(createOrderDto);
+
         orderRepository.save(orderModel);
         return transferToDto(orderModel);
     }
+
 
     //PutById
 public OrderOutputDto updateOrder(Long id, OrderInputDto updateDto) {
@@ -64,13 +64,13 @@ public OrderOutputDto updateOrder(Long id, OrderInputDto updateDto) {
 //   orderRepository.save(existingOrder);
 //   return transferToDto(existingOrder);
 
-    existingOrder.setOrderNumber(updateDto.getOrderNumber());
-    existingOrder.setProductName(updateDto.getProductName());
-    existingOrder.setPrice(updateDto.getPrice());
-    existingOrder.setUserEmail(updateDto.getUserEmail());
-    existingOrder.setUserDetails(updateDto.getUserDetails());
-    existingOrder.setNumberOfProducts(updateDto.getNumberOfProducts());
-    existingOrder.setProductNumber(updateDto.getProductNumber());
+//    existingOrder.setOrderNumber(updateDto.getOrderNumber());
+//    existingOrder.setProductName(updateDto.getProductName());
+//    existingOrder.setPrice(updateDto.getPrice());
+//    existingOrder.setUserEmail(updateDto.getUserEmail());
+//    existingOrder.setUserDetails(updateDto.getUserDetails());
+//    existingOrder.setQuantity(updateDto.getQuantity());
+//    existingOrder.setProductNumber(updateDto.getProductNumber());
     orderRepository.save(existingOrder);
 
     return transferToDto(existingOrder);
@@ -100,8 +100,9 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
 
         existingOrder.setUserEmail(dto.userEmail);
         existingOrder.setUserDetails(dto.userDetails);
-        existingOrder.setNumberOfProducts(dto.numberOfProducts);
+        existingOrder.setQuantity(dto.quantity);
         existingOrder.setProductNumber(dto.productNumber);
+        existingOrder.setTotalPriceOrder(dto.getPrice() * dto.getQuantity());
         return existingOrder;
     }
     //van orderModel naar orderOutputDto
@@ -117,7 +118,8 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
         dto.setProductName(orderModel.getProductName());
         dto.setPrice(orderModel.getPrice());
         dto.setProductNumber(orderModel.getProductNumber());
-        dto.setNumberOfProducts(orderModel.getNumberOfProducts());
+        dto.setQuantity(orderModel.getQuantity());
+        dto.setTotalPriceOrder((orderModel.getTotalPriceOrder()));
 
         return dto;
     }
