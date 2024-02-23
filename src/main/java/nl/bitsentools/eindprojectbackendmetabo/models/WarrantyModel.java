@@ -21,6 +21,8 @@ public class WarrantyModel {
         private Date warrantyStart;
         @Column
         private Date warrantyEnds;
+        @OneToOne(mappedBy = "productModel")
+        public ProductModel productModel;
 
         public WarrantyModel(Long id, boolean productWarranty, int warrantyInMonths, Date warrantyStart, Date warrantyEnds) {
             this.id = id;

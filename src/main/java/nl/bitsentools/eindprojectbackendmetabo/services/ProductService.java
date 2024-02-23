@@ -6,6 +6,7 @@ import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.ProductModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.ProductRepository;
+import nl.bitsentools.eindprojectbackendmetabo.repositories.WarrantyRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +18,25 @@ import java.util.Optional;
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
+    private final WarrantyRepository warrantyRepository;
 
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, WarrantyRepository warrantyRepository) {
 
         this.productRepository = productRepository;
+        this.warrantyRepository = warrantyRepository;
+    }
+
+    public ProductOutputDto relationWarrantyProduct(Long idProduct, Long idWarranty){
+        ProductOutputDto dto = new ProductOutputDto();
+        //Retrieve Product from PruductID through the ProductRepository
+        //Do the same for warranty
+        //Don't forget to retreive Optionals, for both
+        //Warranty.setProfile(profile)
+        //profile.setWarranty(warranty)
+        //repository.save(profile\
+        //repository.save(warranty
+        return dto;
     }
 
 

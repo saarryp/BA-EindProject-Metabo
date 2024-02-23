@@ -29,6 +29,9 @@ public class ProductModel {
     @Enumerated(EnumType.STRING)
     private TypeOfMachine typeOfMachine;
 
+@OneToOne
+private WarrantyModel warrantyModel;
+
     public ProductModel(){}
 
 
