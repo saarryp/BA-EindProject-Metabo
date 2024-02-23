@@ -48,25 +48,44 @@ public class InvoiceService {
         InvoiceModel invoiceModel = new InvoiceModel();
         InvoiceModel invoice = transferToInvoice(invoiceModel, createInvoiceDto);
 
-        //Berekening BTW
+//        //Berekening BTW
+//
+//        double vatAmount;
+//        if (createInvoiceDto.getVatRate() == 9){
+//            vatAmount = invoice.getNetPriceWithoutVat() * 0.09;
+//        } else {
+//            vatAmount = invoice.getNetPriceWithoutVat() * 0.21;
+//        }
+//        double totalPriceWithoutVat = invoiceModel.getNetPriceWithoutVat();
+//        double totalPrice = invoice.getNetPriceWithoutVat() + vatAmount;
+//
+//        //aantal producten moet uit order komen icm type en prductnummerzxx
+//
+////        double totalAmountWithoutVat = totalPriceWithoutVat * quantity;
+////        double totalAmountWithVat = totalPriceWithVat * quantity;
+//
+//        // Zet de totale prijzen inclusief en exclusief BTW in het factuurmodel
+////        invoice.setTotalPrice(totalAmountWithVat);
+////        invoice.setNetPriceWithoutVat(totalAmountWithoutVat);
 
-        double vatAmount;
-        if (createInvoiceDto.getVatRate() == 9){
-            vatAmount = invoice.getNetPriceWithoutVat() * 0.09;
+
+        // Berekening BTW
+        double vatRate = createInvoiceDto.getVatRate();
+        double vatAmount = invoice.getNetPriceWithoutVat() * (vatRate / 100);
+
+        // Store the VAT amount separately
+        if (vatRate == 9) {
+            invoice.setVat9ProductPrice(vatAmount);
+            invoice.setVat21ProductPrice(0.0); // Set 0 for 21% VAT if it's 9% VAT
         } else {
-            vatAmount = invoice.getNetPriceWithoutVat() * 0.21;
+            invoice.setVat21ProductPrice(vatAmount);
+            invoice.setVat9ProductPrice(0.0); // Set 0 for 9% VAT if it's 21% VAT
         }
+
         double totalPriceWithoutVat = invoiceModel.getNetPriceWithoutVat();
         double totalPrice = invoice.getNetPriceWithoutVat() + vatAmount;
 
-        //aantal producten moet uit order komen icm type en prductnummerzxx
 
-//        double totalAmountWithoutVat = totalPriceWithoutVat * quantity;
-//        double totalAmountWithVat = totalPriceWithVat * quantity;
-
-        // Zet de totale prijzen inclusief en exclusief BTW in het factuurmodel
-//        invoice.setTotalPrice(totalAmountWithVat);
-//        invoice.setNetPriceWithoutVat(totalAmountWithoutVat);
 
         invoice.setTotalPrice(totalPrice);
 
@@ -138,6 +157,7 @@ public class InvoiceService {
         dto.setUserAddress(invoiceModel.getUserAddress());
         dto.setWarrantyInMonths(invoiceModel.getWarrantyInMonths());
         dto.setDateOfPurchase(invoiceModel.getDateOfPurchase());
+        dto.setTotalPrice(invoiceModel.getTotalPrice());
 
         //deze omzetten naar product
 
