@@ -2,6 +2,7 @@ package nl.bitsentools.eindprojectbackendmetabo.controllers;
 
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
+import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.services.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

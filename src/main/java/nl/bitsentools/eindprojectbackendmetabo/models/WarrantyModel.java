@@ -21,15 +21,19 @@ public class WarrantyModel {
         private Date warrantyStart;
         @Column
         private Date warrantyEnds;
-        @OneToOne(mappedBy = "productModel")
-        public ProductModel productModel;
 
-        public WarrantyModel(Long id, boolean productWarranty, int warrantyInMonths, Date warrantyStart, Date warrantyEnds) {
+
+        @OneToOne
+        @JoinColumn(name = "product_id")
+        private ProductModel productModel;
+
+        public WarrantyModel(Long id, boolean productWarranty, int warrantyInMonths, Date warrantyStart, Date warrantyEnds, ProductModel productModel) {
             this.id = id;
             this.productWarranty = productWarranty;
             this.warrantyInMonths = warrantyInMonths;
             this.warrantyStart = warrantyStart;
             this.warrantyEnds = warrantyEnds;
+            this.productModel = productModel;
         }
 
         public WarrantyModel()
@@ -74,6 +78,14 @@ public class WarrantyModel {
         public void setWarrantyEnds(Date warrantyEnds) {
             this.warrantyEnds = warrantyEnds;
         }
+
+        public ProductModel getProductModel() {
+        return productModel;
     }
+
+        public void setProductModel(ProductModel productModel) {
+        this.productModel = productModel;
+    }
+}
 
 

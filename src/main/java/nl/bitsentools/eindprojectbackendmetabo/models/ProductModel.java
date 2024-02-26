@@ -29,11 +29,17 @@ public class ProductModel {
     @Enumerated(EnumType.STRING)
     private TypeOfMachine typeOfMachine;
 
-@OneToOne
+@OneToOne(mappedBy = "productModel")
 private WarrantyModel warrantyModel;
+
+//@Onetoone met order met de private OrderMdeol orderModel;
 
     public ProductModel(){}
 
+
+    public ProductModel(WarrantyModel warrantyModel) {
+        this.warrantyModel = warrantyModel;
+    }
 
     public ProductModel(String brandName, String productName, int productNumber, double price, TypeOfMachine typeOfMachine) {
         this.brandName = brandName;
@@ -41,8 +47,6 @@ private WarrantyModel warrantyModel;
         this.productNumber = productNumber;
         this.price = price;
         this.typeOfMachine = typeOfMachine;
-
-        System.out.println("Product instance created: " + this);
 
     }
 
@@ -96,5 +100,8 @@ private WarrantyModel warrantyModel;
         this.typeOfMachine = typeOfMachine;
     }
 
+
+    public void setWarrantyModel(WarrantyModel warranty) {
     }
+}
 
