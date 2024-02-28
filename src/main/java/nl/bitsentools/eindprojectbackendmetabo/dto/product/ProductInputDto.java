@@ -16,6 +16,8 @@ public class ProductInputDto {
 
    public double price;
 
+   public boolean productWarranty;
+   public int warrantyInMonths;
 
     @Enumerated(EnumType.STRING)
    public TypeOfMachine typeOfMachine;

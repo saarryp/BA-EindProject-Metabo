@@ -24,22 +24,22 @@ public class ProductModel {
     private int productNumber;
 @Column
     private double price;
+
+    @Column
+    private boolean productWarranty;
+    @Column
+    private int warrantyInMonths;
 @Column
 
     @Enumerated(EnumType.STRING)
     private TypeOfMachine typeOfMachine;
 
-@OneToOne(mappedBy = "productModel")
-private WarrantyModel warrantyModel;
 
 //@Onetoone met order met de private OrderMdeol orderModel;
 
     public ProductModel(){}
 
 
-    public ProductModel(WarrantyModel warrantyModel) {
-        this.warrantyModel = warrantyModel;
-    }
 
     public ProductModel(String brandName, String productName, int productNumber, double price, TypeOfMachine typeOfMachine) {
         this.brandName = brandName;
@@ -100,8 +100,20 @@ private WarrantyModel warrantyModel;
         this.typeOfMachine = typeOfMachine;
     }
 
+    public boolean isProductWarranty() {
+        return productWarranty;
+    }
 
-    public void setWarrantyModel(WarrantyModel warranty) {
+    public void setProductWarranty(boolean productWarranty) {
+        this.productWarranty = productWarranty;
+    }
+
+    public int getWarrantyInMonths() {
+        return warrantyInMonths;
+    }
+
+    public void setWarrantyInMonths(int warrantyInMonths) {
+        this.warrantyInMonths = warrantyInMonths;
     }
 }
 

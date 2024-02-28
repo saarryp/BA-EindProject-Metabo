@@ -9,7 +9,7 @@ public class OrderInputDto {
 
     public String productName;
 
-    public int productNumber;
+    public Long productNumber;
     public double price;
     public int quantity;
 
@@ -22,7 +22,7 @@ public class OrderInputDto {
     }
 
     public OrderInputDto(String userEmail, String userDetails, int orderNumber, String productName, int quantity,
-                         int productNumber, double price) {
+                         Long productNumber, double price) {
         this.userEmail = userEmail;
         this.userDetails = userDetails;
         this.orderNumber = orderNumber;
@@ -65,11 +65,11 @@ public class OrderInputDto {
         this.quantity = quantity;
     }
 
-    public int getProductNumber() {
+    public Long getProductNumber() {
         return productNumber;
     }
 
-    public void setProductNumber(int productNumber) {
+    public void setProductNumber(Long productNumber) {
         this.productNumber = productNumber;
     }
 

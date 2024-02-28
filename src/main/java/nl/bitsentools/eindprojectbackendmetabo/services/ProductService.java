@@ -3,10 +3,9 @@ package nl.bitsentools.eindprojectbackendmetabo.services;
 
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
-import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyInputDto;
+import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDtoWarranty;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.ProductModel;
-import nl.bitsentools.eindprojectbackendmetabo.models.WarrantyModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.ProductRepository;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.WarrantyRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -29,44 +28,18 @@ public class ProductService {
         this.warrantyRepository = warrantyRepository;
     }
 
-    public ProductOutputDto relationWarrantyProduct(Long idProduct, Long idWarranty){
-//        ProductOutputDto dto = new ProductOutputDto();
-
-        Optional<ProductModel>productModelOptional = productRepository.findById(idProduct);
-        Optional<WarrantyModel>warrantyModelOptional = warrantyRepository.findById(idWarranty);
-
-        if(productModelOptional.isPresent() && warrantyModelOptional.isPresent()) {
-            ProductModel product = productModelOptional.get();
-            WarrantyModel warranty = warrantyModelOptional.get();
-
-           ProductModel updatedProduct = new ProductModel(warranty);
-
-            productRepository.save(product);
-            warrantyRepository.save(warranty);
-
-            return transferToDto(product);
-        }else {
-            throw new RecordNotFoundException("Product or warranty with provided id's is not found");
-        }
-
-        //Retrieve Product from PruductID through the ProductRepository
-        //Do the same for warranty
-        //Don't forget to retreive Optionals, for both
-        //Warranty.setProfile(profile)
-        //profile.setWarranty(warranty)
-        //repository.save(profile\
-        //repository.save(warranty
-//        return dto;
-    }
-
 
     //GET-all
 
-    public List<ProductOutputDto> getAllProducts() {
+    public List<Object> getAllProducts() {
         List<ProductModel>productList = productRepository.findAll();
-        List<ProductOutputDto> productOutputDtoList = new ArrayList<>();
+        List<Object> productOutputDtoList = new ArrayList<>();
         for(ProductModel product : productList) {
-            productOutputDtoList.add(transferToDto(product));
+            if (product.isProductWarranty()){
+                productOutputDtoList.add(transferToDtoWarranty(product));
+            }else {
+                productOutputDtoList.add(transferToDto(product));
+            }
         }
         return productOutputDtoList;
     }
@@ -86,30 +59,27 @@ public class ProductService {
 
 
 
-    public ProductOutputDto createProduct(ProductInputDto createProductDto, WarrantyInputDto warrantyInputDto) {
+    public Object createProduct(ProductInputDto createProductDto) {
         ProductModel product = transferToProduct(createProductDto);
 
         //bepaalt of er garantie op zit
-        if(warrantyInputDto.isProductWarranty()) {
-            WarrantyModel warranty = createWarrantyForProduct(product, warrantyInputDto);
-            product.setWarrantyModel(warranty);
-        }
+//        if(true) {
+//            WarrantyModel warranty = createWarrantyForProduct(product);
+//            product.setWarrantyModel(warranty);
+//        }
 
         productRepository.save(product);
-        return transferToDto(product);
+
+        if (product.isProductWarranty()){
+            return transferToDtoWarranty(product);
+        }
+        else {
+            return transferToDto(product);
+        }
+
     }
 
 
-    private WarrantyModel createWarrantyForProduct(ProductModel product, WarrantyInputDto warrantyInputDto) {
-        WarrantyModel warranty = new WarrantyModel();
-        // Instellingen voor garantiegegevens vanuit WarrantyInputDto
-        warranty.setProductModel(product);
-        warranty.setWarrantyInMonths(warrantyInputDto.getWarrantyInMoths());
-        warranty.setWarrantyStart(warrantyInputDto.getWarrantyStart());
-        warranty.setWarrantyEnds(warrantyInputDto.getWarrantyEnds());
-        warrantyRepository.save(warranty);
-        return warranty;
-    }
     //PUT
 
     public ProductOutputDto updateProduct(Long id, ProductInputDto productDto) {
@@ -154,7 +124,13 @@ public class ProductService {
         product.setProductNumber(dto.productNumber);
         product.setPrice(dto.price);
         product.setTypeOfMachine(dto.typeOfMachine);
-
+        product.setProductWarranty((dto.productWarranty));
+        if (product.isProductWarranty()) {
+            product.setWarrantyInMonths((dto.warrantyInMonths));
+        }
+        else {
+            product.setWarrantyInMonths(0);
+        }
         return product;
     }
 
@@ -174,6 +150,25 @@ public class ProductService {
 
         return dto;
     }
+
+    public ProductOutputDtoWarranty transferToDtoWarranty(ProductModel product){
+        ProductOutputDtoWarranty dto = new ProductOutputDtoWarranty();
+
+        //deze omzetten naar product
+
+        dto.setId(product.getId());
+        dto.setBrandName(product.getBrandName());
+        dto.setProductName(product.getProductName());
+        dto.setProductNumber(product.getProductNumber());
+        dto.setPrice(product.getPrice());
+        dto.setTypeOfMachine(product.getTypeOfMachine());
+        dto.setWarranty(product.isProductWarranty());
+        dto.setWarrantyInMonths(product.getWarrantyInMonths());
+
+
+        return dto;
+    }
+
 }
 
 

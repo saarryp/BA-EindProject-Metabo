@@ -26,6 +26,9 @@ public class OrderModel {
     @Column
     private String productName;
     @Column
+    private ProductModel productModel;
+
+    @Column
     private int productNumber;
     @Column
     private double price;

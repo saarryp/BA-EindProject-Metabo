@@ -5,6 +5,7 @@ import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.OrderModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.OrderRepository;
+import nl.bitsentools.eindprojectbackendmetabo.repositories.ProductRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,10 @@ import java.util.Optional;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    public OrderService(OrderRepository orderRepository) {
+    private final ProductRepository productRepository;
+    public OrderService(OrderRepository orderRepository, ProductRepository productRepository) {
         this.orderRepository = orderRepository;
+        this.productRepository = productRepository;
     }
 
     //GET-all
@@ -92,16 +95,16 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
     public OrderModel transferToOrder(  OrderInputDto dto){
 
        var existingOrder = new OrderModel();
-
+        var product = productRepository.findById(dto.productNumber);
 //
         existingOrder.setOrderNumber(dto.orderNumber);
-        existingOrder.setProductName(dto.productName);
+        existingOrder.setProductName(product.get().getProductName());
         existingOrder.setPrice(dto.price);
 
         existingOrder.setUserEmail(dto.userEmail);
         existingOrder.setUserDetails(dto.userDetails);
         existingOrder.setQuantity(dto.quantity);
-        existingOrder.setProductNumber(dto.productNumber);
+        existingOrder.setProductNumber(dto.productNumber.intValue());
         existingOrder.setTotalPriceOrder(dto.getPrice() * dto.getQuantity());
         return existingOrder;
     }

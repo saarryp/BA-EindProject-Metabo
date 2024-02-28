@@ -13,10 +13,7 @@ public class WarrantyModel {
         @Column
 
         private Long id;
-        @Column
-        private boolean productWarranty;
-        @Column
-        private int warrantyInMonths;
+
         @Column
         private Date warrantyStart;
         @Column
@@ -29,8 +26,6 @@ public class WarrantyModel {
 
         public WarrantyModel(Long id, boolean productWarranty, int warrantyInMonths, Date warrantyStart, Date warrantyEnds, ProductModel productModel) {
             this.id = id;
-            this.productWarranty = productWarranty;
-            this.warrantyInMonths = warrantyInMonths;
             this.warrantyStart = warrantyStart;
             this.warrantyEnds = warrantyEnds;
             this.productModel = productModel;
@@ -45,22 +40,6 @@ public class WarrantyModel {
 
         public void setId(Long id) {
             this.id = id;
-        }
-
-        public boolean isProductWarranty() {
-            return productWarranty;
-        }
-
-        public void setProductWarranty(boolean productWarranty) {
-            this.productWarranty = productWarranty;
-        }
-
-        public int getWarrantyInMonths() {
-            return warrantyInMonths;
-        }
-
-        public void setWarrantyInMonths(int warrantyInMonths) {
-            this.warrantyInMonths = warrantyInMonths;
         }
 
         public Date getWarrantyStart() {
