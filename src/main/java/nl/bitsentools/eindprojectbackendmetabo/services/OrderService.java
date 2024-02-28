@@ -58,6 +58,8 @@ public class OrderService {
     }
 
 
+
+
     //PutById
 public OrderOutputDto updateOrder(Long id, OrderInputDto updateDto) {
         OrderModel existingOrder = orderRepository.findById(id)
@@ -125,5 +127,21 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
         dto.setTotalPriceOrder((orderModel.getTotalPriceOrder()));
 
         return dto;
+    }
+
+    //AssignOrderToProduct voor many-to-many relatie
+    public void assignOrderToProduct(Long id, Long productId) {
+        var optionalOrder = orderRepository.findById(id);
+        var optionalProduct = productRepository.findById(productId);
+        if(optionalOrder.isPresent() && optionalProduct.isPresent()){
+            var order = optionalOrder.get();
+            var product = optionalProduct.get();
+
+            order.setProductModel(product);
+            orderRepository.save(order);
+
+        } else {
+            throw new RecordNotFoundException("Order or product not found.");
+        }
     }
 }

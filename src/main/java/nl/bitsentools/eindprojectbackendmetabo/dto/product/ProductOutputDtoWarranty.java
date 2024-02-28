@@ -12,23 +12,34 @@ public class ProductOutputDtoWarranty {
         public String productName;
 
         public int productNumber;
-
         public double price;
-
         public boolean hasWarranty;
         public int warrantyInMonths;
-
-
         @Enumerated(EnumType.STRING)
         public TypeOfMachine typeOfMachine;
 
         //default constructor
 
+        public ProductOutputDtoWarranty(){}
+
+
+
         public Long getId() {
             return id;
         }
 
-        public void setId(Long id) {
+    public ProductOutputDtoWarranty(Long id, String brandName, String productName, int productNumber, double price, boolean hasWarranty, int warrantyInMonths, TypeOfMachine typeOfMachine) {
+        this.id = id;
+        this.brandName = brandName;
+        this.productName = productName;
+        this.productNumber = productNumber;
+        this.price = price;
+        this.hasWarranty = hasWarranty;
+        this.warrantyInMonths = warrantyInMonths;
+        this.typeOfMachine = typeOfMachine;
+    }
+
+    public void setId(Long id) {
             this.id = id;
         }
 

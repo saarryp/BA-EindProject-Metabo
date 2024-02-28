@@ -4,10 +4,10 @@ package nl.bitsentools.eindprojectbackendmetabo.models;
 import jakarta.persistence.*;
 import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
 
+import java.util.List;
+
 @Entity
 @Table(name = "products")
-
-
 
 public class ProductModel {
 
@@ -15,7 +15,7 @@ public class ProductModel {
 @GeneratedValue
 @Column
 
-    private Long id;
+   private  Long id;
 @Column
     private String brandName;
 @Column
@@ -25,14 +25,15 @@ public class ProductModel {
 @Column
     private double price;
 
-    @Column
-    private boolean productWarranty;
-    @Column
-    private int warrantyInMonths;
-@Column
 
-    @Enumerated(EnumType.STRING)
+@Column
+@Enumerated(EnumType.STRING)
     private TypeOfMachine typeOfMachine;
+
+@Column
+    private boolean productWarranty;
+@Column
+    private int warrantyInMonths;
 
 
 //@Onetoone met order met de private OrderMdeol orderModel;
@@ -41,15 +42,20 @@ public class ProductModel {
 
 
 
-    public ProductModel(String brandName, String productName, int productNumber, double price, TypeOfMachine typeOfMachine) {
+    public ProductModel(Long id, String brandName, String productName, int productNumber, double price, TypeOfMachine typeOfMachine, boolean productWarranty, int warrantyInMonths) {
         this.brandName = brandName;
         this.productName = productName;
         this.productNumber = productNumber;
         this.price = price;
         this.typeOfMachine = typeOfMachine;
-
+        this.productWarranty = productWarranty;
+        this.warrantyInMonths = warrantyInMonths;
     }
 
+    @OneToOne
+    WarrantyModel warrantyModel;
+    @ManyToMany
+    List< OrderModel> orderModel;
 
 
     public Long getId() {

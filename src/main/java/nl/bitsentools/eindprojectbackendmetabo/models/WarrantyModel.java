@@ -13,18 +13,16 @@ public class WarrantyModel {
         @Column
 
         private Long id;
-
         @Column
         private Date warrantyStart;
         @Column
         private Date warrantyEnds;
 
 
-        @OneToOne
-        @JoinColumn(name = "product_id")
-        private ProductModel productModel;
+        @OneToOne(mappedBy = "warrantyModel")
+         ProductModel productModel;
 
-        public WarrantyModel(Long id, boolean productWarranty, int warrantyInMonths, Date warrantyStart, Date warrantyEnds, ProductModel productModel) {
+        public WarrantyModel(Long id, Date warrantyStart, Date warrantyEnds, ProductModel productModel) {
             this.id = id;
             this.warrantyStart = warrantyStart;
             this.warrantyEnds = warrantyEnds;

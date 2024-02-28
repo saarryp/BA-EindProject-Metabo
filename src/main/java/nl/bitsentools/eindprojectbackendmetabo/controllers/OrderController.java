@@ -1,6 +1,7 @@
 package nl.bitsentools.eindprojectbackendmetabo.controllers;
 
 
+import nl.bitsentools.eindprojectbackendmetabo.dto.id.IdInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
@@ -53,6 +54,12 @@ public class OrderController {
                         .path("/" + savedOrder.id)
                         .toUriString());
         return ResponseEntity.created(uri).body(savedOrder);
+    }
+
+    @PostMapping("/orders/{id}/products")
+    public ResponseEntity<Object>assignOrderToProduct(@PathVariable("id") Long id, @Valid @RequestBody IdInputDto input){
+        orderService.assignOrderToProduct(id, input.id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")

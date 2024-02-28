@@ -1,7 +1,10 @@
 package nl.bitsentools.eindprojectbackendmetabo.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -25,8 +28,7 @@ public class OrderModel {
     private int orderNumber;
     @Column
     private String productName;
-    @Column
-    private ProductModel productModel;
+
 
     @Column
     private int productNumber;
@@ -37,15 +39,33 @@ public class OrderModel {
     @Column
     private double totalPriceOrder;
 
+    @ManyToMany(mappedBy = "order_id")
+
+    List<ProductModel> productModel;
+
     public OrderModel(){}
 
-    public OrderModel(Long id, int userId, String userEmail, String userDetails, int orderNumber, String productName, int productNumber, double price, int quantity, double totalPriceOrder) {
+//    public OrderModel(Long id, int userId, String userEmail, String userDetails, int orderNumber, String productName, int productNumber, double price, int quantity, double totalPriceOrder) {
+//        this.id = id;
+//        this.userId = userId;
+//        this.userEmail = userEmail;
+//        this.userDetails = userDetails;
+//        this.orderNumber = orderNumber;
+//        this.productName = productName;
+//        this.productNumber = productNumber;
+//        this.price = price;
+//        this.quantity = quantity;
+//        this.totalPriceOrder = totalPriceOrder;
+//    }
+
+    public OrderModel(Long id, int userId, String userEmail, String userDetails, int orderNumber, String productName, ProductModel productModel, int productNumber, double price, int quantity, double totalPriceOrder) {
         this.id = id;
         this.userId = userId;
         this.userEmail = userEmail;
         this.userDetails = userDetails;
         this.orderNumber = orderNumber;
         this.productName = productName;
+
         this.productNumber = productNumber;
         this.price = price;
         this.quantity = quantity;
@@ -130,5 +150,13 @@ public class OrderModel {
 
     public void setTotalPriceOrder(double totalPriceOrder) {
         this.totalPriceOrder = totalPriceOrder;
+    }
+
+    public List<ProductModel> getProductModel() {
+        return productModel;
+    }
+
+    public void setProductModel(List<ProductModel> productModel) {
+        this.productModel = productModel;
     }
 }
