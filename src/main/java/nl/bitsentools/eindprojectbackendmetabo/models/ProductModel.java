@@ -4,6 +4,7 @@ package nl.bitsentools.eindprojectbackendmetabo.models;
 import jakarta.persistence.*;
 import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,7 +16,8 @@ public class ProductModel {
 @GeneratedValue
 @Column
 
-   private  Long id;
+   private
+Long id;
 @Column
     private String brandName;
 @Column
@@ -35,6 +37,12 @@ public class ProductModel {
 @Column
     private int warrantyInMonths;
 
+    @OneToOne
+    WarrantyModel warrantyModel;
+    @ManyToMany
+            (mappedBy = "productModel")
+    List< OrderModel> orderModel = new ArrayList<>();
+
 
 //@Onetoone met order met de private OrderMdeol orderModel;
 
@@ -52,10 +60,7 @@ public class ProductModel {
         this.warrantyInMonths = warrantyInMonths;
     }
 
-    @OneToOne
-    WarrantyModel warrantyModel;
-    @ManyToMany
-    List< OrderModel> orderModel;
+
 
 
     public Long getId() {
@@ -120,6 +125,14 @@ public class ProductModel {
 
     public void setWarrantyInMonths(int warrantyInMonths) {
         this.warrantyInMonths = warrantyInMonths;
+    }
+
+    public List<OrderModel> getOrderModel() {
+        return orderModel;
+    }
+
+    public void setOrderModel(List<OrderModel> orderModel) {
+        this.orderModel = orderModel;
     }
 }
 

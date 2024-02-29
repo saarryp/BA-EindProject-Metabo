@@ -4,6 +4,7 @@ package nl.bitsentools.eindprojectbackendmetabo.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -39,9 +40,11 @@ public class OrderModel {
     @Column
     private double totalPriceOrder;
 
-    @ManyToMany(mappedBy = "order_id")
+    @ManyToMany
+    @JoinTable(name = "order_product", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "order_id"))
+//            tussentabel
 
-    List<ProductModel> productModel;
+    List<ProductModel> productModel  = new ArrayList<>();
 
     public OrderModel(){}
 

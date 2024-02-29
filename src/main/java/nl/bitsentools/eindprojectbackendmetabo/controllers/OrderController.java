@@ -62,6 +62,12 @@ public class OrderController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/assignAllOrders")
+    public ResponseEntity<Object>assignAllOrdersToAllProducts(){
+        orderService.assignAllOrdersToAllProducts();
+        return ResponseEntity.noContent().build();
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<OrderOutputDto>updateOrder(@PathVariable("id") Long id, @Valid @RequestBody OrderInputDto updateOrder){
     OrderOutputDto dto = orderService.updateOrder(id, updateOrder);
