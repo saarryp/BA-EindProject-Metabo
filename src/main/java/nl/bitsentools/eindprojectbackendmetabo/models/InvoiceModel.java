@@ -43,9 +43,12 @@ public class InvoiceModel {
     @Column
     private LocalDate dateOfPurchase;
 
+    @OneToOne
+    WarrantyModel warrantyModel;
 
 
-    public InvoiceModel(Long id, String invoiceId, int productNumber, String productName, double totalPrice, double vat21ProductPrice, double vat9ProductPrice, double netPriceWithoutVat,double vatRate, double vatAmount, int userId, String userAddress, boolean productWarranty, int warrantyInMonths, LocalDate dateOfPurchase) {
+
+    public InvoiceModel(Long id, String invoiceId, int productNumber, String productName, double totalPrice, double vat21ProductPrice, double vat9ProductPrice, double netPriceWithoutVat,double vatRate, double vatAmount, int userId, String userAddress, boolean productWarranty, int warrantyInMonths, LocalDate dateOfPurchase, WarrantyModel warrantyModel) {
         this.id = id;
         this.invoiceId = invoiceId;
         this.productNumber = productNumber;
@@ -61,6 +64,7 @@ public class InvoiceModel {
         this.productWarranty = productWarranty;
         this.warrantyInMonths = warrantyInMonths;
         this.dateOfPurchase = dateOfPurchase;
+        this.warrantyModel = warrantyModel;
     }
 
     public InvoiceModel(){}
@@ -183,5 +187,13 @@ public class InvoiceModel {
 
     public void setDateOfPurchase(LocalDate dateOfPurchase) {
         this.dateOfPurchase = dateOfPurchase;
+    }
+
+    public WarrantyModel getWarrantyModel() {
+        return warrantyModel;
+    }
+
+    public void setWarrantyModel(WarrantyModel warrantyModel) {
+        this.warrantyModel = warrantyModel;
     }
 }

@@ -5,6 +5,7 @@ import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.InvoiceRepository;
+import nl.bitsentools.eindprojectbackendmetabo.repositories.WarrantyRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -15,9 +16,11 @@ import java.util.Optional;
 public class InvoiceService {
 
     private final InvoiceRepository invoiceRepository;
+    private final WarrantyRepository warrantyRepository;
 
-    public InvoiceService(InvoiceRepository invoiceRepository) {
+    public InvoiceService(InvoiceRepository invoiceRepository, WarrantyRepository warrantyRepository) {
         this.invoiceRepository = invoiceRepository;
+        this.warrantyRepository = warrantyRepository;
     }
 
     //  GET-ALL
@@ -47,26 +50,6 @@ public class InvoiceService {
     public InvoiceOutputDto createInvoice(InvoiceInputDto createInvoiceDto) {
         InvoiceModel invoiceModel = new InvoiceModel();
         InvoiceModel invoice = transferToInvoice(invoiceModel, createInvoiceDto);
-
-//        //Berekening BTW
-//
-//        double vatAmount;
-//        if (createInvoiceDto.getVatRate() == 9){
-//            vatAmount = invoice.getNetPriceWithoutVat() * 0.09;
-//        } else {
-//            vatAmount = invoice.getNetPriceWithoutVat() * 0.21;
-//        }
-//        double totalPriceWithoutVat = invoiceModel.getNetPriceWithoutVat();
-//        double totalPrice = invoice.getNetPriceWithoutVat() + vatAmount;
-//
-//        //aantal producten moet uit order komen icm type en prductnummerzxx
-//
-////        double totalAmountWithoutVat = totalPriceWithoutVat * quantity;
-////        double totalAmountWithVat = totalPriceWithVat * quantity;
-//
-//        // Zet de totale prijzen inclusief en exclusief BTW in het factuurmodel
-////        invoice.setTotalPrice(totalAmountWithVat);
-////        invoice.setNetPriceWithoutVat(totalAmountWithoutVat);
 
 
         // Berekening BTW
@@ -157,11 +140,26 @@ public class InvoiceService {
         dto.setDateOfPurchase(invoiceModel.getDateOfPurchase());
         dto.setTotalPrice(invoiceModel.getTotalPrice());
 
-        //deze omzetten naar product
-
-//HIER VATBEREKENING TOEVOEGEN.
-
         return dto;
     }
 
+    public void assignWarrantyToInvoice(Long id, Long warrantyId) {
+        var optionalInvoice = invoiceRepository.findById(id);
+        var optionalWarranty = warrantyRepository.findById(warrantyId);
+
+        if (optionalInvoice.isPresent() && optionalWarranty.isPresent()) {
+            var invoice = optionalInvoice.get();
+            var warranty = optionalWarranty.get();
+
+//            invoice.getWarrantyModel().add(warranty);
+//            warranty.getInvoiceModel().add(invoice);
+//            alleen bij List toepassen van add
+
+            invoice.setWarrantyModel(warranty);
+//            invoiceRepository.save(invoice);
+            warrantyRepository.save(warranty);
+        } else {
+            throw new RecordNotFoundException("Warranty or invoice is not found.");
+        }
+    }
 }

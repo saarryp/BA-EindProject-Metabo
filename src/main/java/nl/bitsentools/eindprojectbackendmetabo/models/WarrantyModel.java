@@ -20,13 +20,13 @@ public class WarrantyModel {
 
 
         @OneToOne(mappedBy = "warrantyModel")
-         ProductModel productModel;
+        InvoiceModel invoiceModel;
 
-        public WarrantyModel(Long id, Date warrantyStart, Date warrantyEnds, ProductModel productModel) {
+        public WarrantyModel(Long id, Date warrantyStart, Date warrantyEnds, InvoiceModel invoiceModel) {
             this.id = id;
             this.warrantyStart = warrantyStart;
             this.warrantyEnds = warrantyEnds;
-            this.productModel = productModel;
+            this.invoiceModel = invoiceModel;
         }
 
         public WarrantyModel()
@@ -56,13 +56,13 @@ public class WarrantyModel {
             this.warrantyEnds = warrantyEnds;
         }
 
-        public ProductModel getProductModel() {
-        return productModel;
-    }
+         public InvoiceModel getInvoiceModel() {
+        return invoiceModel;
+        }
 
-        public void setProductModel(ProductModel productModel) {
-        this.productModel = productModel;
-    }
+         public void setInvoiceModel(InvoiceModel invoiceModel) {
+        this.invoiceModel = invoiceModel;
+        }
 }
 
 

@@ -24,11 +24,10 @@ public class OrderController {
   private final OrderService orderService;
 
     public OrderController(OrderService orderService) {
+
         this.orderService = orderService;
     }
-//    public OrderController(OrderService orderService) {
-//        this.orderService = orderService;
-//    }
+
 
     @GetMapping
     public ResponseEntity<List<OrderOutputDto>>getAllOrders() {

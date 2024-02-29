@@ -129,6 +129,7 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
     public void assignOrderToProduct(Long orderId, Long productId) {
         var optionalOrder = orderRepository.findById(orderId);
         var optionalProduct = productRepository.findById(productId);
+
         if(optionalOrder.isPresent() && optionalProduct.isPresent()){
             var order = optionalOrder.get();
             var product = optionalProduct.get();

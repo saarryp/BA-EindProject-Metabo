@@ -1,7 +1,4 @@
 package nl.bitsentools.eindprojectbackendmetabo.models;
-
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -19,7 +16,6 @@ public class OrderModel {
     private Long id;
 
     @Column
-    //foreignkey
     private int userId;
     @Column
     private String userEmail;
@@ -29,8 +25,6 @@ public class OrderModel {
     private int orderNumber;
     @Column
     private String productName;
-
-
     @Column
     private int productNumber;
     @Column
@@ -42,24 +36,11 @@ public class OrderModel {
 
     @ManyToMany
     @JoinTable(name = "order_product", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "order_id"))
-//            tussentabel
+
 
     List<ProductModel> productModel  = new ArrayList<>();
 
     public OrderModel(){}
-
-//    public OrderModel(Long id, int userId, String userEmail, String userDetails, int orderNumber, String productName, int productNumber, double price, int quantity, double totalPriceOrder) {
-//        this.id = id;
-//        this.userId = userId;
-//        this.userEmail = userEmail;
-//        this.userDetails = userDetails;
-//        this.orderNumber = orderNumber;
-//        this.productName = productName;
-//        this.productNumber = productNumber;
-//        this.price = price;
-//        this.quantity = quantity;
-//        this.totalPriceOrder = totalPriceOrder;
-//    }
 
     public OrderModel(Long id, int userId, String userEmail, String userDetails, int orderNumber, String productName, ProductModel productModel, int productNumber, double price, int quantity, double totalPriceOrder) {
         this.id = id;

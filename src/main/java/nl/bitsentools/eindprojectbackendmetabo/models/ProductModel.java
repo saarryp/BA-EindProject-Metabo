@@ -16,8 +16,7 @@ public class ProductModel {
 @GeneratedValue
 @Column
 
-   private
-Long id;
+   private Long id;
 @Column
     private String brandName;
 @Column
@@ -26,7 +25,6 @@ Long id;
     private int productNumber;
 @Column
     private double price;
-
 
 @Column
 @Enumerated(EnumType.STRING)
@@ -37,20 +35,18 @@ Long id;
 @Column
     private int warrantyInMonths;
 
-    @OneToOne
-    WarrantyModel warrantyModel;
+
     @ManyToMany
             (mappedBy = "productModel")
     List< OrderModel> orderModel = new ArrayList<>();
 
-
-//@Onetoone met order met de private OrderMdeol orderModel;
 
     public ProductModel(){}
 
 
 
     public ProductModel(Long id, String brandName, String productName, int productNumber, double price, TypeOfMachine typeOfMachine, boolean productWarranty, int warrantyInMonths) {
+        this.id = id;
         this.brandName = brandName;
         this.productName = productName;
         this.productNumber = productNumber;
