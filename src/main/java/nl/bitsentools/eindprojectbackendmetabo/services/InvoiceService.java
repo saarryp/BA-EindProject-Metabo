@@ -147,6 +147,7 @@ public class InvoiceService {
     }
 
     public void assignWarrantyToInvoice(Long id, Long warrantyId) {
+//        System.out.println("Assigning warranty to invoice. Invoice ID: " + id + ", Warranty ID: " + warrantyId);
         var optionalInvoice = invoiceRepository.findById(id);
         var optionalWarranty = warrantyRepository.findById(warrantyId);
 

@@ -25,7 +25,7 @@ public class WarrantyModel {
         @OneToOne(mappedBy = "warrantyModel")
         InvoiceModel invoiceModel;
 
-    public WarrantyModel(Long id, String productName, int serialNumber, Date purchaseDate, Date warrantyStart, Date warrantyEnds, InvoiceModel invoiceModel) {
+    public WarrantyModel(Long id, String productName, Date warrantyStart, Date warrantyEnds, InvoiceModel invoiceModel) {
         this.id = id;
         this.productName = productName;
         this.warrantyStart = warrantyStart;
