@@ -4,6 +4,7 @@ import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
+import nl.bitsentools.eindprojectbackendmetabo.models.WarrantyModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.InvoiceRepository;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.WarrantyRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -17,10 +18,12 @@ public class InvoiceService {
 
     private final InvoiceRepository invoiceRepository;
     private final WarrantyRepository warrantyRepository;
+    private final WarrantyService warrantyService;
 
-    public InvoiceService(InvoiceRepository invoiceRepository, WarrantyRepository warrantyRepository) {
+    public InvoiceService(InvoiceRepository invoiceRepository, WarrantyRepository warrantyRepository, WarrantyService warrantyService) {
         this.invoiceRepository = invoiceRepository;
         this.warrantyRepository = warrantyRepository;
+        this.warrantyService = warrantyService;
     }
 
     //  GET-ALL
@@ -102,7 +105,7 @@ public class InvoiceService {
     //2 METHODE VAN INVOICE NAAR DTO
 
     public InvoiceModel transferToInvoice(InvoiceModel invoice, InvoiceInputDto dto) {
-//        var invoice = new InvoiceModel();
+//      var invoice = new InvoiceModel();
 
 //        product.setId(dto.id);
         invoice.setInvoiceId(dto.invoiceId);
@@ -151,13 +154,8 @@ public class InvoiceService {
             var invoice = optionalInvoice.get();
             var warranty = optionalWarranty.get();
 
-//            invoice.getWarrantyModel().add(warranty);
-//            warranty.getInvoiceModel().add(invoice);
-//            alleen bij List toepassen van add
-
             invoice.setWarrantyModel(warranty);
-//            invoiceRepository.save(invoice);
-            warrantyRepository.save(warranty);
+            invoiceRepository.save(invoice);
         } else {
             throw new RecordNotFoundException("Warranty or invoice is not found.");
         }

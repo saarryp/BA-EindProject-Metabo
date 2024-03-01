@@ -6,9 +6,8 @@ public class WarrantyOutputDto {
 
     public Long id;
 
-    public boolean productWarranty;
 
-    public int warrantyInMonths;
+    public String productName;
 
     public Date warrantyStart;
 
@@ -22,20 +21,12 @@ public class WarrantyOutputDto {
         this.id = id;
     }
 
-    public boolean isProductWarranty() {
-        return productWarranty;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setProductWarranty(boolean productWarranty) {
-        this.productWarranty = productWarranty;
-    }
-
-    public int getWarrantyInMonths() {
-        return warrantyInMonths;
-    }
-
-    public void setWarrantyInMonths(int warrantyInMonths) {
-        this.warrantyInMonths = warrantyInMonths;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public Date getWarrantyStart() {

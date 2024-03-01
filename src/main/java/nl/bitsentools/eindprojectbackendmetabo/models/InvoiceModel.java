@@ -43,7 +43,8 @@ public class InvoiceModel {
     @Column
     private LocalDate dateOfPurchase;
 
-    @OneToOne
+    @OneToOne( cascade = CascadeType.ALL)
+    @JoinColumn
     WarrantyModel warrantyModel;
 
 
@@ -197,3 +198,6 @@ public class InvoiceModel {
         this.warrantyModel = warrantyModel;
     }
 }
+//TODO: GETORDER().GETPRODUCT().HASWARRRANTY HIERUIT MOET VOORTKOMEN OF ER GARANTIE IS DIE JE HAALT UIT VIA DE ROUTE PRODUCT/ORDERS
+//TODO: INVOICE/GARANTIE IS EEN ONE TO ONE
+//TODO: INVOICE EN ORDER IS EEN ONE TO ONE BEIDEN MAKEN

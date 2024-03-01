@@ -118,7 +118,6 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
         dto.setOrderNumber(orderModel.getOrderNumber());
         dto.setProductDto(products);
         dto.setPrice(orderModel.getPrice());
-
         dto.setQuantity(orderModel.getQuantity());
         dto.setTotalPriceOrder((orderModel.getTotalPriceOrder()));
 

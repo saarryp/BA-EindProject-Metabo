@@ -4,29 +4,20 @@ import java.util.Date;
 
 public class WarrantyInputDto {
 
-        public boolean productWarranty;
-
-        public int warrantyInMonths;
-
+       public String productName;
         public Date warrantyStart;
 
         public Date warrantyEnds;
 
-    public boolean isProductWarranty() {
-        return productWarranty;
+
+    public String getProductName() {
+        return productName;
     }
 
-    public void setProductWarranty(boolean productWarranty) {
-        this.productWarranty = productWarranty;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public int getWarrantyInMoths() {
-        return warrantyInMonths;
-    }
-
-    public void setWarrantyInMoths(int warrantyInMonths) {
-        this.warrantyInMonths = warrantyInMonths;
-    }
 
     public Date getWarrantyStart() {
         return warrantyStart;

@@ -15,6 +15,11 @@ public class OrderModel {
 
     private Long id;
 
+
+//productnam en nummer niet nodig hier TODO
+    //INVOICE ONE TO ONE MAKEN
+    //INVOICE GARANTIE FACTUUR ONE TO ONE MAKEN
+    //USERDETAIL NA MKEN USER KUNNEN VEEL WEGGEHAALD WORDEN ZODAT NIET DUBBELOP IS TODO
     @Column
     private int userId;
     @Column
@@ -144,3 +149,5 @@ public class OrderModel {
         this.productModel = productModel;
     }
 }
+//TODO: ORDER EN INVOICE IS OOK EEN ONE TO ONE RELATIE DIE GEMAAKT MOET WORDEN.
+//TODO:
