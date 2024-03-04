@@ -1,11 +1,13 @@
 package nl.bitsentools.eindprojectbackendmetabo.services;
 
+import jakarta.transaction.Transactional;
 import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.OrderModel;
 import nl.bitsentools.eindprojectbackendmetabo.models.ProductModel;
+import nl.bitsentools.eindprojectbackendmetabo.repositories.InvoiceRepository;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.OrderRepository;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.ProductRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -27,9 +29,11 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
-    public OrderService(OrderRepository orderRepository, ProductRepository productRepository) {
+    private final InvoiceRepository invoiceRepository;
+    public OrderService(OrderRepository orderRepository, ProductRepository productRepository, InvoiceRepository invoiceRepository) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
+        this.invoiceRepository = invoiceRepository;
     }
 
     //GET-all
@@ -64,9 +68,6 @@ public class OrderService {
         return transferToDto(orderModel);
     }
 
-
-
-
     //PutById
 public OrderOutputDto updateOrder(Long id, OrderInputDto updateDto) {
         OrderModel existingOrder = orderRepository.findById(id)
@@ -90,19 +91,19 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
 
     //twee methodes voor orderInputDto naar orderModel
 
-    public OrderModel transferToOrder(  OrderInputDto dto){
+    public OrderModel transferToOrder(OrderInputDto dto){
 
        var existingOrder = new OrderModel();
+       var product = productRepository.findById(dto.productNumber);
 
-        var product = productRepository.findById(dto.productNumber);
         product.ifPresent(productModel -> existingOrder.getProductModel().add(productModel));
         existingOrder.setOrderNumber(dto.orderNumber);
         existingOrder.setPrice(dto.price);
         existingOrder.setUserEmail(dto.userEmail);
         existingOrder.setUserDetails(dto.userDetails);
         existingOrder.setQuantity(dto.quantity);
-        existingOrder.setProductNumber(dto.productNumber.intValue());
         existingOrder.setTotalPriceOrder(dto.getPrice() * dto.getQuantity());
+        existingOrder.setInvoiceModel(dto.invoiceModel);
         return existingOrder;
     }
     //van orderModel naar orderOutputDto
@@ -155,5 +156,24 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
                 productRepository.save(product);
             }
         }
+    }
+    @Transactional
+    public void assignOrderToInvoice(Long orderId, Long invoiceId){
+        var optionalOrder = orderRepository.findById(orderId);
+        var optionalInvoice = invoiceRepository.findById(invoiceId);
+
+        if(optionalOrder.isPresent() && optionalInvoice.isPresent()) {
+            var order = optionalOrder.get();
+            var invoice = optionalInvoice.get();
+
+            order.setInvoiceModel(invoice);
+            orderRepository.save(order);
+            System.out.println("order assigned to invoice succesfull");
+        } else {
+            System.out.println("order or invoice not found");
+            throw new RecordNotFoundException("Order or invoice not found. ");
+
+        }
+
     }
 }

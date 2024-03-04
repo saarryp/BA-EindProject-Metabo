@@ -47,9 +47,12 @@ public class InvoiceModel {
     @JoinColumn
     WarrantyModel warrantyModel;
 
+    @OneToOne
+    @JoinColumn(name = "order_id")
+    OrderModel orderModel;
 
 
-    public InvoiceModel(Long id, String invoiceId, int productNumber, String productName, double totalPrice, double vat21ProductPrice, double vat9ProductPrice, double netPriceWithoutVat,double vatRate, double vatAmount, int userId, String userAddress, boolean productWarranty, int warrantyInMonths, LocalDate dateOfPurchase, WarrantyModel warrantyModel) {
+    public InvoiceModel(Long id, String invoiceId, int productNumber, String productName, double totalPrice, double vat21ProductPrice, double vat9ProductPrice, double netPriceWithoutVat,double vatRate, double vatAmount, int userId, String userAddress, boolean productWarranty, int warrantyInMonths, LocalDate dateOfPurchase, WarrantyModel warrantyModel, OrderModel orderModel) {
         this.id = id;
         this.invoiceId = invoiceId;
         this.productNumber = productNumber;
@@ -66,6 +69,7 @@ public class InvoiceModel {
         this.warrantyInMonths = warrantyInMonths;
         this.dateOfPurchase = dateOfPurchase;
         this.warrantyModel = warrantyModel;
+        this.orderModel = orderModel;
     }
 
     public InvoiceModel(){}
@@ -196,6 +200,14 @@ public class InvoiceModel {
 
     public void setWarrantyModel(WarrantyModel warrantyModel) {
         this.warrantyModel = warrantyModel;
+    }
+
+    public OrderModel getOrderModel() {
+        return orderModel;
+    }
+
+    public void setOrderModel(OrderModel orderModel) {
+        this.orderModel = orderModel;
     }
 }
 //TODO: GETORDER().GETPRODUCT().HASWARRRANTY HIERUIT MOET VOORTKOMEN OF ER GARANTIE IS DIE JE HAALT UIT VIA DE ROUTE PRODUCT/ORDERS

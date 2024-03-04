@@ -1,17 +1,11 @@
 package nl.bitsentools.eindprojectbackendmetabo.controllers;
-
-
 import nl.bitsentools.eindprojectbackendmetabo.dto.id.IdInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderOutputDto;
-import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.services.OrderService;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import javax.validation.ReportAsSingleViolation;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -64,6 +58,12 @@ public class OrderController {
     @PostMapping("/assignAllOrders")
     public ResponseEntity<Object>assignAllOrdersToAllProducts(){
         orderService.assignAllOrdersToAllProducts();
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/invoices")
+    public ResponseEntity<Object>assignOrderToInvoice(@PathVariable("id")Long id, @Valid @RequestBody IdInputDto input){
+        orderService.assignOrderToInvoice(id, input.id);
         return ResponseEntity.noContent().build();
     }
 

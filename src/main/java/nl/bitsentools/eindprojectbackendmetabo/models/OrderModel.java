@@ -15,13 +15,11 @@ public class OrderModel {
 
     private Long id;
 
-
-//productnam en nummer niet nodig hier TODO
-    //INVOICE ONE TO ONE MAKEN
-    //INVOICE GARANTIE FACTUUR ONE TO ONE MAKEN
-    //USERDETAIL NA MKEN USER KUNNEN VEEL WEGGEHAALD WORDEN ZODAT NIET DUBBELOP IS TODO
+    // TODO;USERDETAIL NA MKEN USER KUNNEN VEEL WEGGEHAALD WORDEN ZODAT NIET DUBBELOP IS TODO
     @Column
     private int userId;
+    @Column
+    private int productNumber;
     @Column
     private String userEmail;
     @Column
@@ -29,36 +27,33 @@ public class OrderModel {
     @Column
     private int orderNumber;
     @Column
-    private String productName;
-    @Column
-    private int productNumber;
-    @Column
     private double price;
     @Column
     private int quantity;
     @Column
     private double totalPriceOrder;
 
+
     @ManyToMany
     @JoinTable(name = "order_product", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "order_id"))
-
-
     List<ProductModel> productModel  = new ArrayList<>();
+
+    @OneToOne(mappedBy = "orderModel", cascade = CascadeType.ALL)
+    InvoiceModel invoiceModel;
 
     public OrderModel(){}
 
-    public OrderModel(Long id, int userId, String userEmail, String userDetails, int orderNumber, String productName, ProductModel productModel, int productNumber, double price, int quantity, double totalPriceOrder) {
+    public OrderModel(Long id, int userId, String userEmail, String userDetails, int productNumber, int orderNumber, ProductModel productModel, double price, int quantity, double totalPriceOrder, InvoiceModel invoiceModel) {
         this.id = id;
         this.userId = userId;
         this.userEmail = userEmail;
         this.userDetails = userDetails;
-        this.orderNumber = orderNumber;
-        this.productName = productName;
-
         this.productNumber = productNumber;
+        this.orderNumber = orderNumber;
         this.price = price;
         this.quantity = quantity;
         this.totalPriceOrder = totalPriceOrder;
+        this.invoiceModel = invoiceModel;
     }
 
     public Long getId() {
@@ -75,6 +70,14 @@ public class OrderModel {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public int getProductNumber() {
+        return productNumber;
+    }
+
+    public void setProductNumber(int productNumber) {
+        this.productNumber = productNumber;
     }
 
     public String getUserEmail() {
@@ -99,22 +102,6 @@ public class OrderModel {
 
     public void setOrderNumber(int orderNumber) {
         this.orderNumber = orderNumber;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public int getProductNumber() {
-        return productNumber;
-    }
-
-    public void setProductNumber(int productNumber) {
-        this.productNumber = productNumber;
     }
 
     public double getPrice() {
@@ -148,6 +135,12 @@ public class OrderModel {
     public void setProductModel(List<ProductModel> productModel) {
         this.productModel = productModel;
     }
+
+    public InvoiceModel getInvoiceModel() {
+        return invoiceModel;
+    }
+
+    public void setInvoiceModel(InvoiceModel invoiceModel) {
+        this.invoiceModel = invoiceModel;
+    }
 }
-//TODO: ORDER EN INVOICE IS OOK EEN ONE TO ONE RELATIE DIE GEMAAKT MOET WORDEN.
-//TODO:
