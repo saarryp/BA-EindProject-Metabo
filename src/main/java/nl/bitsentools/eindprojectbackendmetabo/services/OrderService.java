@@ -30,6 +30,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final InvoiceRepository invoiceRepository;
+
     public OrderService(OrderRepository orderRepository, ProductRepository productRepository, InvoiceRepository invoiceRepository) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
@@ -94,6 +95,11 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
     public OrderModel transferToOrder(OrderInputDto dto){
 
        var existingOrder = new OrderModel();
+
+       if(dto.productNumber == null){
+           throw new IllegalArgumentException("Product Id cannot be null");
+       }
+
        var product = productRepository.findById(dto.productNumber);
 
         product.ifPresent(productModel -> existingOrder.getProductModel().add(productModel));
@@ -120,7 +126,8 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
         dto.setProductDto(products);
         dto.setPrice(orderModel.getPrice());
         dto.setQuantity(orderModel.getQuantity());
-        dto.setTotalPriceOrder((orderModel.getTotalPriceOrder()));
+        dto.setTotalPriceOrder(orderModel.getTotalPriceOrder());
+        dto.setInvoiceModel(orderModel.getInvoiceModel());
 
         return dto;
     }

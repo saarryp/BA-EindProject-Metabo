@@ -139,6 +139,7 @@ public class InvoiceService {
         dto.setVatRate(invoiceModel.getVatRate());
         dto.setUserId(invoiceModel.getUserId());
         dto.setUserAddress(invoiceModel.getUserAddress());
+        dto.setProductWarranty(invoiceModel.isProductWarranty());
         dto.setWarrantyInMonths(invoiceModel.getWarrantyInMonths());
         dto.setDateOfPurchase(invoiceModel.getDateOfPurchase());
         dto.setTotalPrice(invoiceModel.getTotalPrice());

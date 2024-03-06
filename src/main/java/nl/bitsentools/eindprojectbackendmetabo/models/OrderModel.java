@@ -1,6 +1,7 @@
 package nl.bitsentools.eindprojectbackendmetabo.models;
 import jakarta.persistence.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +40,7 @@ public class OrderModel {
     List<ProductModel> productModel  = new ArrayList<>();
 
     @OneToOne(mappedBy = "orderModel", cascade = CascadeType.ALL)
+    @NotNull
     InvoiceModel invoiceModel;
 
     public OrderModel(){}
