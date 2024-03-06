@@ -1,13 +1,13 @@
 package nl.bitsentools.eindprojectbackendmetabo.dto.warranty;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class WarrantyInputDto {
 
        public String productName;
-        public Date warrantyStart;
+        public LocalDate warrantyStart;
 
-        public Date warrantyEnds;
+        public LocalDate warrantyEnds;
 
 
     public String getProductName() {
@@ -19,19 +19,19 @@ public class WarrantyInputDto {
     }
 
 
-    public Date getWarrantyStart() {
+    public LocalDate getWarrantyStart() {
         return warrantyStart;
     }
 
-    public void setWarrantyStart(Date warrantyStart) {
+    public void setWarrantyStart(LocalDate warrantyStart) {
         this.warrantyStart = warrantyStart;
     }
 
-    public Date getWarrantyEnds() {
+    public LocalDate getWarrantyEnds() {
         return warrantyEnds;
     }
 
-    public void setWarrantyEnds(Date warrantyEnds) {
+    public void setWarrantyEnds(LocalDate warrantyEnds) {
         this.warrantyEnds = warrantyEnds;
     }
 }

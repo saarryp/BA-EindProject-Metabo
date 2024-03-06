@@ -2,7 +2,8 @@ package nl.bitsentools.eindprojectbackendmetabo.models;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 @Entity
 @Table(name ="warranties")
 
@@ -17,15 +18,15 @@ public class WarrantyModel {
 
         private String productName;
         @Column
-        private Date warrantyStart;
+        private LocalDate warrantyStart;
         @Column
-        private Date warrantyEnds;
+        private LocalDate warrantyEnds;
 
 
         @OneToOne(mappedBy = "warrantyModel")
         InvoiceModel invoiceModel;
 
-    public WarrantyModel(Long id, String productName, Date warrantyStart, Date warrantyEnds, InvoiceModel invoiceModel) {
+    public WarrantyModel(Long id, String productName, LocalDate warrantyStart, LocalDate warrantyEnds, InvoiceModel invoiceModel) {
         this.id = id;
         this.productName = productName;
         this.warrantyStart = warrantyStart;
@@ -46,7 +47,7 @@ public class WarrantyModel {
 
 
 
-        public Date getWarrantyStart() {
+        public LocalDate getWarrantyStart() {
             return warrantyStart;
         }
 
@@ -58,15 +59,15 @@ public class WarrantyModel {
         this.productName = productName;
         }
 
-        public void setWarrantyStart(Date warrantyStart) {
+        public void setWarrantyStart(LocalDate warrantyStart) {
             this.warrantyStart = warrantyStart;
         }
 
-        public Date getWarrantyEnds() {
+        public LocalDate getWarrantyEnds() {
             return warrantyEnds;
         }
 
-        public void setWarrantyEnds(Date warrantyEnds) {
+        public void setWarrantyEnds(LocalDate warrantyEnds) {
             this.warrantyEnds = warrantyEnds;
         }
 
