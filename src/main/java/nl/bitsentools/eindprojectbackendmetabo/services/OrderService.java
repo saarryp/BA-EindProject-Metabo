@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
+import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDtoWarranty;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.OrderModel;
 import nl.bitsentools.eindprojectbackendmetabo.models.ProductModel;
@@ -116,6 +117,14 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
 
     public OrderOutputDto transferToDto(OrderModel orderModel){
         List<ProductOutputDto> products = new ArrayList<>();
+
+        for (ProductModel productModel : orderModel.getProductModel()){
+            if (productModel.isProductWarranty()){
+                ProductOutputDtoWarranty productOutputDtoWarranty = new ProductOutputDtoWarranty();
+
+            }
+        }
+
         products.add(transferToProductDto(productRepository.findById(orderModel.getId()).get()));
         OrderOutputDto dto = new OrderOutputDto();
         dto.setId(orderModel.getId());
