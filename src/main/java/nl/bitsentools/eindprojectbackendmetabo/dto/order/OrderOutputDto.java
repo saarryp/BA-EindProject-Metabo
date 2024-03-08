@@ -1,5 +1,9 @@
 package nl.bitsentools.eindprojectbackendmetabo.dto.order;
 
+import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
+
+import java.util.List;
+
 public class OrderOutputDto {
 
     public Long id;
@@ -12,14 +16,14 @@ public class OrderOutputDto {
 
     public int orderNumber;
 
-    public String productName;
-
-    public int productNumber;
-
+    public List<Object> productDto;
     public double price;
     public int quantity;
 
     public double totalPriceOrder;
+    public InvoiceModel invoiceModel;
+
+
 
 
 
@@ -65,20 +69,12 @@ public class OrderOutputDto {
         this.orderNumber = orderNumber;
     }
 
-    public String getProductName() {
-        return productName;
+    public List<Object> getProductDto() {
+        return productDto;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public int getProductNumber() {
-        return productNumber;
-    }
-
-    public void setProductNumber(int productNumber) {
-        this.productNumber = productNumber;
+    public void setProductDto(List<Object> productDto) {
+        this.productDto = productDto;
     }
 
     public double getPrice() {
@@ -103,5 +99,13 @@ public class OrderOutputDto {
 
     public void setTotalPriceOrder(double totalPriceOrder) {
         this.totalPriceOrder = totalPriceOrder;
+    }
+
+    public InvoiceModel getInvoiceModel() {
+        return invoiceModel;
+    }
+
+    public void setInvoiceModel(InvoiceModel invoiceModel) {
+        this.invoiceModel = invoiceModel;
     }
 }

@@ -23,7 +23,7 @@ public class WarrantyService {
     }
 
 
-    //GET-ALLwarranties
+//    GET-ALLwarranties
     public List<WarrantyOutputDto> getAllWarranties(){
         List<WarrantyModel>warrantyModelList = warrantyRepository.findAll();
         List<WarrantyOutputDto>warrantyOutputDtoList = new ArrayList<>();
@@ -33,7 +33,7 @@ public class WarrantyService {
         return warrantyOutputDtoList;
     }
 
-    //GetbyID
+//    GetbyID
 
     public WarrantyOutputDto getOneWarrantyById(Long id){
         Optional<WarrantyModel> warrantyModelOptional = warrantyRepository.findById(id);
@@ -77,11 +77,10 @@ public void deleteWarranty(Long id) {
         }
 }
 
-    //twee methodes van dto naar warranty en waarranty naar model
+    //twee methodes van dto naar warranty en waarrany naar model
 
     public WarrantyModel transferToWarranty(WarrantyModel warrantyModel, WarrantyInputDto dto) {
-        warrantyModel.setProductWarranty(dto.isProductWarranty());
-        warrantyModel.setWarrantyInMonths(dto.getWarrantyInMoths());
+        warrantyModel.setProductNumber(dto.getProductNumber());
         warrantyModel.setWarrantyStart(dto.getWarrantyStart());
         warrantyModel.setWarrantyEnds(dto.getWarrantyEnds());
         return warrantyModel;
@@ -92,8 +91,7 @@ public void deleteWarranty(Long id) {
         WarrantyOutputDto dto = new WarrantyOutputDto();
 
         dto.setId(warrantyModel.getId());
-        dto.setProductWarranty(warrantyModel.isProductWarranty());
-        dto.setWarrantyInMonths(warrantyModel.getWarrantyInMonths());
+        dto.setProductNumber(warrantyModel.getProductNumber());
         dto.setWarrantyStart(warrantyModel.getWarrantyStart());
         dto.setWarrantyEnds(warrantyModel.getWarrantyEnds());
         return dto;

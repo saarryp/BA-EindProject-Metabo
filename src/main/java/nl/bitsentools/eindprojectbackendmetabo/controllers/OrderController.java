@@ -1,16 +1,11 @@
 package nl.bitsentools.eindprojectbackendmetabo.controllers;
-
-
+import nl.bitsentools.eindprojectbackendmetabo.dto.id.IdInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderOutputDto;
-import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.services.OrderService;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import javax.validation.ReportAsSingleViolation;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -23,11 +18,10 @@ public class OrderController {
   private final OrderService orderService;
 
     public OrderController(OrderService orderService) {
+
         this.orderService = orderService;
     }
-//    public OrderController(OrderService orderService) {
-//        this.orderService = orderService;
-//    }
+
 
     @GetMapping
     public ResponseEntity<List<OrderOutputDto>>getAllOrders() {
@@ -53,6 +47,24 @@ public class OrderController {
                         .path("/" + savedOrder.id)
                         .toUriString());
         return ResponseEntity.created(uri).body(savedOrder);
+    }
+
+    @PostMapping("/orders/{id}/products")
+    public ResponseEntity<Object>assignOrderToProduct(@PathVariable("id") Long id, @Valid @RequestBody IdInputDto input){
+        orderService.assignOrderToProduct(id, input.id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/assignAllOrders")
+    public ResponseEntity<Object>assignAllOrdersToAllProducts(){
+        orderService.assignAllOrdersToAllProducts();
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/invoices")
+    public ResponseEntity<Object>assignOrderToInvoice(@PathVariable("id")Long id, @Valid @RequestBody IdInputDto input){
+        orderService.assignOrderToInvoice(id, input.id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")

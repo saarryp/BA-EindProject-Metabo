@@ -4,7 +4,9 @@ import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
+import nl.bitsentools.eindprojectbackendmetabo.models.WarrantyModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.InvoiceRepository;
+import nl.bitsentools.eindprojectbackendmetabo.repositories.WarrantyRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -15,9 +17,13 @@ import java.util.Optional;
 public class InvoiceService {
 
     private final InvoiceRepository invoiceRepository;
+    private final WarrantyRepository warrantyRepository;
+    private final WarrantyService warrantyService;
 
-    public InvoiceService(InvoiceRepository invoiceRepository) {
+    public InvoiceService(InvoiceRepository invoiceRepository, WarrantyRepository warrantyRepository, WarrantyService warrantyService) {
         this.invoiceRepository = invoiceRepository;
+        this.warrantyRepository = warrantyRepository;
+        this.warrantyService = warrantyService;
     }
 
     //  GET-ALL
@@ -47,26 +53,6 @@ public class InvoiceService {
     public InvoiceOutputDto createInvoice(InvoiceInputDto createInvoiceDto) {
         InvoiceModel invoiceModel = new InvoiceModel();
         InvoiceModel invoice = transferToInvoice(invoiceModel, createInvoiceDto);
-
-//        //Berekening BTW
-//
-//        double vatAmount;
-//        if (createInvoiceDto.getVatRate() == 9){
-//            vatAmount = invoice.getNetPriceWithoutVat() * 0.09;
-//        } else {
-//            vatAmount = invoice.getNetPriceWithoutVat() * 0.21;
-//        }
-//        double totalPriceWithoutVat = invoiceModel.getNetPriceWithoutVat();
-//        double totalPrice = invoice.getNetPriceWithoutVat() + vatAmount;
-//
-//        //aantal producten moet uit order komen icm type en prductnummerzxx
-//
-////        double totalAmountWithoutVat = totalPriceWithoutVat * quantity;
-////        double totalAmountWithVat = totalPriceWithVat * quantity;
-//
-//        // Zet de totale prijzen inclusief en exclusief BTW in het factuurmodel
-////        invoice.setTotalPrice(totalAmountWithVat);
-////        invoice.setNetPriceWithoutVat(totalAmountWithoutVat);
 
 
         // Berekening BTW
@@ -119,9 +105,7 @@ public class InvoiceService {
     //2 METHODE VAN INVOICE NAAR DTO
 
     public InvoiceModel transferToInvoice(InvoiceModel invoice, InvoiceInputDto dto) {
-//        var invoice = new InvoiceModel();
 
-//        product.setId(dto.id);
         invoice.setInvoiceId(dto.invoiceId);
         invoice.setProductName(dto.productName);
         invoice.setTotalPrice(dto.totalPrice);
@@ -153,15 +137,27 @@ public class InvoiceService {
         dto.setVatRate(invoiceModel.getVatRate());
         dto.setUserId(invoiceModel.getUserId());
         dto.setUserAddress(invoiceModel.getUserAddress());
+        dto.setProductWarranty(invoiceModel.isProductWarranty());
         dto.setWarrantyInMonths(invoiceModel.getWarrantyInMonths());
         dto.setDateOfPurchase(invoiceModel.getDateOfPurchase());
         dto.setTotalPrice(invoiceModel.getTotalPrice());
 
-        //deze omzetten naar product
-
-//HIER VATBEREKENING TOEVOEGEN.
-
         return dto;
     }
 
+    public void assignWarrantyToInvoice(Long id, Long warrantyId) {
+//        System.out.println("Assigning warranty to invoice. Invoice ID: " + id + ", Warranty ID: " + warrantyId);
+        var optionalInvoice = invoiceRepository.findById(id);
+        var optionalWarranty = warrantyRepository.findById(warrantyId);
+
+        if (optionalInvoice.isPresent() && optionalWarranty.isPresent()) {
+            var invoice = optionalInvoice.get();
+            var warranty = optionalWarranty.get();
+
+            invoice.setWarrantyModel(warranty);
+            invoiceRepository.save(invoice);
+        } else {
+            throw new RecordNotFoundException("Warranty or invoice is not found.");
+        }
+    }
 }

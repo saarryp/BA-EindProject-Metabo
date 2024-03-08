@@ -23,8 +23,8 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductOutputDto>> getAllProducts() {
-        List<ProductOutputDto> products = productService.getAllProducts();
+    public ResponseEntity<List<Object>> getAllProducts() {
+        List<Object> products = productService.getAllProducts();
 
         return ResponseEntity.ok(products);
     }
@@ -38,14 +38,14 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductOutputDto> createProduct(@RequestBody ProductInputDto productInputDto) {
+    public ResponseEntity<Object> createProduct(@RequestBody ProductInputDto productInputDto) {
 
-    ProductOutputDto savedProduct = productService.createProduct(productInputDto);
+    Object savedProduct = productService.createProduct(productInputDto);
 
         URI uri = URI.create(
                 ServletUriComponentsBuilder
                         .fromCurrentRequest()
-                        .path("/" + savedProduct.id)
+                        .path("/" + savedProduct)
                         .toUriString());
 
         return ResponseEntity.created(uri).body(savedProduct);

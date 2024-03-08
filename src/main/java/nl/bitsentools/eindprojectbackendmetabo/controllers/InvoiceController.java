@@ -1,6 +1,7 @@
 package nl.bitsentools.eindprojectbackendmetabo.controllers;
 
 
+import nl.bitsentools.eindprojectbackendmetabo.dto.id.IdInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceOutputDto;
 
@@ -49,6 +50,11 @@ public class InvoiceController {
                         .toUriString());
 
         return ResponseEntity.created(uri).body(savedInvoice);
+    }
+    @PostMapping("/{id}/warranties")
+    public ResponseEntity<Object>assignWarrantyToInvoice(@PathVariable("id") Long id, @Valid @RequestBody IdInputDto input){
+        invoiceService.assignWarrantyToInvoice(id, input.id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")

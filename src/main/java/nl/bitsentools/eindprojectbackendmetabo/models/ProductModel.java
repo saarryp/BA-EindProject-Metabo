@@ -4,10 +4,11 @@ package nl.bitsentools.eindprojectbackendmetabo.models;
 import jakarta.persistence.*;
 import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "products")
-
-
 
 public class ProductModel {
 
@@ -15,7 +16,7 @@ public class ProductModel {
 @GeneratedValue
 @Column
 
-    private Long id;
+   private Long id;
 @Column
     private String brandName;
 @Column
@@ -24,24 +25,37 @@ public class ProductModel {
     private int productNumber;
 @Column
     private double price;
-@Column
 
-    @Enumerated(EnumType.STRING)
+@Column
+@Enumerated(EnumType.STRING)
     private TypeOfMachine typeOfMachine;
+
+@Column
+    private boolean productWarranty;
+@Column
+    private int warrantyInMonths;
+
+
+    @ManyToMany
+            (mappedBy = "productModel")
+    List< OrderModel> orderModel = new ArrayList<>();
+
 
     public ProductModel(){}
 
 
-    public ProductModel(String brandName, String productName, int productNumber, double price, TypeOfMachine typeOfMachine) {
+
+    public ProductModel(Long id, String brandName, String productName, int productNumber, double price, TypeOfMachine typeOfMachine, boolean productWarranty, int warrantyInMonths) {
+        this.id = id;
         this.brandName = brandName;
         this.productName = productName;
         this.productNumber = productNumber;
         this.price = price;
         this.typeOfMachine = typeOfMachine;
-
-        System.out.println("Product instance created: " + this);
-
+        this.productWarranty = productWarranty;
+        this.warrantyInMonths = warrantyInMonths;
     }
+
 
 
 
@@ -93,5 +107,28 @@ public class ProductModel {
         this.typeOfMachine = typeOfMachine;
     }
 
+    public boolean isProductWarranty() {
+        return productWarranty;
     }
+
+    public void setProductWarranty(boolean productWarranty) {
+        this.productWarranty = productWarranty;
+    }
+
+    public int getWarrantyInMonths() {
+        return warrantyInMonths;
+    }
+
+    public void setWarrantyInMonths(int warrantyInMonths) {
+        this.warrantyInMonths = warrantyInMonths;
+    }
+
+    public List<OrderModel> getOrderModel() {
+        return orderModel;
+    }
+
+    public void setOrderModel(List<OrderModel> orderModel) {
+        this.orderModel = orderModel;
+    }
+}
 

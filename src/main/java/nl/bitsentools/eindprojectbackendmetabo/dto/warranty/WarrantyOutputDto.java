@@ -1,18 +1,17 @@
 package nl.bitsentools.eindprojectbackendmetabo.dto.warranty;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class WarrantyOutputDto {
 
     public Long id;
 
-    public boolean productWarranty;
 
-    public int warrantyInMonths;
+    public int productNumber;
 
-    public Date warrantyStart;
+    public LocalDate warrantyStart;
 
-    public Date warrantyEnds;
+    public LocalDate warrantyEnds;
 
     public Long getId() {
         return id;
@@ -22,35 +21,27 @@ public class WarrantyOutputDto {
         this.id = id;
     }
 
-    public boolean isProductWarranty() {
-        return productWarranty;
+    public int getProductNumber() {
+        return productNumber;
     }
 
-    public void setProductWarranty(boolean productWarranty) {
-        this.productWarranty = productWarranty;
+    public void setProductNumber(int productNumber) {
+        this.productNumber = productNumber;
     }
 
-    public int getWarrantyInMonths() {
-        return warrantyInMonths;
-    }
-
-    public void setWarrantyInMonths(int warrantyInMonths) {
-        this.warrantyInMonths = warrantyInMonths;
-    }
-
-    public Date getWarrantyStart() {
+    public LocalDate getWarrantyStart() {
         return warrantyStart;
     }
 
-    public void setWarrantyStart(Date warrantyStart) {
+    public void setWarrantyStart(LocalDate warrantyStart) {
         this.warrantyStart = warrantyStart;
     }
 
-    public Date getWarrantyEnds() {
+    public LocalDate getWarrantyEnds() {
         return warrantyEnds;
     }
 
-    public void setWarrantyEnds(Date warrantyEnds) {
+    public void setWarrantyEnds(LocalDate warrantyEnds) {
         this.warrantyEnds = warrantyEnds;
     }
 }

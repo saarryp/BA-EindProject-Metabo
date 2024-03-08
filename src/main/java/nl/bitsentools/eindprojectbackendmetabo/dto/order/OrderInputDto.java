@@ -1,5 +1,7 @@
 package nl.bitsentools.eindprojectbackendmetabo.dto.order;
 
+import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
+
 public class OrderInputDto {
     //deze input beperkt omdat USER GEEN AANPASSINGEN MAG DOEN IN BEPAALDE ONDERDELEN VAN DE GEGEVENS.
     //nog even aan het bomen of de ADmin hier wel een andere rol in krijgt.
@@ -7,40 +9,29 @@ public class OrderInputDto {
     public String userDetails;
     public int orderNumber;
 
-    public String productName;
-
-    public int productNumber;
+    public Long productNumber;
     public double price;
     public int quantity;
-
-
+    public InvoiceModel invoiceModel;
 
     public OrderInputDto(){}
 
-    public String getUserEmail() {
-        return userEmail;
-    }
 
-    public OrderInputDto(String userEmail, String userDetails, int orderNumber, String productName, int quantity,
-                         int productNumber, double price) {
+    public OrderInputDto(String userEmail, String userDetails, int orderNumber, int quantity,
+                         Long productNumber, double price, InvoiceModel invoiceModel) {
         this.userEmail = userEmail;
         this.userDetails = userDetails;
         this.orderNumber = orderNumber;
-        this.productName = productName;
         this.quantity = quantity;
         this.productNumber = productNumber;
         this.price = price;
-
+        this.invoiceModel = invoiceModel;
     }
 
-//    public OrderInputDto(String userEmail, String userDetails, int quantity, int productNumber) {
-//        this.userEmail = userEmail;
-//        this.userDetails = userDetails;
-//        this.quantity = quantity;
-//        this.productNumber = productNumber;
-//    }
-
     private static final int MINIMUM_NUMBER_OF_PRODUCTS = 1;
+    public String getUserEmail() {
+        return userEmail;
+    }
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
@@ -65,11 +56,11 @@ public class OrderInputDto {
         this.quantity = quantity;
     }
 
-    public int getProductNumber() {
+    public Long getProductNumber() {
         return productNumber;
     }
 
-    public void setProductNumber(int productNumber) {
+    public void setProductNumber(Long productNumber) {
         this.productNumber = productNumber;
     }
 
@@ -81,13 +72,6 @@ public class OrderInputDto {
         this.orderNumber = orderNumber;
     }
 
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
 
     public double getPrice() {
         return price;
@@ -97,4 +81,11 @@ public class OrderInputDto {
         this.price = price;
     }
 
+    public InvoiceModel getInvoiceModel() {
+        return invoiceModel;
+    }
+
+    public void setInvoiceModel(InvoiceModel invoiceModel) {
+        this.invoiceModel = invoiceModel;
+    }
 }

@@ -1,7 +1,9 @@
 package nl.bitsentools.eindprojectbackendmetabo.models;
-
-
 import jakarta.persistence.*;
+
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -14,9 +16,11 @@ public class OrderModel {
 
     private Long id;
 
+    // TODO;USERDETAIL NA MKEN USER KUNNEN VEEL WEGGEHAALD WORDEN ZODAT NIET DUBBELOP IS TODO
     @Column
-    //foreignkey
     private int userId;
+    @Column
+    private int productNumber;
     @Column
     private String userEmail;
     @Column
@@ -24,29 +28,34 @@ public class OrderModel {
     @Column
     private int orderNumber;
     @Column
-    private String productName;
-    @Column
-    private int productNumber;
-    @Column
     private double price;
     @Column
     private int quantity;
     @Column
     private double totalPriceOrder;
 
+
+    @ManyToMany
+    @JoinTable(name = "order_product", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "order_id"))
+    List<ProductModel> productModel  = new ArrayList<>();
+
+    @OneToOne(mappedBy = "orderModel", cascade = CascadeType.ALL)
+    @NotNull
+    InvoiceModel invoiceModel;
+
     public OrderModel(){}
 
-    public OrderModel(Long id, int userId, String userEmail, String userDetails, int orderNumber, String productName, int productNumber, double price, int quantity, double totalPriceOrder) {
+    public OrderModel(Long id, int userId, String userEmail, String userDetails, int productNumber, int orderNumber, ProductModel productModel, double price, int quantity, double totalPriceOrder, InvoiceModel invoiceModel) {
         this.id = id;
         this.userId = userId;
         this.userEmail = userEmail;
         this.userDetails = userDetails;
-        this.orderNumber = orderNumber;
-        this.productName = productName;
         this.productNumber = productNumber;
+        this.orderNumber = orderNumber;
         this.price = price;
         this.quantity = quantity;
         this.totalPriceOrder = totalPriceOrder;
+        this.invoiceModel = invoiceModel;
     }
 
     public Long getId() {
@@ -63,6 +72,14 @@ public class OrderModel {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public int getProductNumber() {
+        return productNumber;
+    }
+
+    public void setProductNumber(int productNumber) {
+        this.productNumber = productNumber;
     }
 
     public String getUserEmail() {
@@ -89,22 +106,6 @@ public class OrderModel {
         this.orderNumber = orderNumber;
     }
 
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public int getProductNumber() {
-        return productNumber;
-    }
-
-    public void setProductNumber(int productNumber) {
-        this.productNumber = productNumber;
-    }
-
     public double getPrice() {
         return price;
     }
@@ -127,5 +128,21 @@ public class OrderModel {
 
     public void setTotalPriceOrder(double totalPriceOrder) {
         this.totalPriceOrder = totalPriceOrder;
+    }
+
+    public List<ProductModel> getProductModel() {
+        return productModel;
+    }
+
+    public void setProductModel(List<ProductModel> productModel) {
+        this.productModel = productModel;
+    }
+
+    public InvoiceModel getInvoiceModel() {
+        return invoiceModel;
+    }
+
+    public void setInvoiceModel(InvoiceModel invoiceModel) {
+        this.invoiceModel = invoiceModel;
     }
 }
