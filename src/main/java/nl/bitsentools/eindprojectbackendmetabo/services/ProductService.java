@@ -30,7 +30,7 @@ public class ProductService {
 
         this.productRepository = productRepository;
 //      this.warrantyRepository = warrantyRepository;
-        this.orderRepository = orderRepository1;
+        this.orderRepository = orderRepository;
     }
 
 
@@ -67,12 +67,6 @@ public class ProductService {
     public Object createProduct(ProductInputDto createProductDto) {
         ProductModel product = transferToProduct(createProductDto);
 
-        //bepaalt of er garantie op zit
-//        if(true) {
-//            WarrantyModel warranty = createWarrantyForProduct(product);
-//            product.setWarrantyModel(warranty);
-//        }
-
         productRepository.save(product);
 
         if (product.isProductWarranty()){
@@ -81,7 +75,6 @@ public class ProductService {
         else {
             return transferToProductDto(product);
         }
-
     }
 
 

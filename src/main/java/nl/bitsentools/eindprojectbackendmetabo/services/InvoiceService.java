@@ -105,9 +105,7 @@ public class InvoiceService {
     //2 METHODE VAN INVOICE NAAR DTO
 
     public InvoiceModel transferToInvoice(InvoiceModel invoice, InvoiceInputDto dto) {
-//      var invoice = new InvoiceModel();
 
-//        product.setId(dto.id);
         invoice.setInvoiceId(dto.invoiceId);
         invoice.setProductName(dto.productName);
         invoice.setTotalPrice(dto.totalPrice);
