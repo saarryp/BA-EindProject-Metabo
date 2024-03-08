@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import static nl.bitsentools.eindprojectbackendmetabo.services.ProductService.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,27 +117,34 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
     //van orderModel naar orderOutputDto
 
     public OrderOutputDto transferToDto(OrderModel orderModel){
-        List<ProductOutputDto> products = new ArrayList<>();
+        List<Object> products = new ArrayList<>();
 
-        for (ProductModel productModel : orderModel.getProductModel()){
-            if (productModel.isProductWarranty()){
-                ProductOutputDtoWarranty productOutputDtoWarranty = new ProductOutputDtoWarranty();
 
-            }
-        }
-
-        products.add(transferToProductDto(productRepository.findById(orderModel.getId()).get()));
+        //products.add(transferToProductDto(productRepository.findById(orderModel.getId()).get()));
         OrderOutputDto dto = new OrderOutputDto();
         dto.setId(orderModel.getId());
         dto.setUserId(orderModel.getUserId());
         dto.setUserEmail(orderModel.getUserEmail());
         dto.setUserDetails(orderModel.getUserDetails());
         dto.setOrderNumber(orderModel.getOrderNumber());
-        dto.setProductDto(products);
         dto.setPrice(orderModel.getPrice());
         dto.setQuantity(orderModel.getQuantity());
         dto.setTotalPriceOrder(orderModel.getTotalPriceOrder());
         dto.setInvoiceModel(orderModel.getInvoiceModel());
+
+        for (ProductModel productModel : orderModel.getProductModel()){
+
+            if (productModel.isProductWarranty()){
+                ProductOutputDtoWarranty productOutputDtoWarranty = transferToDtoWarranty(productModel);
+                products.add(productOutputDtoWarranty);
+            }
+            else {
+                ProductOutputDto productOutPutDto = transferToProductDto(productModel);
+                products.add(productOutPutDto);
+
+            }
+        }
+        dto.setProductDto(products);
 
         return dto;
     }

@@ -125,7 +125,7 @@ public class ProductService {
     // Dit is de vertaal methode van Product naar ProductDto
 
 
-    public ProductOutputDtoWarranty transferToDtoWarranty(ProductModel product){
+    public static ProductOutputDtoWarranty transferToDtoWarranty(ProductModel product){
         ProductOutputDtoWarranty dto = new ProductOutputDtoWarranty();
 
         //deze omzetten naar product
