@@ -80,7 +80,7 @@ public void deleteWarranty(Long id) {
     //twee methodes van dto naar warranty en waarrany naar model
 
     public WarrantyModel transferToWarranty(WarrantyModel warrantyModel, WarrantyInputDto dto) {
-        warrantyModel.setProductName(dto.getProductName());
+        warrantyModel.setProductNumber(dto.getProductNumber());
         warrantyModel.setWarrantyStart(dto.getWarrantyStart());
         warrantyModel.setWarrantyEnds(dto.getWarrantyEnds());
         return warrantyModel;
@@ -91,7 +91,7 @@ public void deleteWarranty(Long id) {
         WarrantyOutputDto dto = new WarrantyOutputDto();
 
         dto.setId(warrantyModel.getId());
-        dto.setProductName(warrantyModel.getProductName());
+        dto.setProductNumber(warrantyModel.getProductNumber());
         dto.setWarrantyStart(warrantyModel.getWarrantyStart());
         dto.setWarrantyEnds(warrantyModel.getWarrantyEnds());
         return dto;

@@ -11,17 +11,12 @@ VALUES (101,1, 1, 'saskia@hotmail.com', 'saskia noord prinsenstraat 12 2415 XG E
 
 --------------------------------WARRANTIES------------------------------------------------
 
-INSERT INTO warranties(id, product_name, warranty_start, warranty_ends)
-VALUES (101, 'testName', '2024-05-17', '2025-07-17');
+INSERT INTO warranties(id, product_number, warranty_start, warranty_ends)
+VALUES (101, 1, '2024-05-17', '2025-07-17');
 
 
 
 ---------------------------------INVOICE----------------------------------------------------
-
--- INSERT INTO invoices(id, invoice_id, product_number, product_name, total_price, vat_21_product_price,
---                      vat_9_product_price, net_price_without_vat, vat_rate, vat_amount, user_id,
---                      user_address, product_warranty, warranty_in_months, date_of_purchase)
--- VALUES (101, 1, 1, 'TESTNAME', 300 * 2, 21, 0, 1 , 21, 10, 12, 'prinsenstraat 12 2415 XG edam', false ,0,  '2024-05-17' )
 
 
 INSERT INTO invoices ( id,

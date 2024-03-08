@@ -16,7 +16,7 @@ public class WarrantyModel {
         private Long id;
         @Column
 
-        private String productName;
+        private int productNumber;
         @Column
         private LocalDate warrantyStart;
         @Column
@@ -26,9 +26,9 @@ public class WarrantyModel {
         @OneToOne(mappedBy = "warrantyModel")
         InvoiceModel invoiceModel;
 
-    public WarrantyModel(Long id, String productName, LocalDate warrantyStart, LocalDate warrantyEnds, InvoiceModel invoiceModel) {
+    public WarrantyModel(Long id, int productNumber, LocalDate warrantyStart, LocalDate warrantyEnds, InvoiceModel invoiceModel) {
         this.id = id;
-        this.productName = productName;
+        this.productNumber = productNumber;
         this.warrantyStart = warrantyStart;
         this.warrantyEnds = warrantyEnds;
         this.invoiceModel = invoiceModel;
@@ -51,12 +51,12 @@ public class WarrantyModel {
             return warrantyStart;
         }
 
-        public String getProductName() {
-        return productName;
+        public int getProductNumber() {
+        return productNumber;
         }
 
-        public void setProductName(String productName) {
-        this.productName = productName;
+        public void setProductNumber(int productName) {
+        this.productNumber = productName;
         }
 
         public void setWarrantyStart(LocalDate warrantyStart) {
@@ -79,7 +79,7 @@ public class WarrantyModel {
         this.invoiceModel = invoiceModel;
         }
 }
-
+//TODO: AANPASSEN VAN PRODUCTNAME NAAR PRODUTNUMBER OM BETER DATABASE WERK TE KUNNEN UITVOEREN.
 //TODO: ONE TO ONE MAKEN TUSSEN INVOICE EN WARRANTY. DE PURCHASEDATE VAN PRODUCT HIERIN BETREKKEN EN DIE KOPPELEN MET DE WARRANTY STARTS EN ENDS. AANKOOPDATUM IS DE DATUM DAT DE GARANTIE INGAAT.
 //TODO: MAKKELIJK AANPSSAEN VAN 2 JAAR, DUS EEN METHODE AANMKAEN VAN AANKOOPDATUM DIE JE UIT DE INVOICE OF ORDER HAALT EN 2 JAAR EBRIJ OPTELT OF MAANDEN EVEN KIJKEN HOE JE DAT HEBT OPGESTELD.
 

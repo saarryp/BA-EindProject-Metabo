@@ -4,20 +4,19 @@ import java.time.LocalDate;
 
 public class WarrantyInputDto {
 
-       public String productName;
+       public int productNumber;
         public LocalDate warrantyStart;
 
         public LocalDate warrantyEnds;
 
 
-    public String getProductName() {
-        return productName;
+    public int getProductNumber() {
+        return productNumber;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setProductNumber(int productNumber) {
+        this.productNumber = productNumber;
     }
-
 
     public LocalDate getWarrantyStart() {
         return warrantyStart;
@@ -34,5 +33,7 @@ public class WarrantyInputDto {
     public void setWarrantyEnds(LocalDate warrantyEnds) {
         this.warrantyEnds = warrantyEnds;
     }
+
+
 }
 
