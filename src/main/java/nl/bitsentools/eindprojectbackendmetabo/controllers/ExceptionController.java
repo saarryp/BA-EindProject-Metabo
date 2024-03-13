@@ -3,6 +3,8 @@ package nl.bitsentools.eindprojectbackendmetabo.controllers;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.BadRequestException;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.IllegalArgumentException;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
+import nl.bitsentools.eindprojectbackendmetabo.exceptions.UsernameNotFoundException;
+import org.apache.catalina.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -32,5 +34,13 @@ public class ExceptionController {
     public ResponseEntity<Object>IllegalArgument(IllegalArgumentException illegalArgumentException)
     {
     return new ResponseEntity<>(illegalArgumentException.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @ExceptionHandler(value = UsernameNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<Object>UsernameNotFoundException(UsernameNotFoundException usernameNotFoundException)
+    {
+        return new ResponseEntity<>(usernameNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
+
     }
 }
