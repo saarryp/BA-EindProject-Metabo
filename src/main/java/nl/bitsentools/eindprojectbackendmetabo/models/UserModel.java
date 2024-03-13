@@ -9,9 +9,8 @@ import java.util.Set;
 @Table(name = "users")
 public class UserModel {
 
-
-    @GeneratedValue
     @Id
+    @GeneratedValue
     @Column
     private Long id;
     @Column(nullable = false, unique = true)
@@ -19,15 +18,6 @@ public class UserModel {
 
     @Column(nullable = false, length = 255)
     private String password;
-
-//    @OneToMany(
-//            targetEntity = Authority.class,
-//            mappedBy = "username",
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true,
-//            fetch = FetchType.EAGER)
-//    private Set<Authority> authorities = new HashSet<>();
-
 
     @Column(nullable = false)
     private boolean enabled = true;
@@ -42,7 +32,28 @@ public class UserModel {
     @Column
     private String userDetails;
 
+    @OneToMany(
+            targetEntity = Authority.class,
+            mappedBy = "username",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER)
+
+    private Set<Authority> authorities = new HashSet<>();
+
+
     public UserModel(){}
+
+    public UserModel(Long id, String userName, String password, boolean enabled, String apiKey, String email, String userDetails, Set<Authority> authorities) {
+        this.id = id;
+        this.userName = userName;
+        this.password = password;
+        this.enabled = enabled;
+        this.apiKey = apiKey;
+        this.email = email;
+        this.userDetails = userDetails;
+        this.authorities = authorities;
+    }
 
     public Long getId() {
         return id;
@@ -100,4 +111,19 @@ public class UserModel {
         this.userDetails = userDetails;
     }
 
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
 }
+
+//TODO:  public Set<Authority> getAuthorities() { return authorities; }
+//    public void addAuthority(Authority authority) {
+//        this.authorities.add(authority);
+//    }
+//    public void removeAuthority(Authority authority) {
+//        this.authorities.remove(authority);
+//    } IK TWIJFEL OF DEZE LOGICA NIET IN DE SERVICE VAN DE USER MOET STAAN?
