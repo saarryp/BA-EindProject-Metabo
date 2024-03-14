@@ -114,6 +114,14 @@ public class UserModel {
     public Set<Authority> getAuthorities() {
         return authorities;
     }
+    public void addAuthority(Authority authority) {
+        this.authorities.add(authority);
+    }
+
+    public void removeAuthority(Authority authority) {
+        this.authorities.remove(authority);
+    }
+
 
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;

@@ -8,6 +8,7 @@ import nl.bitsentools.eindprojectbackendmetabo.exceptions.UsernameNotFoundExcept
 import nl.bitsentools.eindprojectbackendmetabo.models.Authority;
 import nl.bitsentools.eindprojectbackendmetabo.models.UserModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.UserRepository;
+import nl.bitsentools.eindprojectbackendmetabo.utils.RandomStringGenerator;
 import nl.bitsentools.eindprojectbackendmetabo.utils.RandomStringOperator;
 import org.springframework.stereotype.Service;
 
@@ -26,100 +27,98 @@ public class UserService {
     }
 
     public List<UserOutputDto> getAllUsers() {
-        List<UserModel> collection = userRepository.findAll();
-        List<UserOutputDto>userOutputDtoList = new ArrayList<>();
-        for (UserOutputDto user : userOutputDtoList) {
-            userOutputDtoList.add(fromUser(user));
+
+        List<UserOutputDto>collection = new ArrayList<>();
+        List<UserModel> userList = userRepository.findAll();
+        for (UserModel user : userList) {
+            collection.add(fromUser(user));
         }
-        return userOutputDtoList;
+        return collection;
     }
-    public UserOutputDto getOneUserById(UserInputDto createUserDto) {
-        UserModel userModel = new UserModel();
+    public UserOutputDto getOneUser(String username) {
+        UserOutputDto userOutputDto;
         Optional<UserModel> user = userRepository.findById(username);
-        if (user.isPresent()){
-            dto = fromUser(user.get());
-        }else {
+        if (user.isEmpty()) {
             throw new UsernameNotFoundException(username);
+        } else {
+            userOutputDto = fromUser(user.get());
         }
-        return dto;
+        return userOutputDto;
     }
+
+
 
     public boolean userExists(String username) {
         return userRepository.existsById(username);
     }
 
     public String createUser(UserInputDto userDto) {
-        RandomStringOperator RandomStringGenerator;
         String randomString = RandomStringGenerator.generateAlphaNumeric(20);
         userDto.setApikey(randomString);
-        User newUser = userRepository.save(toUser(userDto));
-        return newUser.getUsername();
+        UserModel newUser = userRepository.save(toUser(userDto));
+        return newUser.getUserName();
     }
 
     public void deleteUser(String username) {
         userRepository.deleteById(username);
     }
 
-    public void updateUser(String username, UserDto newUser) {
+    public void updateUser(String username, UserInputDto newUser) {
         if (!userRepository.existsById(username)) throw new RecordNotFoundException();
-        User user = userRepository.findById(username).get();
+        UserModel user = userRepository.findById(username).get();
         user.setPassword(newUser.getPassword());
         userRepository.save(user);
     }
 
     public Set<Authority> getAuthorities(String username) {
         if (!userRepository.existsById(username)) throw new UsernameNotFoundException(username);
-        User user = userRepository.findById(username).get();
-        UserDto userDto = fromUser(user);
-        return userDto.getAuthorities();
+        UserModel user = userRepository.findById(username).get();
+        UserOutputDto userDto = fromUser(user);
+        return userDto.getAuthority();
     }
 
     public void addAuthority(String username, String authority) {
 
         if (!userRepository.existsById(username)) throw new UsernameNotFoundException(username);
-        User user = userRepository.findById(username).get();
+        UserModel user = userRepository.findById(username).get();
         user.addAuthority(new Authority(username, authority));
         userRepository.save(user);
     }
 
     public void removeAuthority(String username, String authority) {
         if (!userRepository.existsById(username)) throw new UsernameNotFoundException(username);
-        User user = userRepository.findById(username).get();
+        UserModel user = userRepository.findById(username).get();
         Authority authorityToRemove = user.getAuthorities().stream().filter((a) -> a.getAuthority().equalsIgnoreCase(authority)).findAny().get();
         user.removeAuthority(authorityToRemove);
         userRepository.save(user);
     }
 
-    public static UserOutputDto fromUser(User user){
+    public static UserOutputDto fromUser(UserModel user){
 
         var dto = new UserOutputDto();
 
-        dto.username = user.getUsername();
+        dto.username = user.getUserName();
         dto.password = user.getPassword();
         dto.enabled = user.isEnabled();
-        dto.apikey = user.getApikey();
+        dto.apikey = user.getApiKey();
         dto.email = user.getEmail();
-        dto.authorities = user.getAuthorities();
+        dto.authority = user.getAuthorities();
 
         return dto;
     }
 
-    public User toUser(UserInputDto userDto) {
+    public UserModel toUser(UserInputDto userDto) {
 
-        var user = new User();
+        var user = new UserModel();
 
-        user.setUsername(userDto.getUsername());
+        user.setUserName(userDto.getUsername());
         user.setPassword(userDto.getPassword());
         user.setEnabled(userDto.getEnabled());
-        user.setApikey(userDto.getApikey());
+        user.setApiKey(userDto.getApikey());
         user.setEmail(userDto.getEmail());
 
         return user;
     }
-
-
-
 }
 
 
-//TODO: CHECK BIJ PAPI OF DE SERVICE ER OOK ZO UIT ZIET. MOET IK DEZE CUSTOMIZEN OF GEWOON LATEN. NU 37 ERRORS.
