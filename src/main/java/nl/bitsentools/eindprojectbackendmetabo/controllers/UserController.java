@@ -46,28 +46,16 @@ public class UserController {
 
     @PostMapping("/create")
     public ResponseEntity<Object> createUser(@Valid @RequestBody UserInputDto userDto) {
-//        if (br.hasErrors()) {
-//            String errorString = getErrorString(br);
-//            return new ResponseEntity<>(errorString, HttpStatus.BAD_REQUEST);
 
-
-//        }else {
             String newUsername = userService.createUser(userDto);
             userService.addAuthority(newUsername, "ROLE_USER");
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
-                .buildAndExpand(newUsername).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{username}")
+                .buildAndExpand(newUsername)
+                .toUri();
 
         return ResponseEntity.created(location).build();
-
-//
-//            URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-//                    .path("/{username}")
-//                    .buildAndExpand(userDto.username)
-//                    .toUri();
-//
-//
-//            return ResponseEntity.created(location).build();
         }
 
     @PostMapping(value = "/{username}/authorities")
@@ -82,11 +70,6 @@ public class UserController {
     }
     @PutMapping(value = "/{username}")
     public ResponseEntity<String> updateUser(@Valid @PathVariable("username") String username, @RequestBody UserInputDto dto) {
-//        if (br.hasErrors()) {
-//            String errorString = getErrorString(br);
-//            return new ResponseEntity<>(errorString, HttpStatus.BAD_REQUEST);
-//
-//        }else {
             userService.updateUser(username, dto);
 
             return ResponseEntity.ok().body("user updated");

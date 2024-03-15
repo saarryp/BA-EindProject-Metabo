@@ -9,7 +9,7 @@ import nl.bitsentools.eindprojectbackendmetabo.models.Authority;
 import nl.bitsentools.eindprojectbackendmetabo.models.UserModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.UserRepository;
 import nl.bitsentools.eindprojectbackendmetabo.utils.RandomStringGenerator;
-import nl.bitsentools.eindprojectbackendmetabo.utils.RandomStringOperator;
+
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -102,6 +102,7 @@ public class UserService {
         dto.enabled = user.isEnabled();
         dto.apikey = user.getApiKey();
         dto.email = user.getEmail();
+        dto.userDetails = user.getUserDetails();
         dto.authority = user.getAuthorities();
 
         return dto;
