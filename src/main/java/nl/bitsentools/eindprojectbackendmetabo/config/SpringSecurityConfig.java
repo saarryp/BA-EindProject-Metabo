@@ -63,20 +63,63 @@ public class SpringSecurityConfig {
                         auth
                                 // Wanneer je deze uncomments, staat je hele security open. Je hebt dan alleen nog een jwt nodig.
 //                .requestMatchers("/**").permitAll()
+
+                                                            //OPEN ENDPOINTS//
+
+                                .requestMatchers("/**").permitAll()
+                                .requestMatchers("/users/create").hasAnyRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/authenticate").permitAll()
+
+
+                                //----------------------------ENDPOINTS ADMIN-------------------------------
+
                                 .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.GET,"/users").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.POST,"/users/**").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.POST, "/cimodules").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/cimodules/**").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.POST, "/remotecontrollers").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/remotecontrollers/**").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.POST, "/televisions").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/televisions/**").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.POST, "/wallbrackets").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/wallbrackets/**").hasRole("ADMIN")
-                                // Je mag meerdere paths tegelijk definieren
-                                .requestMatchers("/cimodules", "/remotecontrollers", "/televisions", "/wallbrackets").hasAnyRole("ADMIN", "USER")
+
+                                                        //-----------stocks--------//
+
+                                .requestMatchers(HttpMethod.GET, "stocks").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST,"stocks").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "stocks/{id}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "stocks/{id").hasRole("ADMIN")
+
+                                                        //----------products-------//
+
+                                .requestMatchers(HttpMethod.GET, "products").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "products").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "products/{id}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "products/{id}").hasRole("ADMIN")
+
+                                                        //---------orders---------//
+
+                                .requestMatchers(HttpMethod.GET, "orders").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "orders").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "orders/{id}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "orders/{id}").hasRole("ADMIN")
+
+                                                        //----------invoices--------//
+
+                                //TODO: requestmatchers invoices & warranties voor admin
+
+                                //------------------------------ENDPOINTS USER-----------------------
+
+
+                                //TODO: requestmatchers voor user maken.
+
+
+                                .requestMatchers(HttpMethod.POST, "/authenticate").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET,"/authenticated").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST,"/users/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
+
+                        //--------------------------------------Endpoint Product-----------------------------
+
+
+
+
+
                                 .requestMatchers("/authenticated").authenticated()
                                 .requestMatchers("/authenticate").permitAll()
                                 .anyRequest().denyAll()
