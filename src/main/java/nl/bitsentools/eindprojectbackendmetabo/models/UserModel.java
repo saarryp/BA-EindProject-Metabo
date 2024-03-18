@@ -24,7 +24,7 @@ public class UserModel {
     //zachte uitschakeling van bijvoorbeeld een user. Mocht deze zich uitschriven van een account, dan blijven de invoices wel bestaan als deze op enabled = false wordt gezet
 
     @Column
-    private  String apiKey;
+    private String apiKey;
 
     @Column
     private String email;
@@ -42,7 +42,8 @@ public class UserModel {
     private Set<Authority> authorities = new HashSet<>();
 
 
-    public UserModel(){}
+    public UserModel() {
+    }
 
     public UserModel(Long id, String userName, String password, boolean enabled, String apiKey, String email, String userDetails, Set<Authority> authorities) {
         this.id = id;
@@ -114,6 +115,7 @@ public class UserModel {
     public Set<Authority> getAuthorities() {
         return authorities;
     }
+
     public void addAuthority(Authority authority) {
         this.authorities.add(authority);
     }
@@ -127,11 +129,3 @@ public class UserModel {
         this.authorities = authorities;
     }
 }
-
-//TODO:  public Set<Authority> getAuthorities() { return authorities; }
-//    public void addAuthority(Authority authority) {
-//        this.authorities.add(authority);
-//    }
-//    public void removeAuthority(Authority authority) {
-//        this.authorities.remove(authority);
-//    } IK TWIJFEL OF DEZE LOGICA NIET IN DE SERVICE VAN DE USER MOET STAAN?

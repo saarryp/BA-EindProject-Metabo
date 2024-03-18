@@ -67,7 +67,7 @@ public class SpringSecurityConfig {
                                                             //OPEN ENDPOINTS//
 
                                 .requestMatchers("/**").permitAll()
-                                .requestMatchers("/users/create").hasAnyRole("ADMIN")
+                                .requestMatchers("/users/create").hasAnyRole("ADMIN", "CLIENT")
                                 .requestMatchers(HttpMethod.POST, "/authenticate").permitAll()
 
 
@@ -78,50 +78,52 @@ public class SpringSecurityConfig {
                                 .requestMatchers(HttpMethod.POST,"/users/**").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
 
+                                //----------------------------ENDPOINTS CLIENT-----------------------------------
+
+                                .requestMatchers(HttpMethod.POST, "/users").hasRole("CLIENT")
+                                .requestMatchers(HttpMethod.GET, "/users").hasRole("CLIENT")
+                                .requestMatchers(HttpMethod.POST, "/users/**").hasRole("CLIENT")
+                                .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("CLIENT")
+
                                                         //-----------stocks--------//
 
-                                .requestMatchers(HttpMethod.GET, "stocks").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "stocks").hasAnyRole("ADMIN", "CLIENT")
                                 .requestMatchers(HttpMethod.POST,"stocks").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.PUT, "stocks/{id}").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "stocks/{id").hasRole("ADMIN")
 
                                                         //----------products-------//
 
-                                .requestMatchers(HttpMethod.GET, "products").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "products").hasAnyRole("ADMIN", "CLIENT")
                                 .requestMatchers(HttpMethod.POST, "products").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.PUT, "products/{id}").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "products/{id}").hasRole("ADMIN")
 
                                                         //---------orders---------//
 
-                                .requestMatchers(HttpMethod.GET, "orders").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "orders").hasAnyRole("ADMIN", "CLIENT")
                                 .requestMatchers(HttpMethod.POST, "orders").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.PUT, "orders/{id}").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "orders/{id}").hasRole("ADMIN")
 
                                                         //----------invoices--------//
 
-                                //TODO: requestmatchers invoices & warranties voor admin
+                                .requestMatchers(HttpMethod.GET, "invoices").hasAnyRole("ADMIN", "CLIENT")
+                                .requestMatchers(HttpMethod.POST, "invoices").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "invoices/{id}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "invoices/{id}").hasRole("ADMIN")
 
-                                //------------------------------ENDPOINTS USER-----------------------
+                                                        //----------warranties--------//
 
-
-                                //TODO: requestmatchers voor user maken.
-
-
-                                .requestMatchers(HttpMethod.POST, "/authenticate").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET,"/authenticated").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.POST,"/users/**").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
-
-                        //--------------------------------------Endpoint Product-----------------------------
+                                .requestMatchers(HttpMethod.GET, "warranties").hasAnyRole("ADMIN", "CLIENT")
+                                .requestMatchers(HttpMethod.POST, "warranties").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "warranties/{id}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "warranties/{id}").hasRole("ADMIN")
 
 
-
-
-
-                                .requestMatchers("/authenticated").authenticated()
-                                .requestMatchers("/authenticate").permitAll()
+//
+//                                .requestMatchers("/authenticated").authenticated()
+//                                .requestMatchers("/authenticate").permitAll()
                                 .anyRequest().denyAll()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
