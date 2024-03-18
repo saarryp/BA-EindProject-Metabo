@@ -10,6 +10,7 @@ import nl.bitsentools.eindprojectbackendmetabo.models.UserModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.UserRepository;
 import nl.bitsentools.eindprojectbackendmetabo.utils.RandomStringGenerator;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,10 +21,12 @@ import java.util.Set;
 @Service
 public class UserService {
 
-    private final UserRepository userRepository;
+   private final UserRepository userRepository;
+   private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<UserOutputDto> getAllUsers() {
@@ -55,6 +58,8 @@ public class UserService {
     public String createUser(UserInputDto userDto) {
         String randomString = RandomStringGenerator.generateAlphaNumeric(20);
         userDto.setApikey(randomString);
+
+        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         UserModel newUser = userRepository.save(toUser(userDto));
         return newUser.getUserName();
     }
@@ -66,7 +71,7 @@ public class UserService {
     public void updateUser(String username, UserInputDto newUser) {
         if (!userRepository.existsById(username)) throw new RecordNotFoundException();
         UserModel user = userRepository.findById(username).get();
-        user.setPassword(newUser.getPassword());
+        user.setPassword(passwordEncoder.encode(newUser.getPassword()));
         userRepository.save(user);
     }
 
