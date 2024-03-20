@@ -66,8 +66,8 @@ public class SpringSecurityConfig {
 
                                                             //OPEN ENDPOINTS//
 
-                                .requestMatchers("/**").permitAll()
-                                .requestMatchers("/users").permitAll()
+
+                                .requestMatchers(HttpMethod.POST, "/users").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/authenticate").permitAll()
 
 

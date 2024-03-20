@@ -59,7 +59,7 @@ public class JwtUtil {
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) //TODO: de JWT vervalt nu na 24 uur. dig is.
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 30L)) //TODO: de JWT vervalt nu na 24 uur. Nu aangepast naar 30L.
                 .signWith(getSigningKey() ,SignatureAlgorithm.HS256)
                 .compact();
     }

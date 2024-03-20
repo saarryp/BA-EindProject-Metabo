@@ -39,15 +39,15 @@ INSERT INTO invoices ( id,
 
 -- password password
 INSERT INTO users (username, password, email, enabled, api_key, user_details)
-VALUES ('client', '$2a$12$T5NPPjx9FpQTzsnUvOYqPOjOiDqiHA2bSVwDDMZLCUUwiay0vEDVS','user@test.nl',
-        TRUE, 'Key_api_user', 'client Bertus Spoorweglaan 4 Bunnik');
+VALUES ('client', '$2a$12$0c9pyyfDx1Q5ecssPX9XQOGo/0b4ECqEhRZUFoiPjWBDAfqefQAxC','user@test.nl',
+        TRUE, 'Key_Api_User', 'client Bertus Spoorweglaan 4 Bunnik');
 
 INSERT INTO users (username, password, email, enabled, api_key, user_details)
-VALUES ('admin', '$2a$12$T5NPPjx9FpQTzsnUvOYqPOjOiDqiHA2bSVwDDMZLCUUwiay0vEDVS', 'admin@test.nl', TRUE,
+VALUES ('admin', '$2a$12$0c9pyyfDx1Q5ecssPX9XQOGo/0b4ECqEhRZUFoiPjWBDAfqefQAxC', 'admin@test.nl', TRUE,
         'Key_Api_Admin', 'admin1 hoofdkantoor dealing inkoop');
 
 INSERT INTO authorities (id, authority)
-VALUES (1, 'ROLE_CLIENT');
+VALUES (101, 'ROLE_CLIENT');
 
 INSERT INTO authorities (id, authority)
-VALUES (2, 'ROLE_ADMIN');
+VALUES (102, 'ROLE_ADMIN');
