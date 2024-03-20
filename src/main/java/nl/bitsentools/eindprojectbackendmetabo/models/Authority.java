@@ -13,7 +13,7 @@ public class Authority implements Serializable {
 
     @Id
     @Column(nullable = false)
-    private String username;
+    private Long id;
 
     @Id
     @Column(nullable = false)
@@ -21,17 +21,17 @@ public class Authority implements Serializable {
 
     public Authority(){}
 
-    public Authority(String username, String authority) {
-        this.username = username;
+    public Authority(Long id, String authority) {
+        this.id = id;
         this.authority = authority;
     }
 
-    public String getUsername() {
-        return username;
+    public Long getId() {
+        return id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(Long id) {
+        this.id = id;
     }
 
     public String getAuthority() {

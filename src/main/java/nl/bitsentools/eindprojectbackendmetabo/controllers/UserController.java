@@ -44,7 +44,7 @@ public class UserController {
     }
 
 
-    @PostMapping("/create")
+    @PostMapping()
     public ResponseEntity<Object> createUser(@Valid @RequestBody UserInputDto userDto) {
 
             String newUsername = userService.createUser(userDto);

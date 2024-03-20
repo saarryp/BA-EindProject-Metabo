@@ -10,11 +10,11 @@ import java.util.Set;
 public class UserModel {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
     @Column(nullable = false, unique = true)
-    private String userName;
+    private String username;
 
     @Column(nullable = false, length = 255)
     private String password;
@@ -34,7 +34,7 @@ public class UserModel {
 
     @OneToMany(
             targetEntity = Authority.class,
-            mappedBy = "username",
+            mappedBy = "id",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER)
@@ -47,7 +47,7 @@ public class UserModel {
 
     public UserModel(Long id, String userName, String password, boolean enabled, String apiKey, String email, String userDetails, Set<Authority> authorities) {
         this.id = id;
-        this.userName = userName;
+        this.username = userName;
         this.password = password;
         this.enabled = enabled;
         this.apiKey = apiKey;
@@ -64,12 +64,12 @@ public class UserModel {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
     public String getPassword() {

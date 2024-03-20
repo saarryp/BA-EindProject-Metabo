@@ -37,17 +37,17 @@ INSERT INTO invoices ( id,
 
 -------------------------------USERS-------------------------------------------------
 
-
-INSERT INTO users (username, password, email, enabled, apikey, user_details)
-VALUES ('client', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTEyMyIsImlhdCI6MTcwNTUwMTUyNCwiZXhwIjoxNzA1NTg3OTI0fQ.2PpKzwBkcTtgXf_d73nzsomgOX-BEdx83VhWuVp8wi4','user@test.nl',
+-- password password
+INSERT INTO users (username, password, email, enabled, api_key, user_details)
+VALUES ('client', '$2a$12$T5NPPjx9FpQTzsnUvOYqPOjOiDqiHA2bSVwDDMZLCUUwiay0vEDVS','user@test.nl',
         TRUE, 'Key_api_user', 'client Bertus Spoorweglaan 4 Bunnik');
 
-INSERT INTO users (username, password, email, enabled, apikey, user_details)
-VALUES ('admin', '$2a$12$IzA1Ja1LH4PSMoro9PeITO1etDlknPjSX1nLusgt1vi9c1uaEXdEK', 'admin@test.nl', TRUE,
+INSERT INTO users (username, password, email, enabled, api_key, user_details)
+VALUES ('admin', '$2a$12$T5NPPjx9FpQTzsnUvOYqPOjOiDqiHA2bSVwDDMZLCUUwiay0vEDVS', 'admin@test.nl', TRUE,
         'Key_Api_Admin', 'admin1 hoofdkantoor dealing inkoop');
 
-INSERT INTO authorities (username, authority)
-VALUES ('client', 'ROLE_CLIENT');
+INSERT INTO authorities (id, authority)
+VALUES (1, 'ROLE_CLIENT');
 
-INSERT INTO authorities (username, authority)
-VALUES ('admin', 'ROLE_ADMIN');
+INSERT INTO authorities (id, authority)
+VALUES (2, 'ROLE_ADMIN');

@@ -10,7 +10,7 @@ import nl.bitsentools.eindprojectbackendmetabo.models.UserModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.UserRepository;
 import nl.bitsentools.eindprojectbackendmetabo.utils.RandomStringGenerator;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
+import static nl.bitsentools.eindprojectbackendmetabo.config.SpringSecurityConfig.passwordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,11 +22,10 @@ import java.util.Set;
 public class UserService {
 
    private final UserRepository userRepository;
-   private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     public List<UserOutputDto> getAllUsers() {
@@ -40,7 +39,7 @@ public class UserService {
     }
     public UserOutputDto getOneUser(String username) {
         UserOutputDto userOutputDto;
-        Optional<UserModel> user = userRepository.findById(username);
+        Optional<UserModel> user = userRepository.findUserModelByUsername(username);
         if (user.isEmpty()) {
             throw new UsernameNotFoundException(username);
         } else {
@@ -52,47 +51,47 @@ public class UserService {
 
 
     public boolean userExists(String username) {
-        return userRepository.existsById(username);
+        return userRepository.existsUserModelByUsername(username);
     }
 
     public String createUser(UserInputDto userDto) {
         String randomString = RandomStringGenerator.generateAlphaNumeric(20);
         userDto.setApikey(randomString);
 
-        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        userDto.setPassword(passwordEncoder().encode(userDto.getPassword()));
         UserModel newUser = userRepository.save(toUser(userDto));
-        return newUser.getUserName();
+        return newUser.getUsername();
     }
 
     public void deleteUser(String username) {
-        userRepository.deleteById(username);
+        userRepository.deleteUserModelByUsername(username);
     }
 
     public void updateUser(String username, UserInputDto newUser) {
-        if (!userRepository.existsById(username)) throw new RecordNotFoundException();
-        UserModel user = userRepository.findById(username).get();
-        user.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        if (!userRepository.existsUserModelByUsername(username)) throw new RecordNotFoundException();
+        UserModel user = userRepository.findUserModelByUsername(username).get();
+        user.setPassword(passwordEncoder().encode(newUser.getPassword()));
         userRepository.save(user);
     }
 
     public Set<Authority> getAuthorities(String username) {
-        if (!userRepository.existsById(username)) throw new UsernameNotFoundException(username);
-        UserModel user = userRepository.findById(username).get();
+        if (!userRepository.existsUserModelByUsername(username)) throw new UsernameNotFoundException(username);
+        UserModel user = userRepository.findUserModelByUsername(username).get();
         UserOutputDto userDto = fromUser(user);
         return userDto.getAuthority();
     }
 
     public void addAuthority(String username, String authority) {
 
-        if (!userRepository.existsById(username)) throw new UsernameNotFoundException(username);
-        UserModel user = userRepository.findById(username).get();
-        user.addAuthority(new Authority(username, authority));
+        if (!userRepository.existsUserModelByUsername(username)) throw new UsernameNotFoundException(username);
+        UserModel user = userRepository.findUserModelByUsername(username).get();
+        user.addAuthority(new Authority(user.getId(), authority));
         userRepository.save(user);
     }
 
     public void removeAuthority(String username, String authority) {
-        if (!userRepository.existsById(username)) throw new UsernameNotFoundException(username);
-        UserModel user = userRepository.findById(username).get();
+        if (!userRepository.existsUserModelByUsername(username)) throw new UsernameNotFoundException(username);
+        UserModel user = userRepository.findUserModelByUsername(username).get();
         Authority authorityToRemove = user.getAuthorities().stream().filter((a) -> a.getAuthority().equalsIgnoreCase(authority)).findAny().get();
         user.removeAuthority(authorityToRemove);
         userRepository.save(user);
@@ -102,7 +101,8 @@ public class UserService {
 
         var dto = new UserOutputDto();
 
-        dto.username = user.getUserName();
+        dto.id = user.getId();
+        dto.username = user.getUsername();
         dto.password = user.getPassword();
         dto.enabled = user.isEnabled();
         dto.apikey = user.getApiKey();
@@ -117,7 +117,7 @@ public class UserService {
 
         var user = new UserModel();
 
-        user.setUserName(userDto.getUsername());
+        user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
         user.setEnabled(userDto.getEnabled());
         user.setApiKey(userDto.getApikey());

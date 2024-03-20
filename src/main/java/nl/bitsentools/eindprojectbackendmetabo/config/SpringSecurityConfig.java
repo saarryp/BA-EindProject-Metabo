@@ -34,7 +34,7 @@ public class SpringSecurityConfig {
     // PasswordEncoderBean. Deze kun je overal in je applicatie injecteren waar nodig.
     // Je kunt dit ook in een aparte configuratie klasse zetten.
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -67,7 +67,7 @@ public class SpringSecurityConfig {
                                                             //OPEN ENDPOINTS//
 
                                 .requestMatchers("/**").permitAll()
-                                .requestMatchers("/users/create").hasAnyRole("ADMIN", "CLIENT")
+                                .requestMatchers("/users").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/authenticate").permitAll()
 
 
