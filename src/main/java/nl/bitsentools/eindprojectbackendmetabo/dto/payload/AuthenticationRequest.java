@@ -1,9 +1,17 @@
 package nl.bitsentools.eindprojectbackendmetabo.dto.payload;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class AuthenticationRequest {
 
+    @NotBlank(message = "Gebruikersnaam mag niet leeg zijn.")
     private String username;
-    private String password;
+
+    @NotBlank(message = "Wachtwoord mag niet leeg zijn.")
+    @Size(min = 6, message = "Wachtwoord moet minimaal 6 tekens lang zijn.")
+    String password;
 
     public AuthenticationRequest() {
     }

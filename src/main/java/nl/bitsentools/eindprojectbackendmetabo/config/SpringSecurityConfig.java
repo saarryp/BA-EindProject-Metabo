@@ -73,20 +73,19 @@ public class SpringSecurityConfig {
 
                                 //----------------------------ENDPOINTS ADMIN & CLIENT :  USERNAME EN WACHTWOORD -------------------------------
 
-                                .requestMatchers(HttpMethod.POST, "/users").hasAnyRole("ADMIN", "CLIENT")
                                 .requestMatchers(HttpMethod.POST, "/users/{id}/promote").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.GET,"/users").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/users/{id}").hasAnyRole("ADMIN", "CLIENT")
-                                .requestMatchers(HttpMethod.PUT,"/users/{id}").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/users/{id}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/users/{username}").hasAnyRole("ADMIN", "CLIENT")
+                                .requestMatchers(HttpMethod.PUT,"/users/{username}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/users/{username}").hasRole("ADMIN")
 
                                 //----------------------------ENDPOINTS AUTHENTICATIE---------------------------------
 
                                 .requestMatchers("/authenticated").authenticated()
                                 .requestMatchers("/authenticate").permitAll()
 
-                                .requestMatchers(HttpMethod.POST, "/users/{id}/password").authenticated()
-                                .requestMatchers(HttpMethod.POST, "/users/{id}").hasRole("CLIENT")
+//                                .requestMatchers(HttpMethod.POST, "/users/{id}/password").authenticated()
+//                                .requestMatchers(HttpMethod.POST, "/users/{id}").hasRole("CLIENT")
                                 .requestMatchers(HttpMethod.DELETE, "/users/{id}").hasRole("CLIENT")
 
                                                         //-----------stocks--------//
@@ -106,8 +105,8 @@ public class SpringSecurityConfig {
                                                         //---------orders---------//
 
                                 .requestMatchers(HttpMethod.GET, "orders").hasAnyRole("ADMIN", "CLIENT")
-                                .requestMatchers(HttpMethod.POST, "orders").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.PUT, "orders/{id}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "orders").hasAnyRole("ADMIN", "CLIENT")
+                                .requestMatchers(HttpMethod.PUT, "orders/{id}").hasAnyRole("ADMIN", "CLIENT")
                                 .requestMatchers(HttpMethod.DELETE, "orders/{id}").hasRole("ADMIN")
 
                                                         //----------invoices--------//

@@ -2,15 +2,28 @@ package nl.bitsentools.eindprojectbackendmetabo.dto.order;
 
 import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class OrderInputDto {
     //deze input beperkt omdat USER GEEN AANPASSINGEN MAG DOEN IN BEPAALDE ONDERDELEN VAN DE GEGEVENS.
     //nog even aan het bomen of de ADmin hier wel een andere rol in krijgt.
+    @NotBlank(message = "E-mailadres van gebruiker is verplicht.")
     public String userEmail;
+
+    @NotBlank(message = "Gebruikersgegevens zijn verplicht.")
     public String userDetails;
+    @NotNull(message = "Bestelnummer is verplicht")
     public int orderNumber;
 
+    @NotNull(message = "Productnummer is verplicht")
     public Long productNumber;
+
+    @NotNull(message = "prijs is verplicht")
     public double price;
+
+    @Min(value = 1, message = "er moet minimaal 1 prodct worden besteld.")
     public int quantity;
     public InvoiceModel invoiceModel;
 

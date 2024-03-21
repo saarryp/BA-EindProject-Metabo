@@ -2,24 +2,36 @@ package nl.bitsentools.eindprojectbackendmetabo.dto.order;
 
 import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class OrderOutputDto {
 
     public Long id;
 
+    @NotNull(message = "Gebruikers-Id is verplicht")
     public int userId;
 
+    @NotBlank(message = "E-mailadres van gebruiker is verplicht")
     public String userEmail;
 
+    @NotBlank(message = "Leveringsadres van gebruiker is verplicht")
     public String userDetails;
 
+    @NotNull(message = "Bestelnummer is verplicht")
     public int orderNumber;
 
     public List<Object> productDto;
+
+    @NotNull(message = "Prijs is verplicht")
     public double price;
+
+    @Min(value = 1, message = "Aantal producten van minimum 1 is verplicht")
     public int quantity;
 
+    @NotNull(message = "Totaalprijs van alle bestelde prodcten is verplicht")
     public double totalPriceOrder;
     public InvoiceModel invoiceModel;
 

@@ -5,31 +5,40 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.Date;
 
 public class StockOutputDto {
 
 public Long id;
 
+@NotBlank(message = "Merknaam toevoegen is verplicht.")
 public String brandName;
 
-  public String productName;
+@NotBlank(message = "Productnaam toevoegen is verplicht.")
+public String productName;
 
+@PositiveOrZero(message = "Productnummer moet een positief getal of 0  zijn")
 public int productNumber;
   @Enumerated(EnumType.STRING)
 public TypeOfMachine typeOfMachine;
 
-   public int productInStock;
+  @PositiveOrZero(message = "Producten op voorraad moet minimaal 0 of groter zijn.")
+  public int productInStock;
 
   public Date orderPlacedDate;
 
 
     public int weeksToDelivery;
 
-
+    @PositiveOrZero(message = "Aantal verkochte producten moet 0 of meer zijn.")
     public int productSold;
 
+   @PositiveOrZero(message = "Aantal producten op voorraad moet minimaal 0 of meer zijn.")
     public int quantityInStock;
+
 
     public boolean outOfStock;
 

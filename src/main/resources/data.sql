@@ -47,7 +47,7 @@ VALUES ('admin', '$2a$12$0c9pyyfDx1Q5ecssPX9XQOGo/0b4ECqEhRZUFoiPjWBDAfqefQAxC',
         'Key_Api_Admin', 'admin1 hoofdkantoor dealing inkoop');
 
 INSERT INTO authorities (id, authority)
-VALUES (101, 'ROLE_CLIENT');
+VALUES (1, 'ROLE_CLIENT');
 
 INSERT INTO authorities (id, authority)
-VALUES (102, 'ROLE_ADMIN');
+VALUES (2, 'ROLE_ADMIN');

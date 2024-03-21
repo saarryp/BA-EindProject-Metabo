@@ -1,22 +1,36 @@
 package nl.bitsentools.eindprojectbackendmetabo.dto.invoice;
 
 import jakarta.persistence.*;
+import org.aspectj.weaver.ast.Not;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
 
 public class InvoiceInputDto {
 
-
+         @NotNull(message = "Factuurnummer is verplicht")
         public String invoiceId;
 
+
+        @NotBlank(message = "Productnaam is verplicht")
         public String productName;
 
+        @NotNull(message = "Totaalprijs is verplicht.")
+        @PositiveOrZero(message = "Totaalprijs moet positief of 0 zijn.")
         public double totalPrice;
 
+        @PositiveOrZero(message = "BTW-tarief (hoog) moet positief of nul zijn.")
         public double vat21ProductPrice;
 
+        @PositiveOrZero(message = "BTW-tarief (laag) moet positief of 0 zijn.")
         public double vat9ProductPrice;
+
+        @NotNull(message = "Totaalprijs zonder BTW is verplicht")
         public double netPriceWithoutVat;
+
+
         public double vatRate;
 
         public double vatAmount;
