@@ -9,6 +9,7 @@ import org.postgresql.util.PSQLException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -56,5 +57,11 @@ public class ExceptionController {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ResponseEntity<Object>handleBadCredentials(BadCredentialsException badCredentials) {
         return new ResponseEntity<>(badCredentials.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Object>handleBadValidations(MethodArgumentNotValidException methodArgumentNotValidException){
+        return new ResponseEntity<>(methodArgumentNotValidException.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
