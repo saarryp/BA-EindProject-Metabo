@@ -71,23 +71,27 @@ public class SpringSecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/authenticate").permitAll()
 
 
-                                //----------------------------ENDPOINTS ADMIN-------------------------------
+                                //----------------------------ENDPOINTS ADMIN & CLIENT :  USERNAME EN WACHTWOORD -------------------------------
 
-                                .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/users").hasAnyRole("ADMIN", "CLIENT")
+                                .requestMatchers(HttpMethod.POST, "/users/{id}/promote").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.GET,"/users").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.POST,"/users/**").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/users/{id}").hasAnyRole("ADMIN", "CLIENT")
+                                .requestMatchers(HttpMethod.PUT,"/users/{id}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/users/{id}").hasRole("ADMIN")
 
-                                //----------------------------ENDPOINTS CLIENT-----------------------------------
+                                //----------------------------ENDPOINTS AUTHENTICATIE---------------------------------
 
-                                .requestMatchers(HttpMethod.POST, "/users").hasRole("CLIENT")
-                                .requestMatchers(HttpMethod.GET, "/users").hasRole("CLIENT")
-                                .requestMatchers(HttpMethod.POST, "/users/**").hasRole("CLIENT")
-                                .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("CLIENT")
+                                .requestMatchers("/authenticated").authenticated()
+                                .requestMatchers("/authenticate").permitAll()
+
+                                .requestMatchers(HttpMethod.POST, "/users/{id}/password").authenticated()
+                                .requestMatchers(HttpMethod.POST, "/users/{id}").hasRole("CLIENT")
+                                .requestMatchers(HttpMethod.DELETE, "/users/{id}").hasRole("CLIENT")
 
                                                         //-----------stocks--------//
 
-                                .requestMatchers(HttpMethod.GET, "stocks").hasAnyRole("ADMIN", "CLIENT")
+                                .requestMatchers(HttpMethod.GET, "stocks").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.POST,"stocks").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.PUT, "stocks/{id}").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "stocks/{id").hasRole("ADMIN")
@@ -121,9 +125,7 @@ public class SpringSecurityConfig {
                                 .requestMatchers(HttpMethod.DELETE, "warranties/{id}").hasRole("ADMIN")
 
 
-//
-//                                .requestMatchers("/authenticated").authenticated()
-//                                .requestMatchers("/authenticate").permitAll()
+
                                 .anyRequest().denyAll()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

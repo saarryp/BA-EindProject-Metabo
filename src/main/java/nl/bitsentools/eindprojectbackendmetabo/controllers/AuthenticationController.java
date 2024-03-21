@@ -5,7 +5,6 @@ import nl.bitsentools.eindprojectbackendmetabo.dto.payload.AuthenticationRequest
 import nl.bitsentools.eindprojectbackendmetabo.dto.payload.AuthenticationResponse;
 import nl.bitsentools.eindprojectbackendmetabo.services.CustomUserDetailService;
 import nl.bitsentools.eindprojectbackendmetabo.utils.JwtUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,7 +25,7 @@ public class AuthenticationController {
 
     private final JwtUtil jwtUtl;
 
-
+// eerst gebruiker aanmaken, dan token opvragen
     public AuthenticationController(
             AuthenticationManager authenticationManager, CustomUserDetailService userDetailsService,
             JwtUtil jwtUtl) {

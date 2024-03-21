@@ -48,7 +48,7 @@ public class UserController {
     public ResponseEntity<Object> createUser(@Valid @RequestBody UserInputDto userDto) {
 
             String newUsername = userService.createUser(userDto);
-            userService.addAuthority(newUsername, "ROLE_USER");
+            userService.addAuthority(newUsername, "ROLE_CLIENT");
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{username}")

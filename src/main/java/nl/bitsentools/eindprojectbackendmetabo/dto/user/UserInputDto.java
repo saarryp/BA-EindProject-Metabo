@@ -4,6 +4,8 @@ import nl.bitsentools.eindprojectbackendmetabo.models.Authority;
 
 import java.util.Set;
 
+//TODO: validatie toevoegen of product aanmaken prijs naam etc als dat niet imee is gegegevn wat doe je dan?
+
 public class UserInputDto {
 
 
