@@ -38,7 +38,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> createProduct(@RequestBody ProductInputDto productInputDto) {
+    public ResponseEntity<Object> createProduct(@Valid @RequestBody ProductInputDto productInputDto) {
 
     Object savedProduct = productService.createProduct(productInputDto);
 

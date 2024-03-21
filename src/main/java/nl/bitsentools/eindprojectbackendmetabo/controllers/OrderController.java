@@ -37,7 +37,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderOutputDto>createOrder(@RequestBody OrderInputDto orderInputDto) {
+    public ResponseEntity<OrderOutputDto>createOrder(@Valid @RequestBody OrderInputDto orderInputDto) {
 
        OrderOutputDto savedOrder = orderService.createOrder(orderInputDto);
 

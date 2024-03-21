@@ -89,7 +89,7 @@ public class UserController {
         }
 
     @PostMapping(value = "/{username}/authorities")
-    public ResponseEntity<Object> addUserAuthority(@PathVariable("username") String username, @RequestBody Map<String, Object> fields) {
+    public ResponseEntity<Object> addUserAuthority(@PathVariable("username") String username, @Valid @RequestBody Map<String, Object> fields) {
         try {
             String autorityName = (String) fields.get("authorities");
             userService.addAuthority(username, autorityName);
@@ -99,7 +99,7 @@ public class UserController {
         }
     }
     @PutMapping(value = "/{username}")
-    public ResponseEntity<String> updateUser(@Valid @PathVariable("username") String username, @RequestBody UserInputDto dto) {
+    public ResponseEntity<String> updateUser( @PathVariable("username") String username,@Valid @RequestBody UserInputDto dto) {
             userService.updateUser(username, dto);
 
             return ResponseEntity.ok().body("user updated");
