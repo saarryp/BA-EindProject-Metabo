@@ -122,6 +122,7 @@ public class UserService {
         user.setEnabled(userDto.getEnabled());
         user.setApiKey(userDto.getApikey());
         user.setEmail(userDto.getEmail());
+        user.setUserDetails(userDto.getUserDetails());
 
         return user;
     }

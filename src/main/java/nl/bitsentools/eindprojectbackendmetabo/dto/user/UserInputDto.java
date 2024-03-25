@@ -7,8 +7,6 @@ import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
-//TODO: validatie toevoegen of product aanmaken prijs naam etc als dat niet imee is gegegevn wat doe je dan?
-
 public class UserInputDto {
 
     @NotBlank(message = "Username is verplicht.")
