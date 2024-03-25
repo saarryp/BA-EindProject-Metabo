@@ -14,15 +14,20 @@ public class ImageData {
     @Lob
     private byte[] imageData;
 
+    //KN NATUURLIJK OOK EEN MANYTOONE, want meerdere foto's gekoppeld aan 1 product, maar andersoom is maar 1 product gekoppeld aan bepaalde foto's.
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private UserModel user;
+    @JoinColumn(name = "produc_id", referencedColumnName = "id")
+    private ProductModel productModel;
 
-    public ImageData(String name, String type, byte[] imageData, UserModel user) {
+    public ImageData(){
+
+    }
+
+    public ImageData(String name, String type, byte[] imageData, ProductModel productModel) {
         this.name = name;
         this.type = type;
         this.imageData = imageData;
-        this.user = user;
+        this.productModel = productModel;
     }
 
     public Long getId() {
@@ -57,11 +62,11 @@ public class ImageData {
         this.imageData = imageData;
     }
 
-    public UserModel getUser() {
-        return user;
+    public ProductModel getProductModel() {
+        return productModel;
     }
 
-    public void setUser(UserModel user) {
-        this.user = user;
+    public void setProductModel(ProductModel productModel) {
+        this.productModel = productModel;
     }
 }

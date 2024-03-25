@@ -16,7 +16,7 @@ public class ProductModel {
 @GeneratedValue
 @Column
 
-   private Long id;
+private Long id;
 @Column
     private String brandName;
 @Column
@@ -39,6 +39,9 @@ public class ProductModel {
     @ManyToMany
             (mappedBy = "productModel")
     List< OrderModel> orderModel = new ArrayList<>();
+
+    @OneToOne(mappedBy = "product_id")
+    private ImageData imageData;
 
 
     public ProductModel(){}
@@ -129,6 +132,14 @@ public class ProductModel {
 
     public void setOrderModel(List<OrderModel> orderModel) {
         this.orderModel = orderModel;
+    }
+
+    public ImageData getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(ImageData imageData) {
+        this.imageData = imageData;
     }
 }
 

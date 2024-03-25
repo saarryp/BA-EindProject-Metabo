@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.imageio.IIOException;
+import java.io.IOException;
+
 
 @RestControllerAdvice
 public class ExceptionController {
@@ -64,4 +67,11 @@ public class ExceptionController {
     public ResponseEntity<Object>handleBadValidations(MethodArgumentNotValidException methodArgumentNotValidException){
         return new ResponseEntity<>(methodArgumentNotValidException.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(value = IOException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public ResponseEntity<Object> handleProblem(IOException ioException) {
+        return new ResponseEntity<>(ioException.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
 }
