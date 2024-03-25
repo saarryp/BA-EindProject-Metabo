@@ -41,7 +41,7 @@ public class WarrantyController {
     //post
 
     @PostMapping
-    public ResponseEntity<WarrantyOutputDto>createWarranty(@RequestBody WarrantyInputDto warrantyInputDto){
+    public ResponseEntity<WarrantyOutputDto>createWarranty(@Valid @RequestBody WarrantyInputDto warrantyInputDto){
         WarrantyOutputDto savedWarranty = warrantyService.createWarranty(warrantyInputDto);
 
         URI uri = URI.create(

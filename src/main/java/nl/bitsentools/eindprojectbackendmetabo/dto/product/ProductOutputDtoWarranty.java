@@ -4,19 +4,35 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class ProductOutputDtoWarranty {
 
         public Long id;
-        public String brandName;
 
-        public String productName;
+    @NotBlank(message = "Merknaam is niet ingevoerd.")
+    public String brandName;
 
-        public int productNumber;
-        public double price;
-        public boolean hasWarranty;
-        public int warrantyInMonths;
-        @Enumerated(EnumType.STRING)
-        public TypeOfMachine typeOfMachine;
+    @NotBlank(message = "Productnaam is niet ingevoerd")
+    public String productName;
+
+    @NotBlank(message = "Het productnummer moet ingevoerd zijn.")
+    @NotNull(message = "Het productnummer moet groter dan 0 zijn.")
+    public int productNumber;
+
+    @NotNull(message = "De prijs moet zijn ingevoerd.")
+    public double price;
+    public boolean hasWarranty;
+
+    @NotNull(message = "Garantie heeft een minimum waarde die 0 of groter is.")
+    public int warrantyInMonths;
+
+    @NotBlank(message = "Het type machine is niet ingevoerd.")
+    @Enumerated(EnumType.STRING)
+    public TypeOfMachine typeOfMachine;
+
+
 
         //default constructor
 

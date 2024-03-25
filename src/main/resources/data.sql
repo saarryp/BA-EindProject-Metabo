@@ -1,8 +1,8 @@
 -------------------------------PRODUCTS----------------------------------------------
 
-INSERT INTO products(id, brand_name, product_name, price, type_of_machine, product_warranty, warranty_in_months)
-values (101,'test', 'testName',300, 'SCHUURMACHINE',true, 5 ),
-       (102, 'test2', 'testname2', 60, 'ZAAGMACHINE', false, 0);
+INSERT INTO products(id, brand_name, product_name, product_number, price, type_of_machine, product_warranty, warranty_in_months)
+values (101,'test', 'testName',1, 300, 'SCHUURMACHINE',true, 5 ),
+       (102, 'test2', 'testname2', 2,  60, 'ZAAGMACHINE', false, 0);
 
 -------------------------------ORDERS--------------------------------------
 
@@ -17,7 +17,13 @@ INSERT INTO warranties(id, product_number, warranty_start, warranty_ends)
 VALUES (101, 1, '2024-05-17', '2025-07-17'),
        (102, 2, '2023-12-24', '2026-01-01');
 
-
+----------------------------------STOCKS--------------------------------------------------
+INSERT INTO stocks(id,brand_name, product_name, product_number, type_of_machine,
+                   product_in_stock, order_placed_date, weeks_to_delivery, product_sold, quantity_in_stock, out_of_stock)
+VALUES (101, 'Metabo', 'Metabo Schuurmachine Z234', 987654, 'SCHUURMACHINE',
+        15, '2024-03-12', 0, 5, 25, FALSE),
+        (102, 'Metabo', 'Metabo schroefmachine S123', 12345, 'SCHROEFMACHINE',
+         5, '2024-01-01', 2, 15, 7,'True');
 
 ---------------------------------INVOICE----------------------------------------------------
 
@@ -35,4 +41,19 @@ INSERT INTO invoices ( id,
          );
 
 
--------------------------------USERS---------------------------------------------------
+-------------------------------USERS-------------------------------------------------
+
+-- password password
+INSERT INTO users (username, password, email, enabled, api_key, user_details)
+VALUES ('client', '$2a$12$0c9pyyfDx1Q5ecssPX9XQOGo/0b4ECqEhRZUFoiPjWBDAfqefQAxC','user@test.nl',
+        TRUE, 'Key_Api_User', 'client Bertus Spoorweglaan 4 Bunnik');
+
+INSERT INTO users (username, password, email, enabled, api_key, user_details)
+VALUES ('admin', '$2a$12$0c9pyyfDx1Q5ecssPX9XQOGo/0b4ECqEhRZUFoiPjWBDAfqefQAxC', 'admin@test.nl', TRUE,
+        'Key_Api_Admin', 'admin1 hoofdkantoor dealing inkoop');
+
+INSERT INTO authorities (id, authority)
+VALUES (1, 'ROLE_CLIENT');
+
+INSERT INTO authorities (id, authority)
+VALUES (2, 'ROLE_ADMIN');

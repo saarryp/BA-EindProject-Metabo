@@ -4,29 +4,36 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 public class StockInputDto {
 
-
+        @NotBlank(message = "Merknaam moet ingevuld zijn.")
         public String brandName;
 
+        @NotBlank(message = "Productnaam moet ingevuld zijn.")
         public String productName;
 
+        @Min(value = 1, message = "Productnummer moet groter dan 0 zijn.")
         public int productNumber;
+        @NotBlank(message = "Type machine mag niet leeg zijn.")
         @Enumerated(EnumType.STRING)
         public TypeOfMachine typeOfMachine;
 
+        @Min(value = 0, message = "Voorraad moet 0 of groter zijn.")
         public int productInStock;
 
         public Date orderPlacedDate;
 
-
+        @Min(value = 0, message = "Aantal weken voor levering moet 0 of groter zijn.")
         public int weeksToDelivery;
 
-
+        @Min(value = 0, message = "Aantalverkochte producten moet minimaal 0 of meer zijn.")
         public int productSold;
 
+        @Min(value= 0, message = "Aantal producten op voorraad moet minimaal 0 of meer zijn.")
         public int quantityInStock;
 
         public boolean outOfStock;

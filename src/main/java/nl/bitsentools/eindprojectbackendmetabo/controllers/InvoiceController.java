@@ -39,7 +39,7 @@ public class InvoiceController {
     }
 
     @PostMapping
-    public ResponseEntity<InvoiceOutputDto>createInvoice(@RequestBody InvoiceInputDto invoiceInputDto) {
+    public ResponseEntity<InvoiceOutputDto>createInvoice(@Valid @RequestBody InvoiceInputDto invoiceInputDto) {
 
         InvoiceOutputDto savedInvoice = invoiceService.createInvoice(invoiceInputDto);
 

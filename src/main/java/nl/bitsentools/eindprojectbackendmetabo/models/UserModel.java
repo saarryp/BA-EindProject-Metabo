@@ -9,32 +9,22 @@ import java.util.Set;
 @Table(name = "users")
 public class UserModel {
 
-
-    @GeneratedValue
     @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
     @Column(nullable = false, unique = true)
-    private String userName;
+    private String username;
 
     @Column(nullable = false, length = 255)
     private String password;
-
-//    @OneToMany(
-//            targetEntity = Authority.class,
-//            mappedBy = "username",
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true,
-//            fetch = FetchType.EAGER)
-//    private Set<Authority> authorities = new HashSet<>();
-
 
     @Column(nullable = false)
     private boolean enabled = true;
     //zachte uitschakeling van bijvoorbeeld een user. Mocht deze zich uitschriven van een account, dan blijven de invoices wel bestaan als deze op enabled = false wordt gezet
 
     @Column
-    private  String apiKey;
+    private String apiKey;
 
     @Column
     private String email;
@@ -42,7 +32,29 @@ public class UserModel {
     @Column
     private String userDetails;
 
-    public UserModel(){}
+    @OneToMany(
+            targetEntity = Authority.class,
+            mappedBy = "id",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER)
+
+    private Set<Authority> authorities = new HashSet<>();
+
+
+    public UserModel() {
+    }
+
+    public UserModel(Long id, String userName, String password, boolean enabled, String apiKey, String email, String userDetails, Set<Authority> authorities) {
+        this.id = id;
+        this.username = userName;
+        this.password = password;
+        this.enabled = enabled;
+        this.apiKey = apiKey;
+        this.email = email;
+        this.userDetails = userDetails;
+        this.authorities = authorities;
+    }
 
     public Long getId() {
         return id;
@@ -52,12 +64,12 @@ public class UserModel {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
     public String getPassword() {
@@ -100,4 +112,20 @@ public class UserModel {
         this.userDetails = userDetails;
     }
 
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void addAuthority(Authority authority) {
+        this.authorities.add(authority);
+    }
+
+    public void removeAuthority(Authority authority) {
+        this.authorities.remove(authority);
+    }
+
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
 }
