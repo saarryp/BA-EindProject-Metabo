@@ -31,6 +31,8 @@ public class ProductOutputDto {
     @Enumerated(EnumType.STRING)
     public TypeOfMachine typeOfMachine;
 
+    public String defaultImageBase64;
+
     //default constructor
 
     public ProductOutputDto() {
@@ -82,5 +84,13 @@ public class ProductOutputDto {
 
     public void setTypeOfMachine(TypeOfMachine typeOfMachine) {
         this.typeOfMachine = typeOfMachine;
+    }
+
+    public String getDefaultImageBase64() {
+        return defaultImageBase64;
+    }
+
+    public void setDefaultImageBase64(String defaultImageBase64) {
+        this.defaultImageBase64 = defaultImageBase64;
     }
 }

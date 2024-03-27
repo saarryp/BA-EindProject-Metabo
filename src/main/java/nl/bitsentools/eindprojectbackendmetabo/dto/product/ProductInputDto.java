@@ -3,6 +3,7 @@ package nl.bitsentools.eindprojectbackendmetabo.dto.product;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.*;
 
@@ -30,5 +31,7 @@ public class ProductInputDto {
     @NotBlank(message = "Type machine moet worden ingevoerd.")
     @Enumerated(EnumType.STRING)
    public TypeOfMachine typeOfMachine;
+
+    public MultipartFile imageFile;
 
 }

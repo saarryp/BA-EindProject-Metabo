@@ -1,7 +1,7 @@
 -------------------------------PRODUCTS----------------------------------------------
 
 INSERT INTO products(id, brand_name, product_name, product_number, price, type_of_machine, product_warranty, warranty_in_months)
-values (101,'test', 'testName',1, 300, 'SCHUURMACHINE',true, 5 ),
+values (101,'test', 'testName',1, 300, 'SCHUURMACHINE',true, 5),
        (102, 'test2', 'testname2', 2,  60, 'ZAAGMACHINE', false, 0);
 
 -------------------------------ORDERS--------------------------------------

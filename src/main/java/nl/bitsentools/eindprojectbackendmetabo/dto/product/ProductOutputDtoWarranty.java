@@ -32,6 +32,8 @@ public class ProductOutputDtoWarranty {
     @Enumerated(EnumType.STRING)
     public TypeOfMachine typeOfMachine;
 
+    public String defaultImageBase64;
+
 
 
         //default constructor
@@ -44,7 +46,9 @@ public class ProductOutputDtoWarranty {
             return id;
         }
 
-    public ProductOutputDtoWarranty(Long id, String brandName, String productName, int productNumber, double price, boolean hasWarranty, int warrantyInMonths, TypeOfMachine typeOfMachine) {
+
+    public ProductOutputDtoWarranty(Long id, String brandName, String productName, int productNumber, double price, boolean hasWarranty,
+                                    int warrantyInMonths, TypeOfMachine typeOfMachine, String defaultImageBase64) {
         this.id = id;
         this.brandName = brandName;
         this.productName = productName;
@@ -53,6 +57,7 @@ public class ProductOutputDtoWarranty {
         this.hasWarranty = hasWarranty;
         this.warrantyInMonths = warrantyInMonths;
         this.typeOfMachine = typeOfMachine;
+        this.defaultImageBase64 = defaultImageBase64;
     }
 
     public void setId(Long id) {
@@ -115,5 +120,19 @@ public class ProductOutputDtoWarranty {
         this.warrantyInMonths = warrantyInMonths;
     }
 
+    public boolean isHasWarranty() {
+        return hasWarranty;
+    }
 
+    public void setHasWarranty(boolean hasWarranty) {
+        this.hasWarranty = hasWarranty;
+    }
+
+    public String getDefaultImageBase64() {
+        return defaultImageBase64;
+    }
+
+    public void setDefaultImageBase64(String defaultImageBase64) {
+        this.defaultImageBase64 = defaultImageBase64;
+    }
 }

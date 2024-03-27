@@ -89,8 +89,9 @@ public class SpringSecurityConfig {
 
                                                         //----------products-------//
 
-                                .requestMatchers(HttpMethod.GET, "products").hasAnyRole("ADMIN", "CLIENT")
+                                .requestMatchers(HttpMethod.GET, "products").permitAll()
                                 .requestMatchers(HttpMethod.POST, "products").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "products/{id}/*").hasAnyRole("ADMIN","CLIENT")
                                 .requestMatchers(HttpMethod.PUT, "products/{id}").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "products/{id}").hasRole("ADMIN")
 
