@@ -1,6 +1,9 @@
 package nl.bitsentools.eindprojectbackendmetabo.models;
 
 import jakarta.persistence.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Entity
 @Table(name= "image_data")
@@ -18,6 +21,7 @@ public class ImageData {
     @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private ProductModel productModel;
+
 
     public ImageData(){
     }
