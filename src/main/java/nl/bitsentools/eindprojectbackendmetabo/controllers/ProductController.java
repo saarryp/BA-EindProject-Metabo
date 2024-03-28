@@ -70,15 +70,15 @@ public class ProductController {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
-    @PostMapping("/{id}/default-image")
-    public ResponseEntity<Object>uploadDefaultImage(@PathVariable("id")Long id, @RequestParam("file")MultipartFile file){
-        try {
-            productService.uploadDefaultImage(id, file);
-            return ResponseEntity.ok("Default image uploaded successfully");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload default image");
-        }
-    }
+//    @PostMapping("/{id}/default-image")
+//    public ResponseEntity<Object>uploadDefaultImage(@PathVariable("id")Long id, @RequestParam("file")MultipartFile file){
+//        try {
+//            productService.uploadDefaultImage(id, file);
+//            return ResponseEntity.ok("Default image uploaded successfully");
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload default image");
+//        }
+//    }
 
     }
 

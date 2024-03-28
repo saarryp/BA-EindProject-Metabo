@@ -80,25 +80,25 @@ public class ProductService {
         }
     }
 
-    //afbeeldingen toevoegen
-    public void uploadDefaultImage(Long productId, MultipartFile file) throws IOException {
-        ProductModel product = productRepository.findById(productId)
-                .orElseThrow(() -> new RecordNotFoundException("Product not found"));
-
-        // Convert the image to Base64
-        String base64Image = convertImageToBase64(file);
-
-        // Set the Base64 image to the product
-        product.setDefaultImageBase64(base64Image);
-
-        // Save the updated product
-        productRepository.save(product);
-    }
-
-    private String convertImageToBase64(MultipartFile file) throws IOException, IOException {
-        byte[] bytes = file.getBytes();
-        return Base64.getEncoder().encodeToString(bytes);
-    }
+//    //afbeeldingen toevoegen
+//    public void uploadDefaultImage(Long productId, MultipartFile file) throws IOException {
+//        ProductModel product = productRepository.findById(productId)
+//                .orElseThrow(() -> new RecordNotFoundException("Product not found"));
+//
+//        // Convert the image to Base64
+//        String base64Image = convertImageToBase64(file);
+//
+//        // Set the Base64 image to the product
+//        product.setDefaultImageBase64(base64Image);
+//
+//        // Save the updated product
+//        productRepository.save(product);
+//    }
+//
+//    private String convertImageToBase64(MultipartFile file) throws IOException, IOException {
+//        byte[] bytes = file.getBytes();
+//        return Base64.getEncoder().encodeToString(bytes);
+//    }
 
 
     //PUT
@@ -155,7 +155,7 @@ public class ProductService {
         dto.setTypeOfMachine(product.getTypeOfMachine());
         dto.setWarranty(product.isProductWarranty());
         dto.setWarrantyInMonths(product.getWarrantyInMonths());
-        dto.setDefaultImageBase64(product.getDefaultImageBase64());
+//        dto.setDefaultImageBase64(product.getDefaultImageBase64());
 
 
         return dto;

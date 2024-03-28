@@ -41,15 +41,16 @@ private Long id;
     List< OrderModel> orderModel = new ArrayList<>();
 
 
-    @Lob
-    private String defaultImageBase64;
-//    @OneToMany(mappedBy = "productModel", cascade = CascadeType.ALL)
-//    private List<ImageData> imageData;
+//    @Lob
+//    private String defaultImageBase64;
+    @OneToMany(mappedBy = "productModel", cascade = CascadeType.ALL)
+    private List<ImageData> imageData;
 
 
     public ProductModel(){}
 
-    public ProductModel(Long id, String brandName, String productName, int productNumber, double price, TypeOfMachine typeOfMachine, boolean productWarranty, int warrantyInMonths, List<OrderModel> orderModel, String defaultImageBase64) {
+
+    public ProductModel(Long id, String brandName, String productName, int productNumber, double price, TypeOfMachine typeOfMachine, boolean productWarranty, int warrantyInMonths, List<OrderModel> orderModel, List<ImageData>imageData) {
         this.id = id;
         this.brandName = brandName;
         this.productName = productName;
@@ -59,21 +60,9 @@ private Long id;
         this.productWarranty = productWarranty;
         this.warrantyInMonths = warrantyInMonths;
         this.orderModel = orderModel;
-        this.defaultImageBase64 = defaultImageBase64;
-//        this.imageData = imageData;
+//        this.defaultImageBase64 = defaultImageBase64;
+        this.imageData = imageData;
     }
-
-//    public ProductModel(Long id, String brandName, String productName, int productNumber, double price, TypeOfMachine typeOfMachine, boolean productWarranty, int warrantyInMonths) {
-//        this.id = id;
-//        this.brandName = brandName;
-//        this.productName = productName;
-//        this.productNumber = productNumber;
-//        this.price = price;
-//        this.typeOfMachine = typeOfMachine;
-//        this.productWarranty = productWarranty;
-//        this.warrantyInMonths = warrantyInMonths;
-//    }
-
 
 
 
@@ -149,20 +138,20 @@ private Long id;
         this.orderModel = orderModel;
     }
 
-//    public List<ImageData> getImageData() {
-//        return imageData;
+    public List<ImageData> getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(List<ImageData> imageData) {
+        this.imageData = imageData;
+    }
+
+//    public String getDefaultImageBase64() {
+//        return defaultImageBase64;
 //    }
 //
-//    public void setImageData(List<ImageData> imageData) {
-//        this.imageData = imageData;
+//    public void setDefaultImageBase64(String defaultImageBase64) {
+//        this.defaultImageBase64 = defaultImageBase64;
 //    }
-
-    public String getDefaultImageBase64() {
-        return defaultImageBase64;
-    }
-
-    public void setDefaultImageBase64(String defaultImageBase64) {
-        this.defaultImageBase64 = defaultImageBase64;
-    }
 }
 
