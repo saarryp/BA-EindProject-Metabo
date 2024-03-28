@@ -1,6 +1,5 @@
 package nl.bitsentools.eindprojectbackendmetabo.services;
 
-import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.ImageData;
 import nl.bitsentools.eindprojectbackendmetabo.models.ProductModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.ImageDataRepository;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,33 +30,24 @@ public class ImageDataService {
         ImageData imageData = new ImageData();
         imageData.setName(multipartFile.getName());
         imageData.setType(multipartFile.getContentType());
-        imageData.setImageData(ImageUtil.compressImage(multipartFile.getBytes()));
+        imageData.setImageData(
+                multipartFile.getBytes());
         imageData.setProductModel(product1);
 
         ImageData savedImage = imageDataRepository.save(imageData);
         product1.setImageData((List<ImageData>) savedImage);
         productRepository.save(product1);
 
+
         return savedImage.getName();
     }
 
-//
-public List<byte[]> downloadImages(Long id) throws IOException {
-    Optional<ProductModel> productOptional = productRepository.findById(id);
-    if (productOptional.isPresent()) {
-        ProductModel product = productOptional.get();
-        List<byte[]> imageBytesList = new ArrayList<>();
-        List<ImageData> imageDataList = product.getImageData();
-        for (ImageData imageData : imageDataList) {
-            byte[] imageDataBytes = ImageUtil.decompressImage(imageData.getImageData());
-            imageBytesList.add(imageDataBytes);
-        }
-        return imageBytesList;
-    } else {
-        throw new RecordNotFoundException("Product not found with ID: " + id);
+    public byte[] downloadImage(Long id) throws IOException{
+        Optional<ProductModel>  product = productRepository.findById(id);
+        ProductModel product1 = product.get();
+        List<ImageData> imageData = product1.getImageData();
+        return ImageUtil.decompressImage(imageData.getImageData());
     }
-}
-
 
 
 

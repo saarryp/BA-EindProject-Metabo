@@ -138,7 +138,6 @@ private Long id;
         this.orderModel = orderModel;
     }
 
-
     public List<ImageData> getImageData() {
         return imageData;
     }
@@ -146,7 +145,6 @@ private Long id;
     public void setImageData(List<ImageData> imageData) {
         this.imageData = imageData;
     }
-
 
 //    public String getDefaultImageBase64() {
 //        return defaultImageBase64;
