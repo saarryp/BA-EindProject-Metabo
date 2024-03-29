@@ -92,14 +92,14 @@ public class SpringSecurityConfig {
                                                         //----------products-------//
 
                                 .requestMatchers(HttpMethod.GET, "products").permitAll()
-                                .requestMatchers(HttpMethod.POST, "products").hasAnyRole("ADMIN", "CLIENT")
+                                .requestMatchers(HttpMethod.POST, "products").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.POST, "products/{id}/*").hasAnyRole("ADMIN","CLIENT")
                                 .requestMatchers(HttpMethod.PUT, "products/{id}").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "products/{id}").hasRole("ADMIN")
 
                                                         //-----upload & download images----//
 
-                                .requestMatchers(HttpMethod.POST, "/image").hasAnyRole("ADMIN", "CLIENT")
+                                .requestMatchers(HttpMethod.POST, "/image").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.GET, "/image/{id}").permitAll()
 
 

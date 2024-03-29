@@ -45,7 +45,6 @@ public class ImageDataService {
         return savedImage.getName();
     }
 
-//
 
     public byte[] downloadImage(Long id) throws IOException {
         Optional<ProductModel> productOptional = productRepository.findById(id);
@@ -54,17 +53,13 @@ public class ImageDataService {
             List<ImageData> imageDataList = product.getImageData();
 
             if (!imageDataList.isEmpty()) {
-                // Assuming you want to return the image data of the first image in the list
                 ImageData firstImageData = imageDataList.get(0);
-                return ImageUtil.decompressImage(firstImageData.getImageData()); // Decompressing the image data
+                return ImageUtil.decompressImage(firstImageData.getImageData());
             } else {
-                // Handle case when there are no images associated with the product
-                // For now, let's throw an IOException
                 throw new IOException("No images found for product with ID: " + id);
             }
         } else {
-            // Handle case when the product is not found
-            // For now, let's throw an IOException
+            //
             throw new IOException("Product not found with ID: " + id);
         }
     }

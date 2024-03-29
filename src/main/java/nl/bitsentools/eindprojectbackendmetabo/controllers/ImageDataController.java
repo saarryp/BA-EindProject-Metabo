@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,18 +45,16 @@ public ResponseEntity<Object> downloadImage(@PathVariable("id") Long id) throws 
         ProductModel product = productOptional.get();
         List<ImageData> imageDataList = product.getImageData();
         if (!imageDataList.isEmpty()) {
-            ImageData imageData = imageDataList.get(0); // Assuming you want to retrieve the first image
+            ImageData imageData = imageDataList.get(0);
             byte[] image = imageDataService.downloadImage(id);
             MediaType mediaType = MediaType.valueOf(imageData.getType());
             return ResponseEntity.ok().contentType(mediaType).body(image);
         } else {
-            return ResponseEntity.notFound().build(); // No image associated with the product
+            return ResponseEntity.notFound().build();
         }
-    } else {
-        return ResponseEntity.notFound().build(); // Product not found
+        } else {
+        return ResponseEntity.notFound().build();
+        }
     }
-}
-
-
 
 }
