@@ -99,7 +99,7 @@ public class SpringSecurityConfig {
 
                                                         //-----upload & download images----//
 
-                                .requestMatchers(HttpMethod.POST, "/image").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/image").hasAnyRole("ADMIN", "CLIENT")
                                 .requestMatchers(HttpMethod.GET, "/image/{id}").permitAll()
 
 

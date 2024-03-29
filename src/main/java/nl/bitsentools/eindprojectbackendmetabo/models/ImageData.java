@@ -15,7 +15,7 @@ public class ImageData {
     private byte[] imageData;
 
     //KN NATUURLIJK OOK EEN MANYTOONE, want meerdere foto's gekoppeld aan 1 product, maar andersoom is maar 1 product gekoppeld aan bepaalde foto's.
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private ProductModel productModel;
 

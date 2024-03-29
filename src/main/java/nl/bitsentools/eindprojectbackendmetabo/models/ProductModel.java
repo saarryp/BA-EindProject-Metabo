@@ -43,7 +43,7 @@ private Long id;
 
 //    @Lob
 //    private String defaultImageBase64;
-    @OneToMany(mappedBy = "productModel", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "productModel", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ImageData> imageData;
 
 

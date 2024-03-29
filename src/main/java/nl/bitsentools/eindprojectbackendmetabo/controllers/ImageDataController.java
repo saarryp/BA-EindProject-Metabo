@@ -1,5 +1,6 @@
 package nl.bitsentools.eindprojectbackendmetabo.controllers;
 
+import jakarta.transaction.Transactional;
 import nl.bitsentools.eindprojectbackendmetabo.models.ImageData;
 import nl.bitsentools.eindprojectbackendmetabo.models.ProductModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.ImageDataRepository;
@@ -35,44 +36,28 @@ public class ImageDataController {
     return ResponseEntity.ok("File has been uploaded, "  + image);
 }
 
-//
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> downloadImage(@PathVariable("id") Long id) throws IOException {
-        byte[] image = imageDataService.downloadImage(id);
 
-        Optional<ProductModel> product = productRepository.findById(id);
-        Optional<ImageData> dbImageData = imageDataRepository.findById(product.get().getImageData().add(id));
-        MediaType mediaType = MediaType.valueOf(dbImageData.get().getType());
-        return ResponseEntity.ok().contentType(mediaType).body(image);
+@Transactional
+@GetMapping("/{id}")
+public ResponseEntity<Object> downloadImage(@PathVariable("id") Long id) throws IOException {
+    Optional<ProductModel> productOptional = productRepository.findById(id);
+    if (productOptional.isPresent()) {
+        ProductModel product = productOptional.get();
+        List<ImageData> imageDataList = product.getImageData();
+        if (!imageDataList.isEmpty()) {
+            ImageData imageData = imageDataList.get(0); // Assuming you want to retrieve the first image
+            byte[] image = imageDataService.downloadImage(id);
+            MediaType mediaType = MediaType.valueOf(imageData.getType());
+            return ResponseEntity.ok().contentType(mediaType).body(image);
+        } else {
+            return ResponseEntity.notFound().build(); // No image associated with the product
+        }
+    } else {
+        return ResponseEntity.notFound().build(); // Product not found
     }
+}
 
-//        // Retrieve the product by ID
-//        Optional<ProductModel> productOptional = productRepository.findById(id);
-//        if (productOptional.isPresent()) {
-//            ProductModel product = productOptional.get();
-//
-//            // Retrieve the list of image data associated with the product
-//            List<ImageData> imageDataList = product.getImageData();
-//
-//            // Assuming you want to handle multiple images associated with the product
-//            // Loop through each ImageData object to retrieve the media type
-//            List<MediaType> mediaTypes = new ArrayList<>();
-//            for (ImageData imageData : imageDataList) {
-//                mediaTypes.add(MediaType.valueOf(imageData.getType()));
-//            }
-//
-//            // Use the media types to set the content type of the response
-//            if (!mediaTypes.isEmpty()) {
-//                return ResponseEntity.ok()
-//                        .contentType(mediaTypes.get(0))  // Assuming the first media type determines the content type
-//                        .body(images);
-//            } else {
-//                return ResponseEntity.notFound().build();
-//            }
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
 
 
 }
