@@ -31,15 +31,11 @@ public class SpringSecurityConfig {
         this.jwtRequestFilter = jwtRequestFilter;
     }
 
-    // PasswordEncoderBean. Deze kun je overal in je applicatie injecteren waar nodig.
-    // Je kunt dit ook in een aparte configuratie klasse zetten.
     @Bean
     public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-
-    // Authenticatie met customUserDetailsService en passwordEncoder
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http, PasswordEncoder passwordEncoder) throws Exception {
         var auth = new DaoAuthenticationProvider();
@@ -48,10 +44,6 @@ public class SpringSecurityConfig {
         return new ProviderManager(auth);
     }
 
-
-
-
-    // Authorizatie met jwt
     @Bean
     protected SecurityFilterChain filter (HttpSecurity http) throws Exception {
 
@@ -81,6 +73,8 @@ public class SpringSecurityConfig {
 
                                 //----------------------------ENDPOINTS AUTHENTICATIE---------------------------------
 
+
+
                                 .requestMatchers("/authenticated").authenticated()
                                 .requestMatchers("/authenticate").permitAll()
 
@@ -97,16 +91,22 @@ public class SpringSecurityConfig {
 
                                                         //----------products-------//
 
-                                .requestMatchers(HttpMethod.GET, "products").hasAnyRole("ADMIN", "CLIENT")
+                                .requestMatchers(HttpMethod.GET, "products").permitAll()
                                 .requestMatchers(HttpMethod.POST, "products").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "products/{id}/*").hasAnyRole("ADMIN","CLIENT")
                                 .requestMatchers(HttpMethod.PUT, "products/{id}").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "products/{id}").hasRole("ADMIN")
+
+                                                        //-----upload & download images----//
+
+                                .requestMatchers(HttpMethod.POST, "/image").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/image/{id}").permitAll()
+
 
                                                         //---------orders---------//
 
                                 .requestMatchers(HttpMethod.GET, "orders/{id}").hasAnyRole("ADMIN", "CLIENT")
                                 .requestMatchers(HttpMethod.GET, "orders").hasRole("ADMIN")
-
                                 .requestMatchers(HttpMethod.POST, "orders").hasAnyRole("ADMIN", "CLIENT")
                                 .requestMatchers(HttpMethod.PUT, "orders/{id}").hasAnyRole("ADMIN", "CLIENT")
                                 .requestMatchers(HttpMethod.DELETE, "orders/{id}").hasRole("ADMIN")

@@ -3,8 +3,10 @@ package nl.bitsentools.eindprojectbackendmetabo.dto.product;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.*;
+import java.util.List;
 
 public class ProductInputDto {
 
@@ -31,4 +33,9 @@ public class ProductInputDto {
     @Enumerated(EnumType.STRING)
    public TypeOfMachine typeOfMachine;
 
+    public List<MultipartFile> imageFile;
+
+    public void setImageFile(List<MultipartFile> imageFile) {
+        this.imageFile = imageFile;
+    }
 }

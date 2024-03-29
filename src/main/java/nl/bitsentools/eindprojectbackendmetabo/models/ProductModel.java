@@ -16,7 +16,7 @@ public class ProductModel {
 @GeneratedValue
 @Column
 
-   private Long id;
+private Long id;
 @Column
     private String brandName;
 @Column
@@ -41,11 +41,16 @@ public class ProductModel {
     List< OrderModel> orderModel = new ArrayList<>();
 
 
+//    @Lob
+//    private String defaultImageBase64;
+    @OneToMany(mappedBy = "productModel", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ImageData> imageData;
+
+
     public ProductModel(){}
 
 
-
-    public ProductModel(Long id, String brandName, String productName, int productNumber, double price, TypeOfMachine typeOfMachine, boolean productWarranty, int warrantyInMonths) {
+    public ProductModel(Long id, String brandName, String productName, int productNumber, double price, TypeOfMachine typeOfMachine, boolean productWarranty, int warrantyInMonths, List<OrderModel> orderModel, List<ImageData>imageData) {
         this.id = id;
         this.brandName = brandName;
         this.productName = productName;
@@ -54,8 +59,10 @@ public class ProductModel {
         this.typeOfMachine = typeOfMachine;
         this.productWarranty = productWarranty;
         this.warrantyInMonths = warrantyInMonths;
+        this.orderModel = orderModel;
+//        this.defaultImageBase64 = defaultImageBase64;
+        this.imageData = imageData;
     }
-
 
 
 
@@ -130,5 +137,21 @@ public class ProductModel {
     public void setOrderModel(List<OrderModel> orderModel) {
         this.orderModel = orderModel;
     }
+
+    public List<ImageData> getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(List<ImageData> imageData) {
+        this.imageData = imageData;
+    }
+
+//    public String getDefaultImageBase64() {
+//        return defaultImageBase64;
+//    }
+//
+//    public void setDefaultImageBase64(String defaultImageBase64) {
+//        this.defaultImageBase64 = defaultImageBase64;
+//    }
 }
 
