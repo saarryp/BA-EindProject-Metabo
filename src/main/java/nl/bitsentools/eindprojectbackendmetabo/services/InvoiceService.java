@@ -96,6 +96,12 @@ public class InvoiceService {
 
     public void deleteInvoice(Long id) {
         try {
+
+            Optional<InvoiceModel> i = invoiceRepository.findById(id);
+            if (i.isPresent()){
+                InvoiceModel imodel = i.get();
+                imodel.setOrderModel(null);
+            }
             invoiceRepository.deleteById(id);
         } catch (EmptyResultDataAccessException ex) {
             throw new RecordNotFoundException("Invoice with id :" + id + "is not found");

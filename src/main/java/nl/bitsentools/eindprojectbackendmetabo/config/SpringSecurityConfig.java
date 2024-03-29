@@ -71,6 +71,7 @@ public class SpringSecurityConfig {
                                 .requestMatchers(HttpMethod.PUT,"/users/{username}").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/users/{username}").hasRole("ADMIN")
 
+
                                 //----------------------------ENDPOINTS AUTHENTICATIE---------------------------------
 
 
@@ -78,16 +79,18 @@ public class SpringSecurityConfig {
                                 .requestMatchers("/authenticated").authenticated()
                                 .requestMatchers("/authenticate").permitAll()
 
-//                                .requestMatchers(HttpMethod.POST, "/users/{id}/password").authenticated()
-//                                .requestMatchers(HttpMethod.POST, "/users/{id}").hasRole("CLIENT")
+                                .requestMatchers(HttpMethod.POST, "/users/{id}/password").authenticated()
+                                .requestMatchers(HttpMethod.POST, "/users/{id}").hasRole("CLIENT")
                                 .requestMatchers(HttpMethod.DELETE, "/users/{id}").hasRole("CLIENT")
+
+
 
                                                         //-----------stocks--------//
 
                                 .requestMatchers(HttpMethod.GET, "stocks").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.POST,"stocks").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.PUT, "stocks/{id}").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "stocks/{id").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "stocks/{id}").hasRole("ADMIN")
 
                                                         //----------products-------//
 
@@ -116,9 +119,11 @@ public class SpringSecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "invoices").hasAnyRole("ADMIN", "CLIENT")
                                 .requestMatchers(HttpMethod.POST, "invoices").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.PUT, "invoices/{id}").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "invoices/{id}").hasRole("ADMIN")
+//                                .requestMatchers(HttpMethod.DELETE, "invoices/{id}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/invoices/{id}").hasRole("ADMIN")
 
-                                                        //----------warranties--------//
+
+                                //----------warranties--------//
 
                                 .requestMatchers(HttpMethod.GET, "warranties").hasAnyRole("ADMIN", "CLIENT")
                                 .requestMatchers(HttpMethod.POST, "warranties").hasRole("ADMIN")

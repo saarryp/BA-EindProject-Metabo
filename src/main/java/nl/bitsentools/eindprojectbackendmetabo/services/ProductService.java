@@ -134,12 +134,6 @@ public class ProductService {
         }
     }
 
-    // Dit is de vertaal methode van productInputDto naar product.
-
-    //twee helperfuncties maken van inputdto naar model en van model naar outputdto
-
-
-    // Dit is de vertaal methode van Product naar ProductDto
 
 
     public static ProductOutputDtoWarranty transferToDtoWarranty(ProductModel product){
