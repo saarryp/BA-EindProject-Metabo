@@ -67,10 +67,16 @@ public class OrderController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/client")
     public ResponseEntity<OrderOutputDto>updateOrder(@PathVariable("id") Long id, @Valid @RequestBody OrderInputDto updateOrder){
     OrderOutputDto dto = orderService.updateOrder(id, updateOrder);
     return ResponseEntity.ok().body(dto);
+    }
+
+    @PutMapping("/{id}/admin")
+    public ResponseEntity<OrderOutputDto> updateOrderForAdmin(@PathVariable("id") Long id, @Valid @RequestBody OrderInputDto updateDto) {
+        OrderOutputDto updatedOrder = orderService.updateOrderForAdmin(id, updateDto);
+        return ResponseEntity.ok(updatedOrder);
     }
 
     @DeleteMapping("/{id}")
