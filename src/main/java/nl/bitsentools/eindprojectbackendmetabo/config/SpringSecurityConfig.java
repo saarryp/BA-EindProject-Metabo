@@ -123,7 +123,7 @@ public class SpringSecurityConfig {
                                 .requestMatchers(HttpMethod.DELETE, "/invoices/{id}").hasRole("ADMIN")
 
 
-                                //----------warranties--------//
+                                                        //----------warranties--------//
 
                                 .requestMatchers(HttpMethod.GET, "warranties").hasAnyRole("ADMIN", "CLIENT")
                                 .requestMatchers(HttpMethod.POST, "warranties").hasRole("ADMIN")
@@ -139,3 +139,6 @@ public class SpringSecurityConfig {
         return http.build();
     }
 }
+
+
+//TODO: POST ORDER/INVOICE VOOR ADMIN NIET MOGELIJK OM OP TE VRAGEN KRIJG EEN 403
