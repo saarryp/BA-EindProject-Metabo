@@ -4,10 +4,10 @@ package nl.bitsentools.eindprojectbackendmetabo.controllers;
 import nl.bitsentools.eindprojectbackendmetabo.dto.id.IdInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceOutputDto;
-
-import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
 import nl.bitsentools.eindprojectbackendmetabo.services.InvoiceService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -38,8 +38,10 @@ public class InvoiceController {
         return ResponseEntity.ok(invoiceOutputDto);
     }
 
+
+
     @PostMapping
-    public ResponseEntity<InvoiceOutputDto>createInvoice(@Valid @RequestBody InvoiceInputDto invoiceInputDto) {
+    public ResponseEntity<InvoiceOutputDto>createInvoice(@Valid @RequestBody InvoiceInputDto invoiceInputDto, @AuthenticationPrincipal UserDetails userDetails) {
 
         InvoiceOutputDto savedInvoice = invoiceService.createInvoice(invoiceInputDto);
 

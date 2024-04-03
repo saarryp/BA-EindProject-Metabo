@@ -21,7 +21,7 @@ public class UserModel {
 
     @Column(nullable = false)
     private boolean enabled = true;
-    //zachte uitschakeling van bijvoorbeeld een user. Mocht deze zich uitschriven van een account, dan blijven de invoices wel bestaan als deze op enabled = false wordt gezet
+    //zachte uitschakeling van een user. Mocht deze zich uitschriven van een account, dan blijven de invoices wel bestaan als deze op enabled = false wordt gezet
 
     @Column
     private String apiKey;

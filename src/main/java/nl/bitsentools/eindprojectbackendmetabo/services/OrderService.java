@@ -71,16 +71,37 @@ public class OrderService {
         return transferToDto(orderModel);
     }
 
-    //PutById
+    //PutById for CLIENT
 public OrderOutputDto updateOrder(Long id, OrderInputDto updateDto) {
+
         OrderModel existingOrder = orderRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException("Order with id: " + id + "is not found."));
+        existingOrder.setUserEmail(updateDto.userEmail);
+        existingOrder.setUserDetails(updateDto.userDetails);
+        existingOrder.setQuantity(updateDto.quantity);
 
     orderRepository.save(existingOrder);
 
     return transferToDto(existingOrder);
 
 }
+
+// PUT-ID FOR ADMIN
+
+    public OrderOutputDto updateOrderForAdmin(Long id, OrderInputDto updateDto) {
+       OrderModel existingOrder = orderRepository.findById(id)
+               .orElseThrow(() -> new RecordNotFoundException("Order with id: " + id + "is not found."));
+        existingOrder.setOrderNumber(updateDto.orderNumber);
+        existingOrder.setPrice(updateDto.price);
+        existingOrder.setQuantity((updateDto.quantity));
+        existingOrder.setUserDetails(updateDto.userDetails);
+
+        orderRepository.save(existingOrder);
+
+        return transferToDto(existingOrder);
+    }
+
+
     //deleteById
 @DeleteMapping("/{id}")
 public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {

@@ -5,20 +5,17 @@ import nl.bitsentools.eindprojectbackendmetabo.dto.user.UserInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.user.UserOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.BadRequestException;
 import nl.bitsentools.eindprojectbackendmetabo.services.UserService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.security.core.GrantedAuthority;
-
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-import static org.apache.tomcat.jni.SSL.getErrorString;
 
 @CrossOrigin
 @RestController
@@ -35,39 +32,20 @@ public class UserController {
         List<UserOutputDto> userOutputDTOS = userService.getAllUsers();
         return ResponseEntity.ok().body(userOutputDTOS);
     }
-//// deze opvragen om een role te kunnen inzien in postman
-//    @GetMapping("/user/role")
-//    public String getUserRole(Authentication authentication) {
-//        if (authentication != null && authentication.isAuthenticated()) {
-//            List<String> roles = authentication.getAuthorities().stream()
-//                    .map(GrantedAuthority::getAuthority)
-//                    .collect(Collectors.toList());
-//            if (roles.contains("ROLE_ADMIN")) {
-//                return "Admin";
-//            } else if (roles.contains("ROLE_CLIENT")) {
-//                return "Client";
-//            } else {
-//                return "Unknown";
-//            }
-//        }
-//        return "Not authenticated";
-//    }
-//
-//    @GetMapping("/current-user-role")
-//    public String getCurrentUserRole(Authentication authentication) {
-//        if (authentication != null && authentication.isAuthenticated()) {
-//            return authentication.getAuthorities().toString();
-//        } else {
-//            return "Anonymous";
-//        }
-//    }
 
 
     @GetMapping(value = "/{username}")
-    public ResponseEntity<UserOutputDto> getOneUser(@PathVariable("username") String username) {
-        UserOutputDto optionalUser = userService.getOneUser(username);
-        return ResponseEntity.ok().body(optionalUser);
-    }
+    public ResponseEntity<UserOutputDto> getOneUser(@AuthenticationPrincipal UserDetails userdetails, @PathVariable("username") String username) {
+       if (userdetails.getUsername().equals(username)){
+           UserOutputDto optionalUser = userService.getOneUser(username);
+           return ResponseEntity.ok().body(optionalUser);
+       }
+        else {
+            throw new BadRequestException();
+       }
+           }
+
+
     @GetMapping(value = "/{username}/authorities")
     public ResponseEntity<Object> getAuthority(@PathVariable String username) {
         return ResponseEntity.ok().body(userService.getAuthorities(username));

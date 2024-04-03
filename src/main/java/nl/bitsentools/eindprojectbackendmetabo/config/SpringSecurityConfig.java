@@ -71,6 +71,7 @@ public class SpringSecurityConfig {
                                 .requestMatchers(HttpMethod.PUT,"/users/{username}").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/users/{username}").hasRole("ADMIN")
 
+
                                 //----------------------------ENDPOINTS AUTHENTICATIE---------------------------------
 
 
@@ -78,22 +79,23 @@ public class SpringSecurityConfig {
                                 .requestMatchers("/authenticated").authenticated()
                                 .requestMatchers("/authenticate").permitAll()
 
-//                                .requestMatchers(HttpMethod.POST, "/users/{id}/password").authenticated()
-//                                .requestMatchers(HttpMethod.POST, "/users/{id}").hasRole("CLIENT")
+                                .requestMatchers(HttpMethod.POST, "/users/{id}/password").authenticated()
+                                .requestMatchers(HttpMethod.POST, "/users/{id}").hasRole("CLIENT")
                                 .requestMatchers(HttpMethod.DELETE, "/users/{id}").hasRole("CLIENT")
+
+
 
                                                         //-----------stocks--------//
 
                                 .requestMatchers(HttpMethod.GET, "stocks").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.POST,"stocks").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.PUT, "stocks/{id}").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "stocks/{id").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "stocks/{id}").hasRole("ADMIN")
 
                                                         //----------products-------//
 
                                 .requestMatchers(HttpMethod.GET, "products").permitAll()
                                 .requestMatchers(HttpMethod.POST, "products").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.POST, "products/{id}/*").hasAnyRole("ADMIN","CLIENT")
                                 .requestMatchers(HttpMethod.PUT, "products/{id}").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "products/{id}").hasRole("ADMIN")
 
@@ -105,18 +107,21 @@ public class SpringSecurityConfig {
 
                                                         //---------orders---------//
 
-                                .requestMatchers(HttpMethod.GET, "orders/{id}").hasAnyRole("ADMIN", "CLIENT")
-                                .requestMatchers(HttpMethod.GET, "orders").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.POST, "orders").hasAnyRole("ADMIN", "CLIENT")
-                                .requestMatchers(HttpMethod.PUT, "orders/{id}").hasAnyRole("ADMIN", "CLIENT")
-                                .requestMatchers(HttpMethod.DELETE, "orders/{id}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/orders/{id}").hasAnyRole("ADMIN", "CLIENT")
+                                .requestMatchers(HttpMethod.GET, "/orders").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/orders").hasAnyRole("ADMIN", "CLIENT")
+                                .requestMatchers(HttpMethod.PUT, "/orders/{id}/admin").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "orders/{id}/client").hasRole("CLIENT")
+                                .requestMatchers(HttpMethod.DELETE, "/orders/{id}").hasRole("ADMIN")
 
                                                         //----------invoices--------//
 
-                                .requestMatchers(HttpMethod.GET, "invoices").hasAnyRole("ADMIN", "CLIENT")
+                                .requestMatchers(HttpMethod.GET, "invoices").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "invoices/{id}").hasRole("CLIENT")
                                 .requestMatchers(HttpMethod.POST, "invoices").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.PUT, "invoices/{id}").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "invoices/{id}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/invoices/{id}").hasRole("ADMIN")
+
 
                                                         //----------warranties--------//
 
