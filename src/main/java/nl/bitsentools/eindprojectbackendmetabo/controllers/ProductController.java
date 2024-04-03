@@ -36,8 +36,6 @@ public class ProductController {
     @GetMapping("{id}")
     public ResponseEntity<ProductOutputDto>getOneProduct(@PathVariable("id") Long id){
         ProductOutputDto productOutputDto = productService.getOneProductById(id);
-
- //hier kan je de exception opgooien
     return ResponseEntity.ok(productOutputDto);
     }
 
@@ -66,19 +64,9 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object>deleteProduct(@PathVariable("id") Long id){
-        //hier komt straks de ProductService te staan
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
-//    @PostMapping("/{id}/default-image")
-//    public ResponseEntity<Object>uploadDefaultImage(@PathVariable("id")Long id, @RequestParam("file")MultipartFile file){
-//        try {
-//            productService.uploadDefaultImage(id, file);
-//            return ResponseEntity.ok("Default image uploaded successfully");
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload default image");
-//        }
-//    }
 
     }
 

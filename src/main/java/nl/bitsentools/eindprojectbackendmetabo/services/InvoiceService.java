@@ -4,10 +4,12 @@ import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
-import nl.bitsentools.eindprojectbackendmetabo.models.WarrantyModel;
+import nl.bitsentools.eindprojectbackendmetabo.models.UserModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.InvoiceRepository;
+import nl.bitsentools.eindprojectbackendmetabo.repositories.UserRepository;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.WarrantyRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +20,13 @@ public class InvoiceService {
 
     private final InvoiceRepository invoiceRepository;
     private final WarrantyRepository warrantyRepository;
+    private final UserRepository userRepository;
     private final WarrantyService warrantyService;
 
-    public InvoiceService(InvoiceRepository invoiceRepository, WarrantyRepository warrantyRepository, WarrantyService warrantyService) {
+    public InvoiceService(InvoiceRepository invoiceRepository, WarrantyRepository warrantyRepository, UserRepository userRepository, WarrantyService warrantyService) {
         this.invoiceRepository = invoiceRepository;
         this.warrantyRepository = warrantyRepository;
+        this.userRepository = userRepository;
         this.warrantyService = warrantyService;
     }
 
@@ -47,6 +51,7 @@ public class InvoiceService {
             throw new RecordNotFoundException("Invoice with id :" + id + "was not found.");
         }
     }
+
 
     //POST
 
@@ -152,7 +157,6 @@ public class InvoiceService {
     }
 
     public void assignWarrantyToInvoice(Long id, Long warrantyId) {
-//        System.out.println("Assigning warranty to invoice. Invoice ID: " + id + ", Warranty ID: " + warrantyId);
         var optionalInvoice = invoiceRepository.findById(id);
         var optionalWarranty = warrantyRepository.findById(warrantyId);
 

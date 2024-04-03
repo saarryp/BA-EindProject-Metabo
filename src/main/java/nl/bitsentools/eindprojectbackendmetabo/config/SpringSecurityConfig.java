@@ -96,8 +96,6 @@ public class SpringSecurityConfig {
 
                                 .requestMatchers(HttpMethod.GET, "products").permitAll()
                                 .requestMatchers(HttpMethod.POST, "products").hasRole("ADMIN")
-//                                .requestMatchers(HttpMethod.POST, "products/{id}/*").hasAnyRole("ADMIN","CLIENT")
-                                //TODO:moet deze blijven staan? IK HEB NOG NIKS INGEBOUWD VOOR REVIEWS OID
                                 .requestMatchers(HttpMethod.PUT, "products/{id}").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "products/{id}").hasRole("ADMIN")
 
@@ -116,12 +114,12 @@ public class SpringSecurityConfig {
                                 .requestMatchers(HttpMethod.PUT, "orders/{id}/client").hasRole("CLIENT")
                                 .requestMatchers(HttpMethod.DELETE, "/orders/{id}").hasRole("ADMIN")
 
-                                //----------invoices--------//
+                                                        //----------invoices--------//
 
-                                .requestMatchers(HttpMethod.GET, "invoices").hasAnyRole("ADMIN", "CLIENT")
+                                .requestMatchers(HttpMethod.GET, "invoices").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "invoices/{id}").hasRole("CLIENT")
                                 .requestMatchers(HttpMethod.POST, "invoices").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.PUT, "invoices/{id}").hasRole("ADMIN")
-//                                .requestMatchers(HttpMethod.DELETE, "invoices/{id}").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/invoices/{id}").hasRole("ADMIN")
 
 
@@ -141,6 +139,3 @@ public class SpringSecurityConfig {
         return http.build();
     }
 }
-
-
-//TODO: POST ORDER/INVOICE VOOR ADMIN NIET MOGELIJK OM OP TE VRAGEN KRIJG EEN 403
