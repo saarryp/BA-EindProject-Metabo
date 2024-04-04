@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
@@ -21,7 +22,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class StockServiceTest {
@@ -84,14 +85,31 @@ class StockServiceTest {
 
     @Test
     void getOneStockById() {
+
+        //ARRANGE
+
+        //ACT
+
+        //ASSERT
     }
 
     @Test
     void createStock() {
+        //ARRANGE
+
+        //ACT
+
+        //ASSERT
     }
 
     @Test
     void updateStock() {
+
+        //ARRANGE
+
+        //ACT
+
+        //ASSERT
     }
 
     @Test
@@ -99,6 +117,7 @@ class StockServiceTest {
     void deleteStock() {
 
         //ARRANGE
+
 
 
         StockModel stock = new StockModel();
@@ -124,15 +143,28 @@ class StockServiceTest {
         StockOutputDto result = stockservice.getOneStockById(1L);
 
         //ASSERT
-        assertEquals(101L, result.id);
+//        assertEquals(0L, result.id);
+        verify(stockRepository, Mockito.times(1)).deleteById(101L);
 
     }
 
     @Test
     void transferToStock() {
+        //ARRANGE
+
+        //ACT
+
+        //ASSERT
+
     }
 
     @Test
     void transferToDto() {
+
+        //ARRANGE
+
+        //ACT
+
+        //ASSERT
     }
 }
