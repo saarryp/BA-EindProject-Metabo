@@ -8,6 +8,7 @@ import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class StockOutputDto {
@@ -28,7 +29,7 @@ public TypeOfMachine typeOfMachine;
   @PositiveOrZero(message = "Producten op voorraad moet minimaal 0 of groter zijn.")
   public int productInStock;
 
-  public Date orderPlacedDate;
+  public LocalDate orderPlacedDate;
 
 
     public int weeksToDelivery;
@@ -90,11 +91,11 @@ public TypeOfMachine typeOfMachine;
     this.productInStock = productInStock;
   }
 
-  public Date getOrderPlacedDate() {
+  public LocalDate getOrderPlacedDate() {
     return orderPlacedDate;
   }
 
-  public void setOrderPlacedDate(Date orderPlacedDate) {
+  public void setOrderPlacedDate(LocalDate orderPlacedDate) {
     this.orderPlacedDate = orderPlacedDate;
   }
 

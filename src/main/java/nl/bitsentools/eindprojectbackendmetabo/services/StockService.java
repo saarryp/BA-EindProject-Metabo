@@ -2,13 +2,12 @@ package nl.bitsentools.eindprojectbackendmetabo.services;
 
 import nl.bitsentools.eindprojectbackendmetabo.dto.stock.StockInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.stock.StockOutputDto;
-import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.StockModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.StockRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -103,7 +102,7 @@ public class StockService {
         StockOutputDto dto = new StockOutputDto();
 
 
-        dto.setId(stockModel.getId());
+        dto.setId(stockModel.getId(1L));
         dto.setBrandName(stockModel.getBrandName());
         dto.setProductName(stockModel.getProductName());
         dto.setProductNumber(stockModel.getProductNumber());

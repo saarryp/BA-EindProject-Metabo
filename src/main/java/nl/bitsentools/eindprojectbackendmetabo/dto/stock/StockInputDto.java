@@ -6,7 +6,7 @@ import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class StockInputDto {
 
@@ -25,7 +25,7 @@ public class StockInputDto {
         @Min(value = 0, message = "Voorraad moet 0 of groter zijn.")
         public int productInStock;
 
-        public Date orderPlacedDate;
+        public LocalDate orderPlacedDate;
 
         @Min(value = 0, message = "Aantal weken voor levering moet 0 of groter zijn.")
         public int weeksToDelivery;
@@ -78,11 +78,11 @@ public class StockInputDto {
                 this.productInStock = productInStock;
         }
 
-        public Date getOrderPlacedDate() {
+        public LocalDate getOrderPlacedDate() {
                 return orderPlacedDate;
         }
 
-        public void setOrderPlacedDate(Date orderPlacedDate) {
+        public void setOrderPlacedDate(LocalDate orderPlacedDate) {
                 this.orderPlacedDate = orderPlacedDate;
         }
 
