@@ -1,6 +1,7 @@
 package nl.bitsentools.eindprojectbackendmetabo.services;
 
 import jakarta.persistence.Entity;
+import nl.bitsentools.eindprojectbackendmetabo.dto.stock.StockInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.stock.StockOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.models.StockModel;
 import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
@@ -10,9 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
@@ -37,6 +36,9 @@ class StockServiceTest {
 
     //want service wordt geinjecteerd met de mock van erboven
     StockModel stock;
+
+    @Captor
+    ArgumentCaptor<StockModel>stockModelArgumentCaptor;
 
     @BeforeEach
     void setUp() {
@@ -111,14 +113,61 @@ class StockServiceTest {
 
     }
 
-//    @Test
-//    void createStock() {
-//        //ARRANGE
-//
-//        //ACT
-//
-//        //ASSERT
-//    }
+    @Test
+    @DisplayName("Should post/create a new product to the stock")
+    void createStock() {
+
+        //ARRANGE
+
+//        StockInputDto stockInputDto = new StockInputDto();
+//        stockInputDto.setBrandName("Metabo");
+//        stockInputDto.setProductName("Metabo 12345 zaagmachine");
+//        stockInputDto.setProductNumber(1001);
+//        stockInputDto.setProductInStock(15000);
+//        stockInputDto.setOrderPlacedDate(LocalDate.of(2024, 4, 4));
+//        stockInputDto.setQuantityInStock(15);
+//        stockInputDto.setTypeOfMachine(TypeOfMachine.ZAAGMACHINE);
+
+        StockInputDto stockInputDto = new StockInputDto();
+        stockInputDto.setBrandName(stock.getBrandName());
+        stockInputDto.setProductName(stock.getProductName());
+        stockInputDto.setProductNumber(stock.getProductNumber());
+        stockInputDto.setProductInStock(stock.getProductInStock());
+        stockInputDto.setOrderPlacedDate(stock.getOrderPlacedDate());
+        stockInputDto.setQuantityInStock(stock.getQuantityInStock());
+        stockInputDto.setTypeOfMachine(stock.getTypeOfMachine());
+
+        StockModel savedStock = new StockModel();
+        savedStock.setId(102L);
+        savedStock.setBrandName("Metabo");
+        savedStock.setProductName("Metabo Slijpmachine 12345");
+        savedStock.setProductNumber(1001);
+        savedStock.setProductInStock(5000);
+        savedStock.setOrderPlacedDate(LocalDate.of(2024, 4, 4));
+        savedStock.setWeeksToDelivery(1);
+        savedStock.setProductSold(5);
+        savedStock.setQuantityInStock(15);
+        savedStock.setOutOfStock(false);
+        savedStock.setTypeOfMachine(TypeOfMachine.SLIJPMACHINE);
+
+        when(stockRepository.save(any(StockModel.class))).thenReturn(savedStock);
+
+        //ACT
+
+        StockOutputDto createResult = stockservice.createStock(stockInputDto);
+
+        //ASSERT
+        assertNotNull(createResult);
+        assertEquals(102, createResult.getId());
+
+        ArgumentCaptor<StockModel> captor = ArgumentCaptor.forClass(StockModel.class);
+        verify(stockRepository).save(captor.capture());
+
+        StockModel capturedStock = captor.getValue();
+
+        assertEquals("Metabo", capturedStock.getBrandName());
+
+    }
 
 //    @Test
 //    void updateStock() {
