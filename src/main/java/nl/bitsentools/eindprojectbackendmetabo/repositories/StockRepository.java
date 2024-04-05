@@ -1,3 +1,4 @@
+
 package nl.bitsentools.eindprojectbackendmetabo.repositories;
 
 import nl.bitsentools.eindprojectbackendmetabo.models.StockModel;

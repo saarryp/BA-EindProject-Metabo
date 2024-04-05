@@ -36,135 +36,134 @@ class StockServiceTest {
     StockService stockservice;
 
     //want service wordt geinjecteerd met de mock van erboven
-
+    StockModel stock;
 
     @BeforeEach
     void setUp() {
-    }
 
-    @AfterEach
-    void tearDown() {
-    }
+        stock = new StockModel(
+                101L,
+                "Metabo",
+                "Metabo Zaagmachine 12345",
+                1001,
+                15000,
+                LocalDate.of(2024, 4, 4),
+                1,
+                20,
+                15,
+                false, TypeOfMachine.ZAAGMACHINE);
+ }
+
+        @AfterEach
+        void tearDown () {
+            stock = null;
+        }
+
+        @Test
+        @DisplayName("Should get all products that are in stock.")
+        void getAllStocks () {
+
+            //ARRANGE
+
+            when(stockRepository.findAll()).thenReturn(List.of(stock));
+
+            //ACT
+
+            List<StockOutputDto> result = stockservice.getAllStocks();
+
+            //ASSERT
+
+            assertEquals(101L, result.get(0).getId());
+            assertEquals("Metabo", result.get(0).getBrandName());
+            assertEquals("Metabo Zaagmachine 12345", result.get(0).getProductName());
+            assertEquals(1001, result.get(0).getProductNumber());
+            assertEquals(15000, result.get(0).getProductInStock());
+            assertEquals(LocalDate.of(2024, 4, 4), result.get(0).getOrderPlacedDate());
+            assertEquals(15, result.get(0).getQuantityInStock());
+            assertEquals(TypeOfMachine.ZAAGMACHINE, result.get(0).getTypeOfMachine());
+        }
 
     @Test
-    @DisplayName("Should get all products that are in stock.")
-    void getAllStocks() {
-
-        //ARRANGE
-        StockModel stock = new StockModel();
-
-        stock.setId(101L);
-        stock.setBrandName("Metabo");
-        stock.setProductName("Metabo Zaagmachine 12345");
-        stock.setProductNumber(1001);
-        stock.setProductInStock(15000);
-
-        LocalDate orderPlacedDate = LocalDate.of(2024, 4, 4);
-        stock.setOrderPlacedDate(orderPlacedDate);
-
-        stock.setQuantityInStock(15);
-        stock.setTypeOfMachine(TypeOfMachine.ZAAGMACHINE);
-
-        when(stockRepository.findAll()).thenReturn(List.of(stock));
-
-        //ACT
-
-        List<StockOutputDto> result = stockservice.getAllStocks();
-
-        //ASSERT
-
-        assertEquals(101L, result.get(0).getId());
-        assertEquals("Metabo", result.get(0).getBrandName());
-        assertEquals("Metabo Zaagmachine 12345", result.get(0).getProductName());
-        assertEquals(1001, result.get(0).getProductNumber());
-        assertEquals(15000, result.get(0).getProductInStock());
-        assertEquals(orderPlacedDate, result.get(0).getOrderPlacedDate());
-        assertEquals(15, result.get(0).getQuantityInStock());
-        assertEquals(TypeOfMachine.ZAAGMACHINE, result.get(0).getTypeOfMachine());
-    }
-
-    @Test
+    @DisplayName("Should get one stock product by id")
     void getOneStockById() {
 
         //ARRANGE
 
-        //ACT
-
-        //ASSERT
-    }
-
-    @Test
-    void createStock() {
-        //ARRANGE
+        when(stockRepository.findById(101L)).thenReturn(Optional.of(stock));
 
         //ACT
 
-        //ASSERT
-    }
-
-    @Test
-    void updateStock() {
-
-        //ARRANGE
-
-        //ACT
-
-        //ASSERT
-    }
-
-    @Test
-    @DisplayName("Should delete a product that is in stock")
-    void deleteStock() {
-
-        //ARRANGE
-
-
-
-        StockModel stock = new StockModel();
-
-        stock.setId(101L);
-        stock.setBrandName("Metabo");
-        stock.setProductName("Metabo Zaagmachine 12345");
-        stock.setProductNumber(1001);
-        stock.setProductInStock(15000);
-
-        LocalDate orderPlacedDate = LocalDate.of(2024, 4, 4);
-        stock.setOrderPlacedDate(orderPlacedDate);
-
-        stock.setQuantityInStock(15);
-        stock.setTypeOfMachine(TypeOfMachine.ZAAGMACHINE);
-
-        when(stockRepository.findById(anyLong())).thenReturn(Optional.of(stock));
-
-
-        //ACT
-
-        stockservice.deleteStock(101L);
-        StockOutputDto result = stockservice.getOneStockById(1L);
-
-        //ASSERT
-//        assertEquals(0L, result.id);
-        verify(stockRepository, Mockito.times(1)).deleteById(101L);
-
-    }
-
-    @Test
-    void transferToStock() {
-        //ARRANGE
-
-        //ACT
+        StockOutputDto resultbyId = stockservice.getOneStockById(101L);
 
         //ASSERT
 
+        assertEquals(101L, resultbyId.getId());
+        assertEquals("Metabo", resultbyId.getBrandName());
+        assertEquals("Metabo Zaagmachine 12345",resultbyId.getProductName());
+        assertEquals(1001, stock.getProductNumber());
+        assertEquals(15000, stock.getProductInStock());
+        assertEquals(LocalDate.of(2024, 4, 4), stock.getOrderPlacedDate());
+        assertEquals(1, stock.getWeeksToDelivery());
+        assertEquals(20, stock.getProductSold());
+        assertEquals(15, stock.getQuantityInStock());
+        assertFalse(stock.isOutOfStock());
+        assertEquals(TypeOfMachine.ZAAGMACHINE, stock.getTypeOfMachine());
+
     }
 
-    @Test
-    void transferToDto() {
+//    @Test
+//    void createStock() {
+//        //ARRANGE
+//
+//        //ACT
+//
+//        //ASSERT
+//    }
 
-        //ARRANGE
+//    @Test
+//    void updateStock() {
+//
+//        //ARRANGE
+//
+//        //ACT
+//
+//        //ASSERT
+//    }
 
-        //ACT
+        @Test
+        @DisplayName("Should delete a product that is in stock")
+        void deleteStock () {
 
-        //ASSERT
+            //ARRANGE
+
+
+            //ACT
+
+            stockservice.deleteStock(101L);
+
+            //ASSERT
+
+            verify(stockRepository, Mockito.times(1)).deleteById(101L);
+
+        }
+
+//    @Test
+//    void transferToStock() {
+//        //ARRANGE
+//
+//        //ACT
+//
+//        //ASSERT
+//
+//    }
+//
+//    @Test
+//    void transferToDto() {
+//
+//        //ARRANGE
+//
+//        //ACT
+//
+//        //ASSERT
+//    }
     }
-}
