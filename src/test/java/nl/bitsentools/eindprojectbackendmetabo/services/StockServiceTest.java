@@ -119,14 +119,6 @@ class StockServiceTest {
 
         //ARRANGE
 
-//        StockInputDto stockInputDto = new StockInputDto();
-//        stockInputDto.setBrandName("Metabo");
-//        stockInputDto.setProductName("Metabo 12345 zaagmachine");
-//        stockInputDto.setProductNumber(1001);
-//        stockInputDto.setProductInStock(15000);
-//        stockInputDto.setOrderPlacedDate(LocalDate.of(2024, 4, 4));
-//        stockInputDto.setQuantityInStock(15);
-//        stockInputDto.setTypeOfMachine(TypeOfMachine.ZAAGMACHINE);
 
         StockInputDto stockInputDto = new StockInputDto();
         stockInputDto.setBrandName(stock.getBrandName());
@@ -159,6 +151,16 @@ class StockServiceTest {
         //ASSERT
         assertNotNull(createResult);
         assertEquals(102, createResult.getId());
+        assertEquals("Metabo", createResult.getBrandName());
+        assertEquals("Metabo Slijpmachine 12345", createResult.getProductName());
+        assertEquals(1001, createResult.getProductNumber());
+        assertEquals(5000, createResult.getProductInStock());
+        assertEquals(LocalDate.of(2024, 4, 4), createResult.getOrderPlacedDate());
+        assertEquals(1, createResult.getWeeksToDelivery());
+        assertEquals(5, createResult.getProductSold());
+        assertEquals(15, createResult.getQuantityInStock());
+        assertEquals(TypeOfMachine.SLIJPMACHINE, createResult.getTypeOfMachine());
+
 
         ArgumentCaptor<StockModel> captor = ArgumentCaptor.forClass(StockModel.class);
         verify(stockRepository).save(captor.capture());

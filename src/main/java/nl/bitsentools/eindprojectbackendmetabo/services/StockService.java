@@ -48,8 +48,8 @@ public class StockService {
     public StockOutputDto createStock(StockInputDto createStockDto) {
         StockModel stockModel = new StockModel();
         StockModel stock = transferToStock(stockModel, createStockDto);
-        stockRepository.save(stock);
-        return transferToDto(stock);
+        StockModel stockmodel1 = stockRepository.save(stock);
+        return transferToDto(stockmodel1);
     }
 
     //Put-createStock
