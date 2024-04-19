@@ -232,23 +232,51 @@ class StockServiceTest {
 
         }
 
-//    @Test
-//    void transferToStock() {
-//        //ARRANGE
-//
-//        //ACT
-//
-//        //ASSERT
-//
-//    }
-//
-//    @Test
-//    void transferToDto() {
-//
-//        //ARRANGE
-//
-//        //ACT
-//
-//        //ASSERT
-//    }
+    @Test
+    @DisplayName("Should transfer data from StockInputDto to StockModel")
+    void transferToStock() {
+        //ARRANGE
+
+        StockInputDto inputDto = new StockInputDto();
+        inputDto.setBrandName("Hikoki");
+        inputDto.setProductName("Hikoki bitset 12345");
+        inputDto.setProductNumber(1001);
+        inputDto.setProductInStock(50);
+        inputDto.setOrderPlacedDate(LocalDate.of(2024, 4, 20));
+        inputDto.setWeeksToDelivery(2);
+        inputDto.setProductSold(100);
+        inputDto.setQuantityInStock(400);
+        inputDto.setOutOfStock(true);
+        inputDto.setTypeOfMachine(TypeOfMachine.BITSETS);
+
+
+        //ACT
+
+        StockModel updatedStock = stockservice.transferToStock(stock, inputDto);
+
+        //ASSERT
+
+        assertNotNull(updatedStock);
+        assertEquals("Hikoki", updatedStock.getBrandName());
+        assertEquals("Hikoki bitset 12345", updatedStock.getProductName());
+        assertEquals(1001, updatedStock.getProductNumber());
+        assertEquals(50, updatedStock.getProductInStock());
+        assertEquals(LocalDate.of(2024, 4, 20), updatedStock.getOrderPlacedDate());
+        assertEquals(2, updatedStock.getWeeksToDelivery());
+        assertEquals(100, updatedStock.getProductSold());
+        assertEquals(400, updatedStock.getQuantityInStock());
+        assertTrue(updatedStock.isOutOfStock());
+        assertEquals(TypeOfMachine.BITSETS, updatedStock.getTypeOfMachine());
+
+    }
+
+    @Test
+    void transferToDto() {
+
+        //ARRANGE
+
+        //ACT
+
+        //ASSERT
+    }
     }
