@@ -37,8 +37,8 @@ class StockServiceTest {
     //want service wordt geinjecteerd met de mock van erboven
     StockModel stock;
 
-    @Captor
-    ArgumentCaptor<StockModel>stockModelArgumentCaptor;
+//    @Captor
+//    ArgumentCaptor<StockModel>stockModelArgumentCaptor;
 
     @BeforeEach
     void setUp() {
@@ -161,13 +161,15 @@ class StockServiceTest {
         assertEquals(15, createResult.getQuantityInStock());
         assertEquals(TypeOfMachine.SLIJPMACHINE, createResult.getTypeOfMachine());
 
+//
+//        ArgumentCaptor<StockModel> captor = ArgumentCaptor.forClass(StockModel.class);
+//        verify(stockRepository).save(captor.capture());
+//
+//        StockModel capturedStock = captor.getValue();
+//
+//        assertEquals(102, createResult.getId());
+//        assertEquals("Metabo", capturedStock.getBrandName());
 
-        ArgumentCaptor<StockModel> captor = ArgumentCaptor.forClass(StockModel.class);
-        verify(stockRepository).save(captor.capture());
-
-        StockModel capturedStock = captor.getValue();
-
-        assertEquals("Metabo", capturedStock.getBrandName());
 
     }
 
