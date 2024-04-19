@@ -173,15 +173,47 @@ class StockServiceTest {
 
     }
 
-//    @Test
-//    void updateStock() {
-//
-//        //ARRANGE
-//
-//        //ACT
-//
-//        //ASSERT
-//    }
+    @Test
+    @DisplayName("should update stock")
+    void updateStock() {
+
+        //ARRANGE
+
+        //test if the updated stock from 15.000 is changed to 17.000 productInStock
+        StockInputDto updatedStockInputDto = new StockInputDto();
+        updatedStockInputDto.setBrandName(stock.getBrandName());
+        updatedStockInputDto.setProductName(stock.getProductName());
+        updatedStockInputDto.setProductNumber(stock.getProductNumber());
+        updatedStockInputDto.setProductInStock(17000); // Updated productInStock value
+        updatedStockInputDto.setOrderPlacedDate(stock.getOrderPlacedDate());
+        updatedStockInputDto.setQuantityInStock(stock.getQuantityInStock());
+        updatedStockInputDto.setTypeOfMachine(stock.getTypeOfMachine());
+
+        when(stockRepository.findById(101L)).thenReturn(Optional.of(stock));
+
+        //ACT
+
+        StockOutputDto updatedResult = stockservice.updateStock(101L, updatedStockInputDto);
+
+        //ASSERT
+
+        assertNotNull(updatedResult);
+        assertEquals(stock.getBrandName(), updatedResult.getBrandName());
+        assertEquals(stock.getProductName(), updatedResult.getProductName());
+        assertEquals(stock.getProductNumber(), updatedResult.getProductNumber());
+        assertEquals(17000, updatedResult.getProductInStock()); // Check if productInStock is updated
+        assertEquals(stock.getOrderPlacedDate(), updatedResult.getOrderPlacedDate());
+        assertEquals(stock.getQuantityInStock(), updatedResult.getQuantityInStock());
+        assertEquals(stock.getTypeOfMachine(), updatedResult.getTypeOfMachine());
+
+        verify(stockRepository, times(1)).save(any(StockModel.class));
+
+        // Check the updated amount in the repository
+        Optional<StockModel> updatedStockOptional = stockRepository.findById(101L);
+        assertTrue(updatedStockOptional.isPresent());
+        StockModel updatedStock = updatedStockOptional.get();
+        assertEquals(17000, updatedStock.getProductInStock());
+    }
 
         @Test
         @DisplayName("Should delete a product that is in stock")
