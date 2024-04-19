@@ -26,7 +26,6 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class StockServiceTest {
 
-//TODO: LET OP EXCEPTIONS BIJ TESTEN
 
     @Mock
     StockRepository stockRepository;
@@ -37,8 +36,6 @@ class StockServiceTest {
     //want service wordt geinjecteerd met de mock van erboven
     StockModel stock;
 
-//    @Captor
-//    ArgumentCaptor<StockModel>stockModelArgumentCaptor;
 
     @BeforeEach
     void setUp() {
@@ -53,7 +50,8 @@ class StockServiceTest {
                 1,
                 20,
                 15,
-                false, TypeOfMachine.ZAAGMACHINE);
+                false,
+                TypeOfMachine.ZAAGMACHINE);
  }
 
         @AfterEach
@@ -161,16 +159,6 @@ class StockServiceTest {
         assertEquals(15, createResult.getQuantityInStock());
         assertEquals(TypeOfMachine.SLIJPMACHINE, createResult.getTypeOfMachine());
 
-//
-//        ArgumentCaptor<StockModel> captor = ArgumentCaptor.forClass(StockModel.class);
-//        verify(stockRepository).save(captor.capture());
-//
-//        StockModel capturedStock = captor.getValue();
-//
-//        assertEquals(102, createResult.getId());
-//        assertEquals("Metabo", capturedStock.getBrandName());
-
-
     }
 
     @Test
@@ -271,12 +259,31 @@ class StockServiceTest {
     }
 
     @Test
+    @DisplayName("should transfer StockModel to StockOutputDto")
     void transferToDto() {
 
         //ARRANGE
 
+        //GEGEGVENS UIT STOCKMODEL VAN BEFORE EACH
+
+
         //ACT
 
+        StockOutputDto resultDto = stockservice.transferToDto(stock);
+
         //ASSERT
+
+        assertNotNull(resultDto);
+        assertEquals(101L, resultDto.getId());
+        assertEquals("Metabo", resultDto.getBrandName());
+        assertEquals("Metabo Zaagmachine 12345", resultDto.getProductName());
+        assertEquals(1001, resultDto.getProductNumber());
+        assertEquals(15000, resultDto.getProductInStock());
+        assertEquals(LocalDate.of(2024, 4, 4), resultDto.getOrderPlacedDate());
+        assertEquals(1, resultDto.getWeeksToDelivery());
+        assertEquals(20, resultDto.getProductSold());
+        assertEquals(15, resultDto.getQuantityInStock());
+        assertFalse(resultDto.isOutOfStock());
+        assertEquals(TypeOfMachine.ZAAGMACHINE, resultDto.getTypeOfMachine());
     }
     }
