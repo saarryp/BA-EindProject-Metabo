@@ -264,8 +264,6 @@ class StockServiceTest {
 
         //ARRANGE
 
-        //GEGEGVENS UIT STOCKMODEL VAN BEFORE EACH
-
 
         //ACT
 

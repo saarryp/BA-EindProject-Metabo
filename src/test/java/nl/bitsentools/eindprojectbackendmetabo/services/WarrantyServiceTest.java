@@ -1,8 +1,10 @@
 package nl.bitsentools.eindprojectbackendmetabo.services;
 
+import nl.bitsentools.eindprojectbackendmetabo.dto.stock.StockOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
+import nl.bitsentools.eindprojectbackendmetabo.models.StockModel;
 import nl.bitsentools.eindprojectbackendmetabo.models.WarrantyModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.WarrantyRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -136,12 +138,28 @@ class WarrantyServiceTest {
     }
 
     @Test
+    @DisplayName("should update warranty")
     void updateWarranty() {
+
         //ARRANGE
+
+        //test if warranty changed from productnumber 1001 to 1020
+        WarrantyInputDto updatedWarrantyInputDto = new WarrantyInputDto();
+        updatedWarrantyInputDto.setProductNumber(1020);
+        updatedWarrantyInputDto.setWarrantyStart((warranty.getWarrantyStart()));
+        updatedWarrantyInputDto.setWarrantyEnds(warranty.getWarrantyEnds());
+
+        when(warrantyRepository.findById(101L)).thenReturn(Optional.of(warranty));
 
         //ACT
 
+        WarrantyOutputDto updatedResult = warrantyService.updateWarranty(101L, updatedWarrantyInputDto);
+
         //ASSERT
+
+        assertNotNull(updatedResult);
+
+        //TODO; DEZE AFMAKEN MORGEN
     }
 
     @Test
@@ -160,8 +178,11 @@ class WarrantyServiceTest {
     }
 
     @Test
+    @DisplayName("should update warranty")
     void transferToWarranty() {
+
         //ARRANGE
+
 
         //ACT
 
