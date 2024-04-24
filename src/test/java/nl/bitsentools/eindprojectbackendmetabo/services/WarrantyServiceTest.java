@@ -1,6 +1,5 @@
 package nl.bitsentools.eindprojectbackendmetabo.services;
 
-import jakarta.inject.Inject;
 import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
@@ -13,18 +12,23 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+
 import org.mockito.junit.jupiter.MockitoExtension;
+
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class WarrantyServiceTest {
 
-    @Mock
+  @Mock
     WarrantyRepository warrantyRepository;
 
     @InjectMocks
@@ -75,24 +79,39 @@ class WarrantyServiceTest {
     }
 
     @Test
+    @DisplayName("Should get one warranty by id")
     void getOneWarrantyById() {
 
         //ARRANGE
 
-        //ACT
-
-        //ASSERT
-    }
-
-    @Test
-    void createWarranty() {
-
-        //ARRANGE
+        when(warrantyRepository.findById(1L)).thenReturn(Optional.of(warranty));
 
         //ACT
+         WarrantyOutputDto resultById = warrantyService.getOneWarrantyById(1L);
+
 
         //ASSERT
+
+        assertEquals(1L, resultById.getId());
+        assertEquals(1001, resultById.getProductNumber());
+        assertEquals(LocalDate.of(2024, 4, 24), resultById.getWarrantyStart());
+        assertEquals(LocalDate.of(2026,04,24), resultById.getWarrantyEnds());
     }
+
+//    @Test
+//    @DisplayName("Should post/create a warranty to an invoice")
+//    void createWarranty() {
+//
+//        //ARRANGE
+//
+//        WarrantyInputDto warrantyInputDto = new WarrantyInputDto();
+//        warrantyInputDto.setProductNumber(warranty.getProductNumber());
+//
+//
+//        //ACT
+//
+//        //ASSERT
+//    }
 
     @Test
     void updateWarranty() {
@@ -104,12 +123,18 @@ class WarrantyServiceTest {
     }
 
     @Test
+    @DisplayName("Should delete one warranty")
     void deleteWarranty() {
+
         //ARRANGE
 
         //ACT
 
+        warrantyService.deleteWarranty(1L);
+
         //ASSERT
+
+        verify(warrantyRepository, Mockito.times(1)).deleteById(1L);
     }
 
     @Test

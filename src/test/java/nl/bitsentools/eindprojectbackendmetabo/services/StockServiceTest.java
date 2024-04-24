@@ -100,14 +100,14 @@ class StockServiceTest {
         assertEquals(101L, resultbyId.getId());
         assertEquals("Metabo", resultbyId.getBrandName());
         assertEquals("Metabo Zaagmachine 12345",resultbyId.getProductName());
-        assertEquals(1001, stock.getProductNumber());
-        assertEquals(15000, stock.getProductInStock());
+        assertEquals(1001, resultbyId.getProductNumber());
+        assertEquals(15000, resultbyId.getProductInStock());
         assertEquals(LocalDate.of(2024, 4, 4), stock.getOrderPlacedDate());
-        assertEquals(1, stock.getWeeksToDelivery());
-        assertEquals(20, stock.getProductSold());
-        assertEquals(15, stock.getQuantityInStock());
-        assertFalse(stock.isOutOfStock());
-        assertEquals(TypeOfMachine.ZAAGMACHINE, stock.getTypeOfMachine());
+        assertEquals(1, resultbyId.getWeeksToDelivery());
+        assertEquals(20, resultbyId.getProductSold());
+        assertEquals(15, resultbyId.getQuantityInStock());
+        assertFalse(resultbyId.isOutOfStock());
+        assertEquals(TypeOfMachine.ZAAGMACHINE, resultbyId.getTypeOfMachine());
 
     }
 
