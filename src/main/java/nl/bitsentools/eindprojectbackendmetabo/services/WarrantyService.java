@@ -50,8 +50,8 @@ public class WarrantyService {
     public WarrantyOutputDto createWarranty(WarrantyInputDto createWarrantyDto) {
         WarrantyModel warrantyModel = new WarrantyModel();
         WarrantyModel warranty = transferToWarranty(warrantyModel, createWarrantyDto);
-        warrantyRepository.save(warranty);
-        return transferToDto(warranty);
+        WarrantyModel warrantyModel1 = warrantyRepository.save(warranty);
+        return transferToDto(warrantyModel1);
 
     }
 

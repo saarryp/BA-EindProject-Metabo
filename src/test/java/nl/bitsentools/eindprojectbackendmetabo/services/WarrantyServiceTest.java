@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -21,7 +22,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -41,7 +44,7 @@ class WarrantyServiceTest {
 
         //Met garantie
        WarrantyModel warrantyWithInvoice = new WarrantyModel();
-                warrantyWithInvoice.setId(1L);
+                warrantyWithInvoice.setId(101L);
                 warrantyWithInvoice.setProductNumber(1001);
                 warrantyWithInvoice.setWarrantyStart(LocalDate.of(2024, 4, 24));
                 warrantyWithInvoice.setWarrantyEnds(LocalDate.of(2026,4, 24));
@@ -84,7 +87,7 @@ class WarrantyServiceTest {
 
         //ARRANGE
 
-        when(warrantyRepository.findById(1L)).thenReturn(Optional.of(warranty));
+        when(warrantyRepository.findById(101L)).thenReturn(Optional.of(warranty));
 
         //ACT
          WarrantyOutputDto resultById = warrantyService.getOneWarrantyById(1L);
@@ -92,26 +95,45 @@ class WarrantyServiceTest {
 
         //ASSERT
 
-        assertEquals(1L, resultById.getId());
+        assertEquals(101L, resultById.getId());
         assertEquals(1001, resultById.getProductNumber());
         assertEquals(LocalDate.of(2024, 4, 24), resultById.getWarrantyStart());
-        assertEquals(LocalDate.of(2026,04,24), resultById.getWarrantyEnds());
+        assertEquals(LocalDate.of(2026,4,24), resultById.getWarrantyEnds());
     }
 
-//    @Test
-//    @DisplayName("Should post/create a warranty to an invoice")
-//    void createWarranty() {
-//
-//        //ARRANGE
-//
-//        WarrantyInputDto warrantyInputDto = new WarrantyInputDto();
-//        warrantyInputDto.setProductNumber(warranty.getProductNumber());
-//
-//
-//        //ACT
-//
-//        //ASSERT
-//    }
+    @Test
+    @DisplayName("Should post/create a warranty to an invoice")
+    void createWarranty() {
+
+        //ARRANGE
+
+        WarrantyInputDto warrantyInputDto = new WarrantyInputDto();
+        warrantyInputDto.setProductNumber(1001);
+        warrantyInputDto.setWarrantyStart(LocalDate.of(2024, 1, 15));
+        warrantyInputDto.setWarrantyEnds(LocalDate.of(2026, 1, 15));
+
+        WarrantyModel savedWarranty = new WarrantyModel();
+        savedWarranty.setId(102L);
+        savedWarranty.setProductNumber(1002);
+        savedWarranty.setWarrantyStart(LocalDate.of(2024,1, 15));
+        savedWarranty.setWarrantyEnds(LocalDate.of(2026, 1, 15));
+
+        when(warrantyRepository.save(ArgumentMatchers.any(WarrantyModel.class))).thenReturn(savedWarranty);
+
+
+        //ACT
+
+        WarrantyOutputDto createResult = warrantyService.createWarranty(warrantyInputDto);
+
+        //ASSERT
+
+        assertNotNull(createResult);
+        assertEquals(102, createResult.getId());
+        assertEquals(1002, createResult.getProductNumber());
+        assertEquals(LocalDate.of(2024, 1, 15), createResult.getWarrantyStart());
+        assertEquals(LocalDate.of(2026, 1, 15), createResult.getWarrantyEnds());
+
+    }
 
     @Test
     void updateWarranty() {
@@ -130,11 +152,11 @@ class WarrantyServiceTest {
 
         //ACT
 
-        warrantyService.deleteWarranty(1L);
+        warrantyService.deleteWarranty(101L);
 
         //ASSERT
 
-        verify(warrantyRepository, Mockito.times(1)).deleteById(1L);
+        verify(warrantyRepository, Mockito.times(1)).deleteById(101L);
     }
 
     @Test
