@@ -3,6 +3,7 @@ package nl.bitsentools.eindprojectbackendmetabo.services;
 import nl.bitsentools.eindprojectbackendmetabo.dto.stock.StockOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyOutputDto;
+import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
 import nl.bitsentools.eindprojectbackendmetabo.models.StockModel;
 import nl.bitsentools.eindprojectbackendmetabo.models.WarrantyModel;
@@ -25,8 +26,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -84,7 +84,7 @@ class WarrantyServiceTest {
     }
 
     @Test
-    @DisplayName("Should get one warranty by id")
+    @DisplayName("Should get one warranty by id, if warranty exists")
     void getOneWarrantyById() {
 
         //ARRANGE
@@ -101,6 +101,22 @@ class WarrantyServiceTest {
         assertEquals(1001, resultById.getProductNumber());
         assertEquals(LocalDate.of(2024, 4, 24), resultById.getWarrantyStart());
         assertEquals(LocalDate.of(2026,4,24), resultById.getWarrantyEnds());
+    }
+
+    @Test
+    @DisplayName("should throw RecordNotFoundException if warranty doesnt exist")
+    void getOneWarrantyById_WarrantyNonExistent(){
+
+        //ARRANGE
+
+        Long id = 101L;
+        when(warrantyRepository.findById(id)).thenReturn(Optional.empty());
+
+        //ACT
+
+        //ASSERT
+
+        assertThrows(RecordNotFoundException.class, () -> warrantyService.getOneWarrantyById(id));
     }
 
     @Test

@@ -66,7 +66,7 @@ public class StockService {
 
     //DeleteStockbyId
 
-    //TODO: TRY CATCH ONDERVANGEN IN TEST?
+
     public void deleteStock(Long id) {
         try {
             stockRepository.deleteById(id);
