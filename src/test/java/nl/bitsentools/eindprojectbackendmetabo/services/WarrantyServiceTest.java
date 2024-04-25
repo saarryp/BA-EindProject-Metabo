@@ -8,6 +8,7 @@ import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
 import nl.bitsentools.eindprojectbackendmetabo.models.StockModel;
 import nl.bitsentools.eindprojectbackendmetabo.models.WarrantyModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.WarrantyRepository;
+import org.checkerframework.common.value.qual.ArrayLenRange;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,6 +20,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 
 import java.time.LocalDate;
@@ -27,8 +29,7 @@ import java.util.Optional;
 
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class WarrantyServiceTest {
@@ -181,7 +182,7 @@ class WarrantyServiceTest {
     }
 
     @Test
-    @DisplayName("Should delete one warranty")
+    @DisplayName("Should delete one warranty if warranty exists")
     void deleteWarranty() {
 
         //ARRANGE
@@ -194,6 +195,24 @@ class WarrantyServiceTest {
 
         verify(warrantyRepository, Mockito.times(1)).deleteById(101L);
     }
+
+    @Test
+    @DisplayName("should throw RecordNotFoundException when warranty doesn't exist")
+    void deleteWarranty_WarrantyNonExistent(){
+
+        //ARRANGE
+
+        Long id = 101L;
+        doThrow(EmptyResultDataAccessException.class).when(warrantyRepository).deleteById(id);
+
+        //ACT
+
+       // ASSERT
+
+        assertThrows(RecordNotFoundException.class, () -> warrantyService.deleteWarranty(id));
+
+    }
+
 
     @Test
     @DisplayName("should transfer WarrantyInputDto to WarrantyModel")
