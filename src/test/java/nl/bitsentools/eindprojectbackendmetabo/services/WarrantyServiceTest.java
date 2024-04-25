@@ -203,11 +203,26 @@ class WarrantyServiceTest {
     }
 
     @Test
+    @DisplayName("should transfer warrantyModel to WarrantyOutputDto")
     void transferToDto() {
         //ARRANGE
 
+            WarrantyModel warrantyModel = new WarrantyModel();
+            warrantyModel.setId(105L);
+            warrantyModel.setProductNumber(3500);
+            warrantyModel.setWarrantyStart(LocalDate.of(2022, 12, 15));
+            warrantyModel.setWarrantyEnds(LocalDate.of(2026, 12, 15));
+
         //ACT
 
+        WarrantyOutputDto dto = warrantyService.transferToDto(warrantyModel);
+
         //ASSERT
+
+        assertNotNull(dto);
+        assertEquals(105L, dto.getId());
+        assertEquals(3500, dto.getProductNumber());
+        assertEquals(LocalDate.of(2022, 12, 15), dto.getWarrantyStart());
+    assertEquals(LocalDate.of(2026, 12, 15), dto.getWarrantyEnds());
     }
 }
