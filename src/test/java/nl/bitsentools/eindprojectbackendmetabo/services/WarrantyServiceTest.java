@@ -180,15 +180,26 @@ class WarrantyServiceTest {
     }
 
     @Test
-    @DisplayName("should update warranty")
+    @DisplayName("should transfer WarrantyInputDto to WarrantyModel")
     void transferToWarranty() {
 
         //ARRANGE
 
+        WarrantyInputDto inputDto = new WarrantyInputDto();
+        inputDto.setProductNumber(1500);
+        inputDto.setWarrantyStart(LocalDate.of(2024, 3, 30));
+        inputDto.setWarrantyEnds(LocalDate.of(2028, 3,30));
 
         //ACT
 
+        WarrantyModel updatedWarranty = warrantyService.transferToWarranty(warrantyWithInvoice, inputDto);
+
         //ASSERT
+
+        assertNotNull(updatedWarranty);
+        assertEquals(1500, updatedWarranty.getProductNumber());
+        assertEquals(LocalDate.of(2024,3,30), updatedWarranty.getWarrantyStart());
+        assertEquals(LocalDate.of(2028, 3, 30), updatedWarranty.getWarrantyEnds());
     }
 
     @Test
