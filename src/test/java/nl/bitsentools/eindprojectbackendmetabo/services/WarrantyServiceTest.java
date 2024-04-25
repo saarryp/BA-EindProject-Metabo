@@ -223,6 +223,6 @@ class WarrantyServiceTest {
         assertEquals(105L, dto.getId());
         assertEquals(3500, dto.getProductNumber());
         assertEquals(LocalDate.of(2022, 12, 15), dto.getWarrantyStart());
-    assertEquals(LocalDate.of(2026, 12, 15), dto.getWarrantyEnds());
+        assertEquals(LocalDate.of(2026, 12, 15), dto.getWarrantyEnds());
     }
 }
