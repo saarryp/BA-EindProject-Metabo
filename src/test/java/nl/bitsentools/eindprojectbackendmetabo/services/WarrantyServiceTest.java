@@ -39,13 +39,13 @@ class WarrantyServiceTest {
     @InjectMocks
     WarrantyService warrantyService;
 
-    WarrantyModel warranty;
+    WarrantyModel warrantyWithInvoice = new WarrantyModel();
 
     @BeforeEach
     void setUp(){
 
         //Met garantie
-       WarrantyModel warrantyWithInvoice = new WarrantyModel();
+
                 warrantyWithInvoice.setId(101L);
                 warrantyWithInvoice.setProductNumber(1001);
                 warrantyWithInvoice.setWarrantyStart(LocalDate.of(2024, 4, 24));
@@ -60,7 +60,7 @@ class WarrantyServiceTest {
     }
     @AfterEach
     void tearDown () {
-        warranty = null;
+        warrantyWithInvoice = null;
     }
 
     @Test
@@ -69,7 +69,7 @@ class WarrantyServiceTest {
 
         //ARRANGE
 
-        when(warrantyRepository.findAll()).thenReturn(List.of(warranty));
+        when(warrantyRepository.findAll()).thenReturn(List.of(warrantyWithInvoice));
 
         //ACT
 
@@ -78,9 +78,9 @@ class WarrantyServiceTest {
         //ASSERT
 
         WarrantyInputDto warrantyInputDto = new WarrantyInputDto();
-        warrantyInputDto.setProductNumber(warranty.getProductNumber());
-        warrantyInputDto.setWarrantyStart(warranty.getWarrantyStart());
-        warrantyInputDto.setWarrantyEnds(warranty.getWarrantyEnds());
+        warrantyInputDto.setProductNumber(warrantyWithInvoice.getProductNumber());
+        warrantyInputDto.setWarrantyStart(warrantyWithInvoice.getWarrantyStart());
+        warrantyInputDto.setWarrantyEnds(warrantyWithInvoice.getWarrantyEnds());
     }
 
     @Test
@@ -89,10 +89,10 @@ class WarrantyServiceTest {
 
         //ARRANGE
 
-        when(warrantyRepository.findById(101L)).thenReturn(Optional.of(warranty));
+        when(warrantyRepository.findById(101L)).thenReturn(Optional.of(warrantyWithInvoice));
 
         //ACT
-         WarrantyOutputDto resultById = warrantyService.getOneWarrantyById(1L);
+         WarrantyOutputDto resultById = warrantyService.getOneWarrantyById(101L);
 
 
         //ASSERT
@@ -146,10 +146,10 @@ class WarrantyServiceTest {
         //test if warranty changed from productnumber 1001 to 1020
         WarrantyInputDto updatedWarrantyInputDto = new WarrantyInputDto();
         updatedWarrantyInputDto.setProductNumber(1020);
-        updatedWarrantyInputDto.setWarrantyStart((warranty.getWarrantyStart()));
-        updatedWarrantyInputDto.setWarrantyEnds(warranty.getWarrantyEnds());
+        updatedWarrantyInputDto.setWarrantyStart((warrantyWithInvoice.getWarrantyStart()));
+        updatedWarrantyInputDto.setWarrantyEnds(warrantyWithInvoice.getWarrantyEnds());
 
-        when(warrantyRepository.findById(101L)).thenReturn(Optional.of(warranty));
+        when(warrantyRepository.findById(101L)).thenReturn(Optional.of(warrantyWithInvoice));
 
         //ACT
 
@@ -158,8 +158,10 @@ class WarrantyServiceTest {
         //ASSERT
 
         assertNotNull(updatedResult);
+        assertEquals(warrantyWithInvoice.getProductNumber(), updatedResult.getProductNumber());
+        assertEquals(warrantyWithInvoice.getWarrantyStart(), updatedResult.getWarrantyStart());
+        assertEquals(warrantyWithInvoice.getWarrantyEnds(), updatedResult.getWarrantyEnds());
 
-        //TODO; DEZE AFMAKEN MORGEN
     }
 
     @Test
