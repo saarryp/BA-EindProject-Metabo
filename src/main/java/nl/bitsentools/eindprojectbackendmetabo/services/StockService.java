@@ -7,7 +7,6 @@ import nl.bitsentools.eindprojectbackendmetabo.models.StockModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.StockRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -67,6 +66,7 @@ public class StockService {
 
     //DeleteStockbyId
 
+    //TODO: TRY CATCH ONDERVANGEN IN TEST?
     public void deleteStock(Long id) {
         try {
             stockRepository.deleteById(id);

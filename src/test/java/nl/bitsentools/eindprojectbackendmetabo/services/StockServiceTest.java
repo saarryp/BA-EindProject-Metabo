@@ -3,6 +3,7 @@ package nl.bitsentools.eindprojectbackendmetabo.services;
 import jakarta.persistence.Entity;
 import nl.bitsentools.eindprojectbackendmetabo.dto.stock.StockInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.stock.StockOutputDto;
+import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.StockModel;
 import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.StockRepository;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -84,7 +86,7 @@ class StockServiceTest {
         }
 
     @Test
-    @DisplayName("Should get one stock product by id")
+    @DisplayName("Should get one stock product by id, if stock exists")
     void getOneStockById() {
 
         //ARRANGE
@@ -96,7 +98,7 @@ class StockServiceTest {
         StockOutputDto resultbyId = stockservice.getOneStockById(101L);
 
         //ASSERT
-
+        assertNotNull(resultbyId);
         assertEquals(101L, resultbyId.getId());
         assertEquals("Metabo", resultbyId.getBrandName());
         assertEquals("Metabo Zaagmachine 12345",resultbyId.getProductName());
@@ -108,6 +110,23 @@ class StockServiceTest {
         assertEquals(15, resultbyId.getQuantityInStock());
         assertFalse(resultbyId.isOutOfStock());
         assertEquals(TypeOfMachine.ZAAGMACHINE, resultbyId.getTypeOfMachine());
+
+    }
+
+    @Test
+    @DisplayName("should throw RecordNotFoundsException if stock doesn't exist")
+    void getOneStockById_StockNonExistent(){
+
+        //ARRANGE
+
+        Long id = 101L;
+        when(stockRepository.findById(id)).thenReturn(Optional.empty());
+
+        //ACT
+
+        //ASSERT
+
+        assertThrows(RecordNotFoundException.class, () -> stockservice.getOneStockById(id));
 
     }
 
@@ -220,9 +239,25 @@ class StockServiceTest {
 
         }
 
-    @Test
-    @DisplayName("Should transfer data from StockInputDto to StockModel")
-    void transferToStock() {
+        @Test
+        @DisplayName("should throw RecordNotFoundException when stock is not found")
+        void deleteStock_StockNotFound(){
+        //ARRANGE
+
+            Long id = 101L;
+            doThrow(EmptyResultDataAccessException.class).when(stockRepository).deleteById(id);
+
+        //ACT
+
+        //ASSERT
+            assertThrows(RecordNotFoundException.class, () -> stockservice.deleteStock(id));
+
+    }
+
+
+        @Test
+        @DisplayName("Should transfer data from StockInputDto to StockModel")
+        void transferToStock() {
         //ARRANGE
 
         StockInputDto inputDto = new StockInputDto();
