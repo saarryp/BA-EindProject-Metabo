@@ -1,5 +1,7 @@
 package nl.bitsentools.eindprojectbackendmetabo.controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +16,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.text.MatchesPattern.matchesPattern;
+
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -25,6 +30,9 @@ class StockControllerTest {
 
     @Autowired
     MockMvc mockMvc;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     @BeforeEach
     void setUp() {
@@ -64,12 +72,44 @@ class StockControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andReturn();
 
-        String createdId = result.getResponse().getContentAsString();
-        assertThat(result.getResponse().getHeader("Location"), matchesPattern("/stocks"))
+
+        String jsonResponse = result.getResponse().getContentAsString();
+        JsonNode jsonNode = objectMapper.readTree(jsonResponse);
+        String createdId = jsonNode.get("id").asText();
+        assertThat(result.getResponse().getHeader("Location"), matchesPattern("^.*/stocks/" + createdId));
+
+
     }
 
     @Test
-    void updateStock() {
+    void updateStock() throws Exception {
+
+        String jsonInput = """
+                {
+                   "brandName": "MetaboSuper",
+                               "productName": "Metabo SCHROEFMACHINE",
+                               "productNumber": 123456,
+                               "productInStock": 500,
+                               "orderPlacedDate": "2024-04-28T09:00:00.000Z",
+                               "weeksToDelivery": 1,
+                               "quantityInStock": 1,
+                               "typeOfMachine": "SCHROEFMACHINE"
+                   
+                   }
+                   
+                   """;
+
+                    String stockIdUpdate = "1";
+                    MvcResult result = mockMvc
+                            .perform(MockMvcRequestBuilders.put("/stocks/" + stockIdUpdate)
+                                    .contentType(MediaType.APPLICATION_JSON)
+                                    .content(jsonInput))
+                            .andDo(MockMvcResultHandlers.print())
+                            .andExpect(MockMvcResultMatchers.status().isOk())
+                            .andReturn();
+
+
+
     }
 
     @Test
