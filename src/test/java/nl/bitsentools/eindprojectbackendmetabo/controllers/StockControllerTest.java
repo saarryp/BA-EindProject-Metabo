@@ -2,6 +2,8 @@ package nl.bitsentools.eindprojectbackendmetabo.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import nl.bitsentools.eindprojectbackendmetabo.models.StockModel;
+import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.StockRepository;
 import nl.bitsentools.eindprojectbackendmetabo.services.StockService;
 import org.junit.jupiter.api.AfterEach;
@@ -19,12 +21,17 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.time.LocalDate;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.text.MatchesPattern.matchesPattern;
 
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
@@ -34,8 +41,8 @@ class StockControllerTest {
 
 
 
-    @Autowired
-    MockMvc mockMvc;
+   @Autowired
+   private MockMvc mockMvc;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -43,7 +50,7 @@ class StockControllerTest {
     @MockBean
     private StockService stockService;
 
-    @Autowired
+   @MockBean
     private StockRepository stockRepository;
 
 //    @BeforeEach
@@ -69,11 +76,58 @@ class StockControllerTest {
 //
 //    }
 
-    @AfterEach
-    void tearDown(){}
+    //of moet ik de before each zo maken?
+    StockModel stock1;
+    StockModel stock2;
+
+   @BeforeEach
+    public void setUp(){
+        if(stockRepository.count()>0){
+            stockRepository.deleteAll();
+        }
+       stock1 = new StockModel(1L, "Metabo", "Metabo schuurmachine", 102030,
+               10, LocalDate.of(2024, 1,14),
+               16, 0, 10, false, TypeOfMachine.SCHUURMACHINE);
+
+       stock2 = new StockModel(2L, "Haikoki", "Metabo zaagmachine", 302010,
+               100, LocalDate.of(2019, 10,30 ),
+               12, 2, 0, true, TypeOfMachine.ZAAGMACHINE);
+
+
+       stockRepository.save(stock1);
+       stockRepository.save(stock2);
+    }
+
 
     @Test
-    void getAllStocks() {
+    void getAllStocks() throws Exception {
+        mockMvc.perform(get("/stocks"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(stock1.getId().toString()))
+                .andExpect(jsonPath("$[0].brandName").value("Metabo"))
+                .andExpect(jsonPath("$[0].productName").value("Metabo schuurmachine"))
+                .andExpect(jsonPath("$[0].productNumber").value(102030))
+                .andExpect(jsonPath("$[0].productInStock").value(10))
+                .andExpect(jsonPath("$[0].orderPlacedDate").value("2024-01-14"))
+                .andExpect(jsonPath("$[0].weeksToDelivery").value(16))
+                .andExpect(jsonPath("$[0].productSold").value(10))
+                .andExpect(jsonPath("$[0].quantityInStock").value(10))
+                .andExpect(jsonPath("$[0].outOfStock").value(false))
+                .andExpect(jsonPath("$[0].typeOfMachine").value("SCHUURMACHINE"))
+                .andExpect(jsonPath("$[1].id").value(stock2.getId().toString()))
+                .andExpect(jsonPath("$[1].brandName").value("Haikoki"))
+                .andExpect(jsonPath("$[1].productName").value("Metabo zaagmachine"))
+                .andExpect(jsonPath("$[1].productNumber").value(302010))
+                .andExpect(jsonPath("$[1].productInStock").value(100))
+                .andExpect(jsonPath("$[1].orderPlacedDate").value("2019-10-30"))
+                .andExpect(jsonPath("$[1].weeksToDelivery").value(12))
+                .andExpect(jsonPath("$[1].productSold").value(0)) // Hier invullen wat juist is
+                .andExpect(jsonPath("$[1].quantityInStock").value(0)) // Hier invullen wat juist is
+                .andExpect(jsonPath("$[1].outOfStock").value(true)) // Hier invullen wat juist is
+                .andExpect(jsonPath("$[1].typeOfMachine").value("ZAAGMACHINE"));
+
+
+
     }
 
     @Test
@@ -100,7 +154,7 @@ class StockControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonInput))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(status().isCreated())
                 .andReturn();
 
 
@@ -113,99 +167,61 @@ class StockControllerTest {
     }
 
 
-    @Test
-    void updateStock() throws Exception {
-
-        String jsonInput = """
-            {
-                "brandName": "Metabo",
-                "productName": "Metabo schuurmachine",
-                "productNumber": 102030,
-                "productInStock": 10,
-                "orderPlacedDate": "2024-01-14T10:30:00.000Z",
-                "weeksToDelivery": 16,
-                "quantityInStock": 10,
-                "typeOfMachine": "SCHUURMACHINE"
-            }
-            """;
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/stocks")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonInput))
-                .andExpect(MockMvcResultMatchers.status().isCreated());
-
-
-        // Update uitvoeren
-        String updateJsonInput = """
-            {
-                "id" : 2,
-                "brandName": "MetaboSuper",
-                "productName": "Metabo SCHROEFMACHINE",
-                "productNumber": 123456,
-                "productInStock": 500,
-                "orderPlacedDate": "2024-04-28T09:00:00.000Z",
-                "weeksToDelivery": 1,
-                "quantityInStock": 1,
-                "typeOfMachine": "SCHROEFMACHINE"
-            }
-            """;
-
-        String stockIdUpdate = "1";
-        mockMvc.perform(put("/stocks/" + stockIdUpdate)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(updateJsonInput))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.brandName").value("MetaboSuper"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.productName").value("Metabo SCHROEFMACHINE"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.productNumber").value(123456));
-    }
-
-
-
 //    @Test
 //    void updateStock() throws Exception {
 //
 //        String jsonInput = """
-//                {
-//                    "id" : 1,
-//                   "brandName": "MetaboSuper",
-//                    "productName": "Metabo SCHROEFMACHINE",
-//                     "productNumber": 123456,
-//                      "productInStock": 500,
-//                      "orderPlacedDate": "2024-04-28T09:00:00.000Z",
-//                      "weeksToDelivery": 1,
-//                      "quantityInStock": 1,
-//                      "typeOfMachine": "SCHROEFMACHINE"
+//            {
+//                "brandName": "Metabo",
+//                "productName": "Metabo schuurmachine",
+//                "productNumber": 102030,
+//                "productInStock": 10,
+//                "orderPlacedDate": "2024-01-14T10:30:00.000Z",
+//                "weeksToDelivery": 16,
+//                "quantityInStock": 10,
+//                "typeOfMachine": "SCHUURMACHINE"
+//            }
+//            """;
 //
-//                 }
-//                """;
+//        mockMvc.perform(MockMvcRequestBuilders.post("/stocks")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(jsonInput))
+//                .andExpect(MockMvcResultMatchers.status().isCreated());
+
+
+//        // Update uitvoeren
+//        String updateJsonInput = """
+//            {
+//                "id" : 1,
+//                "brandName": "MetaboSuper",
+//                "productName": "Metabo SCHROEFMACHINE",
+//                "productNumber": 123456,
+//                "productInStock": 500,
+//                "orderPlacedDate": "2024-04-28T09:00:00.000Z",
+//                "weeksToDelivery": 1,
+//                "quantityInStock": 1,
+//                "typeOfMachine": "SCHROEFMACHINE"
+//            }
+//            """;
 //
-//                    String stockIdUpdate = "1";
-//                    MvcResult result = mockMvc
-//                            .perform(MockMvcRequestBuilders.put("/stocks/" + stockIdUpdate)
-//                                    .contentType(MediaType.APPLICATION_JSON)
-//                                    .content(jsonInput))
-//                            .andDo(MockMvcResultHandlers.print())
-//                            .andExpect(MockMvcResultMatchers.status().isOk())
-//                            .andReturn();
-//
-//        String jsonResponse = result.getResponse().getContentAsString();
-//        JsonNode jsonNode = objectMapper.readTree(jsonResponse);
-//
-//        JsonNode idNode = jsonNode.get("id");
-//        assertNotNull(idNode);
-//        String createdId = idNode.asText();
-//
-////       assertThat(result.getResponse().getHeader("Location"), matchesPattern("^.*/stocks/" + createdId));
-//        assertEquals("MetaboSuper", jsonNode.get("brandName").asText());
-//        assertEquals("Metabo SCHROEFMACHINE", jsonNode.get("productName").asText());
-//        assertEquals(123456, jsonNode.get("productNumber").asInt());
-//
-//
+//        String stockIdUpdate = "1";
+//        mockMvc.perform(put("/stocks/" + stockIdUpdate)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(updateJsonInput))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.brandName").value("MetaboSuper"))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.productName").value("Metabo SCHROEFMACHINE"))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.productNumber").value(123456));
 //    }
+
+
+
 
 //    @Test
 //    void deleteStock() throws Exception{
-//        mockMvc.perform(deleteStock("/stocks/" + );)
+//        mockMvc.perform(deleteStock("/stocks/" + stock1.getId().toString()))
+//    .andExpect(status().isOk());
 //    }
+
+
 }

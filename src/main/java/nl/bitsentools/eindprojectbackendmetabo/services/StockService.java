@@ -59,8 +59,8 @@ public class StockService {
 
         transferToStock(existingStock, stockDto);
 
-        stockRepository.save(existingStock);
-        return transferToDto(existingStock);
+        StockModel updatedStock = stockRepository.save(existingStock);
+        return transferToDto(updatedStock);
     }
 
 
@@ -102,7 +102,7 @@ public class StockService {
         StockOutputDto dto = new StockOutputDto();
 
 
-        dto.setId(stockModel.getId(1L));
+        dto.setId(stockModel.getId());
         dto.setBrandName(stockModel.getBrandName());
         dto.setProductName(stockModel.getProductName());
         dto.setProductNumber(stockModel.getProductNumber());
