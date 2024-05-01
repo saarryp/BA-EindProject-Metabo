@@ -2,17 +2,13 @@ package nl.bitsentools.eindprojectbackendmetabo.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.websocket.OnError;
 import nl.bitsentools.eindprojectbackendmetabo.models.StockModel;
 import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.StockRepository;
-import nl.bitsentools.eindprojectbackendmetabo.services.StockService;
-import org.aspectj.lang.annotation.After;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,12 +18,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.LocalDate;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.text.MatchesPattern.matchesPattern;
 
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -49,30 +42,6 @@ class StockControllerTest {
     @Autowired
     private StockRepository stockRepository;
 
-//    @BeforeEach
-//    void setUp() throws Exception {
-//
-//        String jsonInput = """
-//                {
-//                    "brandName": "Metabo",
-//                    "productName": "Metabo bitset",
-//                    "productNumber": 123456,
-//                    "productInStock": 20,
-//                    "orderPlacedDate": "2024-04-28T09:00:00.000Z",
-//                    "weeksToDelivery": 2,
-//                    "quantityInStock": 50,
-//                    "typeOfMachine": "BITSET"
-//                }
-//                """;
-//
-//        mockMvc.perform(MockMvcRequestBuilders.post("/stocks")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(jsonInput))
-//                .andExpect(MockMvcResultMatchers.status().isCreated());
-//
-//    }
-
-    //of moet ik de before each zo maken?
     StockModel stock1;
     StockModel stock2;
 
@@ -97,9 +66,6 @@ class StockControllerTest {
             stockRepository.deleteById(stock2.getId());
         }
 
-
-
-
     @Test
     @Order(1    )
     void getAllStocks() throws Exception {
@@ -123,9 +89,9 @@ class StockControllerTest {
                 .andExpect(jsonPath("$[1].productInStock").value(100))
                 .andExpect(jsonPath("$[1].orderPlacedDate").value("2019-10-30"))
                 .andExpect(jsonPath("$[1].weeksToDelivery").value(12))
-                .andExpect(jsonPath("$[1].productSold").value(2)) // Hier invullen wat juist is
-                .andExpect(jsonPath("$[1].quantityInStock").value(0)) // Hier invullen wat juist is
-                .andExpect(jsonPath("$[1].outOfStock").value(true)) // Hier invullen wat juist is
+                .andExpect(jsonPath("$[1].productSold").value(2))
+                .andExpect(jsonPath("$[1].quantityInStock").value(0))
+                .andExpect(jsonPath("$[1].outOfStock").value(true))
                 .andExpect(jsonPath("$[1].typeOfMachine").value("ZAAGMACHINE"));
 
 
@@ -139,7 +105,16 @@ class StockControllerTest {
        mockMvc.perform(get("/stocks/" + stock2.getId().toString()))
                .andExpect(status().isOk())
                .andExpect(jsonPath("id").value(stock2.getId()))
-               .andExpect(jsonPath("brandName").value("Haikoki"));
+               .andExpect(jsonPath("brandName").value("Haikoki"))
+               .andExpect(jsonPath("productName").value("Metabo zaagmachine"))
+               .andExpect(jsonPath("productInStock").value(100))
+               .andExpect(jsonPath("orderPlacedDate").value("2019-10-30"))
+               .andExpect(jsonPath("weeksToDelivery").value(12))
+               .andExpect(jsonPath("productSold").value(2))
+               .andExpect(jsonPath("quantityInStock").value(0))
+               .andExpect(jsonPath("outOfStock").value(true))
+               .andExpect(jsonPath("typeOfMachine").value("ZAAGMACHINE"));
+
     }
 
     @Test
@@ -171,10 +146,7 @@ class StockControllerTest {
         JsonNode jsonNode = objectMapper.readTree(jsonResponse);
         String createdId = jsonNode.get("id").asText();
         assertThat(result.getResponse().getHeader("Location"), matchesPattern("^.*/stocks/" + createdId));
-
-
-    }
-
+   }
 
     @Test
     @Order(3)
@@ -225,14 +197,10 @@ class StockControllerTest {
     }
 
 
-
-
     @Test
     @Order(4)
     void deleteStocks() throws Exception{
         mockMvc.perform(delete("/stocks/8"))
     .andExpect(status().isNoContent());
     }
-
-
 }
