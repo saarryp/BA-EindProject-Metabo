@@ -4,7 +4,7 @@ package nl.bitsentools.eindprojectbackendmetabo.models;
 import jakarta.persistence.*;
 import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "stocks")
@@ -27,7 +27,7 @@ public class StockModel {
     @Column
     private int productInStock;
     @Column
-    private Date orderPlacedDate;
+    private LocalDate orderPlacedDate;
 
     @Column
     private int weeksToDelivery;
@@ -41,7 +41,7 @@ public class StockModel {
 
 
 
-    public StockModel(Long id, String brandName, String productName, int productNumber, int productInStock, Date orderPlacedDate, int weeksToDelivery, int productSold, int quantityInStock, boolean outOfStock, TypeOfMachine typeOfMachine) {
+    public StockModel(Long id, String brandName, String productName, int productNumber, int productInStock, LocalDate orderPlacedDate, int weeksToDelivery, int productSold, int quantityInStock, boolean outOfStock, TypeOfMachine typeOfMachine) {
         this.id = id;
         this.brandName = brandName;
         this.productName = productName;
@@ -59,9 +59,13 @@ public class StockModel {
 
     }
 
-    public Long getId() {
-        return id;
-    }
+//    public Long getId(long l) {
+//        return id;
+//    }
+public Long getId() {
+    return id;
+}
+
 
     public void setId(Long id) {
         this.id = id;
@@ -99,11 +103,11 @@ public class StockModel {
         this.productInStock = productInStock;
     }
 
-    public Date getOrderPlacedDate() {
+    public LocalDate getOrderPlacedDate() {
         return orderPlacedDate;
     }
 
-    public void setOrderPlacedDate(Date orderPlacedDate) {
+    public void setOrderPlacedDate(LocalDate orderPlacedDate) {
         this.orderPlacedDate = orderPlacedDate;
     }
 

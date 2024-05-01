@@ -2,13 +2,11 @@ package nl.bitsentools.eindprojectbackendmetabo.services;
 
 import nl.bitsentools.eindprojectbackendmetabo.dto.stock.StockInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.stock.StockOutputDto;
-import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.StockModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.StockRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -49,8 +47,8 @@ public class StockService {
     public StockOutputDto createStock(StockInputDto createStockDto) {
         StockModel stockModel = new StockModel();
         StockModel stock = transferToStock(stockModel, createStockDto);
-        stockRepository.save(stock);
-        return transferToDto(stock);
+        StockModel stockmodel1 = stockRepository.save(stock);
+        return transferToDto(stockmodel1);
     }
 
     //Put-createStock
@@ -61,12 +59,13 @@ public class StockService {
 
         transferToStock(existingStock, stockDto);
 
-        stockRepository.save(existingStock);
-        return transferToDto(existingStock);
+        StockModel updatedStock = stockRepository.save(existingStock);
+        return transferToDto(updatedStock);
     }
 
 
     //DeleteStockbyId
+
 
     public void deleteStock(Long id) {
         try {
