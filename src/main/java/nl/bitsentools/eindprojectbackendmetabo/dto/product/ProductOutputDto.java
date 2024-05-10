@@ -3,13 +3,10 @@ package nl.bitsentools.eindprojectbackendmetabo.dto.product;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-//alle GET POST EN PUT methodes. Overal waar je het Product een returnwaarde wil geven
-//input geen validatie nodig
 
 public class ProductOutputDto {
 
@@ -32,10 +29,8 @@ public class ProductOutputDto {
     @Enumerated(EnumType.STRING)
     public TypeOfMachine typeOfMachine;
 
-//    public String defaultImageBase64;
     public List<String> imageUrls;
 
-    //default constructor
 
     public ProductOutputDto() {
     }
@@ -87,14 +82,6 @@ public class ProductOutputDto {
     public void setTypeOfMachine(TypeOfMachine typeOfMachine) {
         this.typeOfMachine = typeOfMachine;
     }
-
-//    public String getDefaultImageBase64() {
-//        return defaultImageBase64;
-//    }
-//
-//    public void setDefaultImageBase64(String defaultImageBase64) {
-//        this.defaultImageBase64 = defaultImageBase64;
-//    }
 
     public List<String> getImageUrls() {
         return imageUrls;

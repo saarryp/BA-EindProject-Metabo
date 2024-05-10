@@ -1,15 +1,11 @@
 package nl.bitsentools.eindprojectbackendmetabo.dto.stock;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
-
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
-import java.util.Date;
 
 public class StockOutputDto {
 
@@ -23,25 +19,24 @@ public String productName;
 
 @PositiveOrZero(message = "Productnummer moet een positief getal of 0  zijn")
 public int productNumber;
-  @Enumerated(EnumType.STRING)
+
+@Enumerated(EnumType.STRING)
 public TypeOfMachine typeOfMachine;
 
-  @PositiveOrZero(message = "Producten op voorraad moet minimaal 0 of groter zijn.")
-  public int productInStock;
+@PositiveOrZero(message = "Producten op voorraad moet minimaal 0 of groter zijn.")
+public int productInStock;
 
-  public LocalDate orderPlacedDate;
+public LocalDate orderPlacedDate;
+public int weeksToDelivery;
 
+@PositiveOrZero(message = "Aantal verkochte producten moet 0 of meer zijn.")
+public int productSold;
 
-    public int weeksToDelivery;
-
-    @PositiveOrZero(message = "Aantal verkochte producten moet 0 of meer zijn.")
-    public int productSold;
-
-   @PositiveOrZero(message = "Aantal producten op voorraad moet minimaal 0 of meer zijn.")
+@PositiveOrZero(message = "Aantal producten op voorraad moet minimaal 0 of meer zijn.")
     public int quantityInStock;
 
 
-    public boolean outOfStock;
+public boolean outOfStock;
 
   public Long getId() {
     return id;

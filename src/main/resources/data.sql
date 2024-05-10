@@ -50,7 +50,7 @@ VALUES ('client', '$2a$12$0c9pyyfDx1Q5ecssPX9XQOGo/0b4ECqEhRZUFoiPjWBDAfqefQAxC'
 
 INSERT INTO users (username, password, email, enabled, api_key, user_details)
 VALUES ('admin', '$2a$12$0c9pyyfDx1Q5ecssPX9XQOGo/0b4ECqEhRZUFoiPjWBDAfqefQAxC', 'admin@test.nl', TRUE,
-        'Key_Api_Admin', 'admin1 hoofdkantoor dealing inkoop');
+        'Key_Api_Admin', 'admin1 hoofdkantoor afdeling inkoop');
 
 INSERT INTO authorities (id, authority)
 VALUES (1, 'ROLE_CLIENT');

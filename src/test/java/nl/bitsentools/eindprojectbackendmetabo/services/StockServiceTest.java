@@ -318,8 +318,5 @@ class StockServiceTest {
         assertEquals(15, resultDto.getQuantityInStock());
         assertFalse(resultDto.isOutOfStock());
         assertEquals(TypeOfMachine.ZAAGMACHINE, resultDto.getTypeOfMachine());
+        }
     }
-    }
-
-
-    //TODO: 2 OF 3 CLASSES TESTEN VAN MINIMAAL 10 UNITTEST MET GEBRUIKMAKEN VAN 3X A. DIT IS EEN TEST VAN 7

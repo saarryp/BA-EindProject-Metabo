@@ -6,7 +6,6 @@ import nl.bitsentools.eindprojectbackendmetabo.dto.user.UserOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.BadRequestException;
 import nl.bitsentools.eindprojectbackendmetabo.services.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;

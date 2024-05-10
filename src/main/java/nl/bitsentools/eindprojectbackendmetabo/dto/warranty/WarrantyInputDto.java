@@ -5,9 +5,9 @@ import java.time.LocalDate;
 public class WarrantyInputDto {
 
        public int productNumber;
-        public LocalDate warrantyStart;
+       public LocalDate warrantyStart;
 
-        public LocalDate warrantyEnds;
+       public LocalDate warrantyEnds;
 
 
     public int getProductNumber() {

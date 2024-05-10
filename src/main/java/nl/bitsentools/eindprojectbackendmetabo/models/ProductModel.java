@@ -40,9 +40,6 @@ private Long id;
             (mappedBy = "productModel")
     List< OrderModel> orderModel = new ArrayList<>();
 
-
-//    @Lob
-//    private String defaultImageBase64;
     @OneToMany(mappedBy = "productModel", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ImageData> imageData;
 
@@ -60,7 +57,6 @@ private Long id;
         this.productWarranty = productWarranty;
         this.warrantyInMonths = warrantyInMonths;
         this.orderModel = orderModel;
-//        this.defaultImageBase64 = defaultImageBase64;
         this.imageData = imageData;
     }
 
@@ -146,12 +142,5 @@ private Long id;
         this.imageData = imageData;
     }
 
-//    public String getDefaultImageBase64() {
-//        return defaultImageBase64;
-//    }
-//
-//    public void setDefaultImageBase64(String defaultImageBase64) {
-//        this.defaultImageBase64 = defaultImageBase64;
-//    }
 }
 

@@ -210,7 +210,6 @@ class WarrantyServiceTest {
        // ASSERT
 
         assertThrows(RecordNotFoundException.class, () -> warrantyService.deleteWarranty(id));
-
     }
 
 

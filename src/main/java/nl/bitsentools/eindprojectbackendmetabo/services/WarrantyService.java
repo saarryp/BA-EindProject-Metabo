@@ -77,7 +77,6 @@ public void deleteWarranty(Long id) {
         }
 }
 
-    //twee methodes van dto naar warranty en warrranty naar model
 
     public WarrantyModel transferToWarranty(WarrantyModel warrantyModel, WarrantyInputDto dto) {
         warrantyModel.setProductNumber(dto.getProductNumber());

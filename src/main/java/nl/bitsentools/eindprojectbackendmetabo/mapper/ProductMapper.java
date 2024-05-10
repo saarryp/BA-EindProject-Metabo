@@ -8,7 +8,6 @@ public class ProductMapper {
     public static ProductModel transferToProduct(ProductInputDto dto){
         var product = new ProductModel();
 
-//        product.setId(dto.id);
         product.setBrandName(dto.brandName);
         product.setProductName(dto.productName);
         product.setProductNumber(dto.productNumber);
@@ -26,8 +25,6 @@ public class ProductMapper {
 
     public static ProductOutputDto transferToProductDto(ProductModel product){
         ProductOutputDto dto = new ProductOutputDto();
-
-        //deze omzetten naar product
 
         dto.setId(product.getId());
         dto.setBrandName(product.getBrandName());

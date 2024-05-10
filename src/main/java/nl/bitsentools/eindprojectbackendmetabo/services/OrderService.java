@@ -17,13 +17,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import static nl.bitsentools.eindprojectbackendmetabo.services.ProductService.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import static nl.bitsentools.eindprojectbackendmetabo.mapper.ProductMapper.transferToProductDto;
-import static nl.bitsentools.eindprojectbackendmetabo.mapper.ProductMapper.transferToProduct;
 
 
 @Service
@@ -113,7 +110,6 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
     }
 }
 
-    //twee methodes voor orderInputDto naar orderModel
 
     public OrderModel transferToOrder(OrderInputDto dto){
 
@@ -135,13 +131,10 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
         existingOrder.setInvoiceModel(dto.invoiceModel);
         return existingOrder;
     }
-    //van orderModel naar orderOutputDto
 
     public OrderOutputDto transferToDto(OrderModel orderModel){
         List<Object> products = new ArrayList<>();
 
-
-        //products.add(transferToProductDto(productRepository.findById(orderModel.getId()).get()));
         OrderOutputDto dto = new OrderOutputDto();
         dto.setId(orderModel.getId());
         dto.setUserId(orderModel.getUserId());
@@ -217,8 +210,6 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
         } else {
             System.out.println("order or invoice not found");
             throw new RecordNotFoundException("Order or invoice not found. ");
-
         }
-
     }
 }

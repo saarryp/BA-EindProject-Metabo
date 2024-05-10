@@ -10,12 +10,7 @@ import nl.bitsentools.eindprojectbackendmetabo.repositories.OrderRepository;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.ProductRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,14 +20,12 @@ import static nl.bitsentools.eindprojectbackendmetabo.mapper.ProductMapper.trans
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
-//  private final WarrantyRepository warrantyRepository;
     private final OrderRepository orderRepository;
 
 
     public ProductService(ProductRepository productRepository, OrderRepository orderRepository, OrderRepository orderRepository1) {
 
         this.productRepository = productRepository;
-//      this.warrantyRepository = warrantyRepository;
         this.orderRepository = orderRepository;
     }
 
@@ -65,8 +58,6 @@ public class ProductService {
 
     //POST
 
-
-
     public Object createProduct(ProductInputDto createProductDto) {
         ProductModel product = transferToProduct(createProductDto);
 
@@ -80,26 +71,6 @@ public class ProductService {
         }
     }
 
-//    //afbeeldingen toevoegen
-//    public void uploadDefaultImage(Long productId, MultipartFile file) throws IOException {
-//        ProductModel product = productRepository.findById(productId)
-//                .orElseThrow(() -> new RecordNotFoundException("Product not found"));
-//
-//        // Convert the image to Base64
-//        String base64Image = convertImageToBase64(file);
-//
-//        // Set the Base64 image to the product
-//        product.setDefaultImageBase64(base64Image);
-//
-//        // Save the updated product
-//        productRepository.save(product);
-//    }
-//
-//    private String convertImageToBase64(MultipartFile file) throws IOException, IOException {
-//        byte[] bytes = file.getBytes();
-//        return Base64.getEncoder().encodeToString(bytes);
-//    }
-
 
     //PUT
 
@@ -108,7 +79,6 @@ public class ProductService {
 
         if (existingProductOptional.isPresent()) {
             ProductModel excistingProduct = existingProductOptional.get();
-//            excistingProduct.setId(productDto.id);
             excistingProduct.setBrandName(productDto.brandName);
             excistingProduct.setProductName(productDto.productName);
             excistingProduct.setProductNumber(productDto.productNumber);
@@ -139,8 +109,6 @@ public class ProductService {
     public static ProductOutputDtoWarranty transferToDtoWarranty(ProductModel product){
         ProductOutputDtoWarranty dto = new ProductOutputDtoWarranty();
 
-        //deze omzetten naar product
-
         dto.setId(product.getId());
         dto.setBrandName(product.getBrandName());
         dto.setProductName(product.getProductName());
@@ -149,9 +117,6 @@ public class ProductService {
         dto.setTypeOfMachine(product.getTypeOfMachine());
         dto.setWarranty(product.isProductWarranty());
         dto.setWarrantyInMonths(product.getWarrantyInMonths());
-//        dto.setDefaultImageBase64(product.getDefaultImageBase64());
-
-
         return dto;
     }
 

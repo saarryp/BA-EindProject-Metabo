@@ -21,8 +21,6 @@ import java.io.IOException;
 @RestControllerAdvice
 public class ExceptionController {
 
-    //je kan hier meer statussen handmatig aanvullen bijv bad request, dat er 403 er niet bij mag
-    //die met dan ook in de exceptionmap aanmaken
     @ExceptionHandler(value= RecordNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<Object>RecordNotFound(RecordNotFoundException exception){

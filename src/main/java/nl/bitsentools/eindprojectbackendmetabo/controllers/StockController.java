@@ -1,9 +1,5 @@
 package nl.bitsentools.eindprojectbackendmetabo.controllers;
 
-
-
-import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductInputDto;
-import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.stock.StockInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.stock.StockOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.services.StockService;
@@ -56,8 +52,6 @@ public class StockController {
         return ResponseEntity.created(uri).body(savedStock);
 
     }
-
-
     //Put-updateById
 
     @PutMapping("/{id}")
