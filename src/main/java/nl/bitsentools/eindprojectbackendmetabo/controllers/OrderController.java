@@ -18,7 +18,6 @@ public class OrderController {
   private final OrderService orderService;
 
     public OrderController(OrderService orderService) {
-
         this.orderService = orderService;
     }
 
@@ -26,7 +25,6 @@ public class OrderController {
     @GetMapping
     public ResponseEntity<List<OrderOutputDto>>getAllOrders() {
         List<OrderOutputDto> orders = orderService.getAllOrders();
-
         return ResponseEntity.ok(orders);
     }
     @GetMapping("{id}")

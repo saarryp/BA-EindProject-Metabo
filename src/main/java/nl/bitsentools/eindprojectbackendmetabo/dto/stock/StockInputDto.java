@@ -3,7 +3,6 @@ package nl.bitsentools.eindprojectbackendmetabo.dto.stock;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
-
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
@@ -18,6 +17,7 @@ public class StockInputDto {
 
         @Min(value = 1, message = "Productnummer moet groter dan 0 zijn.")
         public int productNumber;
+
         @NotBlank(message = "Type machine mag niet leeg zijn.")
         @Enumerated(EnumType.STRING)
         public TypeOfMachine typeOfMachine;

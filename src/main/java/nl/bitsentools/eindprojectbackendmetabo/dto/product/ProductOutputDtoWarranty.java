@@ -3,13 +3,12 @@ package nl.bitsentools.eindprojectbackendmetabo.dto.product;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class ProductOutputDtoWarranty {
 
-        public Long id;
+    public Long id;
 
     @NotBlank(message = "Merknaam is niet ingevoerd.")
     public String brandName;
@@ -33,16 +32,9 @@ public class ProductOutputDtoWarranty {
     public TypeOfMachine typeOfMachine;
 
     public String defaultImageBase64;
+    public ProductOutputDtoWarranty(){}
 
-
-
-        //default constructor
-
-        public ProductOutputDtoWarranty(){}
-
-
-
-        public Long getId() {
+    public Long getId() {
             return id;
         }
 

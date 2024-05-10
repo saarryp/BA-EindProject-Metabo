@@ -19,6 +19,7 @@ public class UserOutputDto {
     public String apikey;
     @NotBlank(message = "E-mailadres mag niet leeg zijn.")
     public String email;
+
     @NotBlank(message = "dit veld met gegevens mag niet leeg zijn.")
     public String userDetails;
 

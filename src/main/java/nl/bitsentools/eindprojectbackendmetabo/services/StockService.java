@@ -76,12 +76,7 @@ public class StockService {
     }
 
 
-
-    //twee methodes aanmaken om inputDto naar model om te zetten
-    //en model naar outputDto
-
     public StockModel transferToStock(StockModel stock,StockInputDto dto){
-//       var stock = new StockModel();
 
 
         stock.setBrandName(dto.getBrandName());

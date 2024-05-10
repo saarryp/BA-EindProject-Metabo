@@ -16,7 +16,6 @@ public class OrderModel {
 
     private Long id;
 
-    // TODO;USERDETAIL NA MKEN USER KUNNEN VEEL WEGGEHAALD WORDEN ZODAT NIET DUBBELOP IS TODO
     @Column
     private int userId;
     @Column

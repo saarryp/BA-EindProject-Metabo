@@ -4,12 +4,10 @@ import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
-import nl.bitsentools.eindprojectbackendmetabo.models.UserModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.InvoiceRepository;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.UserRepository;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.WarrantyRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +50,6 @@ public class InvoiceService {
         }
     }
 
-
     //POST
 
     public InvoiceOutputDto createInvoice(InvoiceInputDto createInvoiceDto) {
@@ -64,7 +61,7 @@ public class InvoiceService {
         double vatRate = createInvoiceDto.getVatRate();
         double vatAmount = invoice.getNetPriceWithoutVat() * (vatRate / 100);
 
-        // Store the VAT amount separately
+        // opslaan van verschillende berkeningen en uitkomsten BTW-bedrag
         if (vatRate == 9) {
             invoice.setVat9ProductPrice(vatAmount);
             invoice.setVat21ProductPrice(0.0); // Set 0 for 21% VAT if it's 9% VAT

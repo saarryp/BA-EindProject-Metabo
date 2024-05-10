@@ -3,7 +3,6 @@ package nl.bitsentools.eindprojectbackendmetabo.dto.user;
 import nl.bitsentools.eindprojectbackendmetabo.models.Authority;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
@@ -15,6 +14,7 @@ public class UserInputDto {
 
     @NotBlank(message = "Wachtwoord is verplicht. ")
     @Size(message = "Wachtwoord moet minimaal 6 tekens bevatten.")
+
     public String password;
     public Boolean enabled;
     public String apikey;
