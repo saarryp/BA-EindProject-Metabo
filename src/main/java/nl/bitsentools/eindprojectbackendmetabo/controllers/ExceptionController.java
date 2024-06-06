@@ -1,7 +1,7 @@
 package nl.bitsentools.eindprojectbackendmetabo.controllers;
 
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.BadRequestException;
-import nl.bitsentools.eindprojectbackendmetabo.exceptions.IllegalArgumentException;
+//import nl.bitsentools.eindprojectbackendmetabo.exceptions.IllegalArgumentException;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.UsernameNotFoundException;
 import org.apache.catalina.User;
@@ -33,12 +33,12 @@ public class ExceptionController {
         return new ResponseEntity<>(badRequestException.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(value= IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-    public ResponseEntity<Object>IllegalArgument(IllegalArgumentException illegalArgumentException)
-    {
-    return new ResponseEntity<>(illegalArgumentException.getMessage(), HttpStatus.NOT_ACCEPTABLE);
-    }
+//    @ExceptionHandler(value= IllegalArgumentException.class)
+//    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+//    public ResponseEntity<Object>IllegalArgument(IllegalArgumentException illegalArgumentException)
+//    {
+//    return new ResponseEntity<>(illegalArgumentException.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+//    }
 
     @ExceptionHandler(value = UsernameNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
