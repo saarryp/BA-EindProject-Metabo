@@ -19,29 +19,31 @@ public class InvoiceInputDto {
 
         @NotNull(message = "Totaalprijs is verplicht.")
         @PositiveOrZero(message = "Totaalprijs moet positief of 0 zijn.")
-        public double totalPrice;
+        public Double totalPrice;
 
         @PositiveOrZero(message = "BTW-tarief (hoog) moet positief of nul zijn.")
-        public double vat21ProductPrice;
+        public Double vat21ProductPrice;
 
         @PositiveOrZero(message = "BTW-tarief (laag) moet positief of 0 zijn.")
-        public double vat9ProductPrice;
+        public Double vat9ProductPrice;
 
         @NotNull(message = "Totaalprijs zonder BTW is verplicht")
-        public double netPriceWithoutVat;
+        public Double netPriceWithoutVat;
 
 
-        public double vatRate;
+        public Double vatRate;
 
-        public double vatAmount;
+        public Double vatAmount;
+        @NotNull(message = "een UserId is verplicht.")
 
-        public int userId;
+        public Integer userId;
 
+        @NotBlank(message = "Adres invullen is verplicht.")
         public String userAddress;
 
         public boolean productWarranty;
 
-        public int warrantyInMonths;
+        public Integer warrantyInMonths;
 
        public LocalDate dateOfPurchase;
 

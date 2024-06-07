@@ -10,34 +10,17 @@ import java.util.List;
 public class OrderOutputDto {
 
     public Long id;
-
-
     public int userId;
-
-
     public String userEmail;
 
-
     public String userDetails;
-
-
     public int orderNumber;
-
     public List<Object> productDto;
 
-
     public double price;
-
-
     public int quantity;
-
-
     public double totalPriceOrder;
     public InvoiceModel invoiceModel;
-
-
-
-
 
     public OrderOutputDto(){}
 

@@ -8,21 +8,20 @@ import java.time.LocalDate;
 public class InvoiceOutputDto {
 
     public Long id;
-    @NotBlank(message = "Factuurnummer is verplicht.")
+
     public String invoiceId;
 
 
-    @NotBlank(message = "De naam product is verplicht")
+
     public String productName;
 
-    @NotNull(message = "Totaalprijs is verplicht")
-    @PositiveOrZero(message = "Totaalprijs moet positief of 0 zijn.")
+
     public double totalPrice;
 
-    @PositiveOrZero(message = "Bedrag van 21% BTW moet positief of 0 zijn.")
+
     public double vat21ProductPrice;
 
-    @PositiveOrZero(message = "Bedrag van 9% BTW moet positief of 0 zijn.")
+
     public double vat9ProductPrice;
 
     public  double netPriceWithoutVat;
