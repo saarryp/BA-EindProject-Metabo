@@ -1,10 +1,12 @@
 package nl.bitsentools.eindprojectbackendmetabo.dto.warranty;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class WarrantyInputDto {
 
-       public int productNumber;
+        @NotNull(message = "product should have number")
+       public Integer productNumber;
        public LocalDate warrantyStart;
 
        public LocalDate warrantyEnds;
