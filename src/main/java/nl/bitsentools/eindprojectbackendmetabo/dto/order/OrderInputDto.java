@@ -15,16 +15,16 @@ public class OrderInputDto {
     @NotBlank(message = "Gebruikersgegevens zijn verplicht.")
     public String userDetails;
     @NotNull(message = "Bestelnummer is verplicht")
-    public int orderNumber;
+    public Integer orderNumber;
 
     @NotNull(message = "Productnummer is verplicht")
     public Long productNumber;
 
     @NotNull(message = "prijs is verplicht")
-    public double price;
+    public Double price;
 
     @Min(value = 1, message = "er moet minimaal 1 prodct worden besteld.")
-    public int quantity;
+    public Integer quantity;
     public InvoiceModel invoiceModel;
 
     public OrderInputDto(){}

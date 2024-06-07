@@ -122,8 +122,12 @@ public class SpringSecurityConfig {
                                 .requestMatchers(HttpMethod.PUT, "invoices/{id}").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/invoices/{id}").hasRole("ADMIN")
 
+                                //nieuw toegevoegd
+                                .requestMatchers(HttpMethod.POST, "/invoices/{id}/warranties").hasRole("ADMIN")
 
-                                                        //----------warranties--------//
+
+
+                                //----------warranties--------//
 
                                 .requestMatchers(HttpMethod.GET, "warranties").hasAnyRole("ADMIN", "CLIENT")
                                 .requestMatchers(HttpMethod.POST, "warranties").hasRole("ADMIN")
