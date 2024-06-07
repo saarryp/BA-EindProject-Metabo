@@ -12,25 +12,18 @@ public class ProductOutputDto {
 
     public Long id;
 
-    @NotBlank(message = "Merknaam is niet ingevoerd.")
     public String brandName;
 
-    @NotBlank(message = "Productnaam is niet ingevoerd")
     public String productName;
 
-    @NotBlank(message = "Het productnummer moet ingevoerd zijn.")
-    @NotNull(message = "Het productnummer moet groter dan 0 zijn.")
     public int productNumber;
 
-    @NotNull(message = "De prijs moet zijn ingevoerd.")
     public double price;
 
-    @NotBlank(message = "Het type machine is niet ingevoerd.")
     @Enumerated(EnumType.STRING)
     public TypeOfMachine typeOfMachine;
 
     public List<String> imageUrls;
-
 
     public ProductOutputDto() {
     }
