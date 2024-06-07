@@ -39,7 +39,7 @@ public class StockController {
 
     //Post-create
     @PostMapping
-    public ResponseEntity<StockOutputDto> createStock(@RequestBody StockInputDto stockInputDto) {
+    public ResponseEntity<StockOutputDto> createStock(@Valid @RequestBody StockInputDto stockInputDto) {
 
         StockOutputDto savedStock = stockService.createStock(stockInputDto);
 

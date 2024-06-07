@@ -16,25 +16,25 @@ public class StockInputDto {
         public String productName;
 
         @Min(value = 1, message = "Productnummer moet groter dan 0 zijn.")
-        public int productNumber;
+        public Integer productNumber;
 
         @NotBlank(message = "Type machine mag niet leeg zijn.")
         @Enumerated(EnumType.STRING)
         public TypeOfMachine typeOfMachine;
 
         @Min(value = 0, message = "Voorraad moet 0 of groter zijn.")
-        public int productInStock;
+        public Integer productInStock;
 
         public LocalDate orderPlacedDate;
 
         @Min(value = 0, message = "Aantal weken voor levering moet 0 of groter zijn.")
-        public int weeksToDelivery;
+        public Integer weeksToDelivery;
 
         @Min(value = 0, message = "Aantalverkochte producten moet minimaal 0 of meer zijn.")
-        public int productSold;
+        public Integer productSold;
 
         @Min(value= 0, message = "Aantal producten op voorraad moet minimaal 0 of meer zijn.")
-        public int quantityInStock;
+        public Integer quantityInStock;
 
         public boolean outOfStock;
 
