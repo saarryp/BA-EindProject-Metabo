@@ -23,8 +23,6 @@ SET product_id = (
     CASE
         WHEN order_number = 1 THEN 101
         WHEN order_number = 2 THEN 102
-        -- Voeg hier meer WHEN-clausules toe voor andere order numbers
-        ELSE NULL
         END
     )
 WHERE order_number IN (1, 2);
@@ -99,5 +97,3 @@ VALUES (1, 'ROLE_CLIENT');
 INSERT INTO authorities (id, authority)
 VALUES (2, 'ROLE_ADMIN');
 
-
---KOPPELINGEN MAKEN TUSSEN INVOICES & WARRANTY (ONETOONE) EN ORDER & PRODUCT (MANYTOMANY) PRODUCT & IMAGEDATA (ONETOMANY)
