@@ -63,20 +63,22 @@ VALUES (101, 1, '2024-05-17', '2025-07-17'),
        (102, 2, '2023-12-24', '2026-01-01');
 
 -- -------------------------------INVOICES & WARRANTIES----------------------------------------
--- -- Voeg de kolom "warranty_id" toe aan de "invoices" tabel
--- ALTER TABLE invoices
---     ADD COLUMN warranty_id INTEGER;
---
---
--- -- Factuur 101 koppelen aan garantie 101
--- UPDATE invoices
--- SET warranty_id = 101
--- WHERE id = 101;
---
--- -- Factuur 102 koppelen aan garantie 102
--- UPDATE invoices
--- SET warranty_id = 102
--- WHERE id = 102;
+
+
+-- Voeg de kolom "warranty_id" toe aan de "invoices" tabel
+ALTER TABLE invoices
+    ADD COLUMN warranty_id INTEGER;
+
+
+-- Factuur 101 koppelen aan garantie 101
+UPDATE invoices
+SET warranty_id = 101
+WHERE id = 101;
+
+-- Factuur 102 koppelen aan garantie 102
+UPDATE invoices
+SET warranty_id = 102
+WHERE id = 102;
 
 
 
