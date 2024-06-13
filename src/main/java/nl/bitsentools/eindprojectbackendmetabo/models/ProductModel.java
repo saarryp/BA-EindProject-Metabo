@@ -36,12 +36,11 @@ private Long id;
     private int warrantyInMonths;
 
 
-    @ManyToMany
-            (mappedBy = "productModel")
+    @ManyToMany(mappedBy = "productModel")
     List< OrderModel> orderModel = new ArrayList<>();
 
     @OneToMany(mappedBy = "productModel", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<ImageData> imageData;
+    private List<ImageData> imageData = new ArrayList<>();
 
 
     public ProductModel(){}

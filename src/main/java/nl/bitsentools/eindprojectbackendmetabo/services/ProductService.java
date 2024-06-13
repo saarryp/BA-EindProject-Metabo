@@ -5,6 +5,7 @@ import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDtoWarranty;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
+import nl.bitsentools.eindprojectbackendmetabo.models.ImageData;
 import nl.bitsentools.eindprojectbackendmetabo.models.ProductModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.OrderRepository;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.ProductRepository;
@@ -103,6 +104,14 @@ public class ProductService {
             throw new RecordNotFoundException("product with id: " + id + " not found");
         }
     }
+
+    // Methode om alle afbeeldingen van een product op te halen
+    public List<ImageData> getAllImagesByProductId(Long productId) {
+        ProductModel product = productRepository.findById(productId)
+                .orElseThrow(() -> new RecordNotFoundException("Product not found"));
+        return product.getImageData();
+    }
+
 
 
 
