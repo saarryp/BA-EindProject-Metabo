@@ -45,9 +45,13 @@ public class OrderModel {
     @NotNull
     InvoiceModel invoiceModel;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_user_id")
+    private UserModel user;
+
     public OrderModel(){}
 
-    public OrderModel(Long id, int userId, String userEmail, String userDetails, int productNumber, int orderNumber, ProductModel productModel, double price, int quantity, double totalPriceOrder, InvoiceModel invoiceModel) {
+    public OrderModel(Long id, int userId, String userEmail, String userDetails, int productNumber, int orderNumber, ProductModel productModel, double price, int quantity, double totalPriceOrder, InvoiceModel invoiceModel, UserModel user) {
         this.id = id;
         this.userId = userId;
         this.userEmail = userEmail;
@@ -58,6 +62,7 @@ public class OrderModel {
         this.quantity = quantity;
         this.totalPriceOrder = totalPriceOrder;
         this.invoiceModel = invoiceModel;
+        this.user = user;
     }
 
     public Long getId() {
@@ -146,5 +151,13 @@ public class OrderModel {
 
     public void setInvoiceModel(InvoiceModel invoiceModel) {
         this.invoiceModel = invoiceModel;
+    }
+
+    public UserModel getUser() {
+        return user;
+    }
+
+    public void setUser(UserModel user) {
+        this.user = user;
     }
 }

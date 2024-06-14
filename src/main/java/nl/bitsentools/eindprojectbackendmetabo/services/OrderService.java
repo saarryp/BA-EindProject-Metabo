@@ -8,11 +8,15 @@ import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDtoWarra
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.OrderModel;
 import nl.bitsentools.eindprojectbackendmetabo.models.ProductModel;
+import nl.bitsentools.eindprojectbackendmetabo.models.UserModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.InvoiceRepository;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.OrderRepository;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.ProductRepository;
+import nl.bitsentools.eindprojectbackendmetabo.repositories.UserRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,11 +33,13 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final InvoiceRepository invoiceRepository;
+    private final UserRepository userRepository;
 
-    public OrderService(OrderRepository orderRepository, ProductRepository productRepository, InvoiceRepository invoiceRepository) {
+    public OrderService(OrderRepository orderRepository, ProductRepository productRepository, InvoiceRepository invoiceRepository, UserRepository userRepository) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.invoiceRepository = invoiceRepository;
+        this.userRepository = userRepository;
     }
 
     //GET-all
@@ -58,11 +64,20 @@ public class OrderService {
     }
 
     //POST
-
+@Transactional
     public OrderOutputDto createOrder(OrderInputDto createOrderDto){
-        OrderModel order = new OrderModel();
-        OrderModel orderModel = transferToOrder(createOrderDto);
+        // Haal de gebruikersinformatie op vanuit de beveiligingscontext
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
 
+        // Gebruik de gevonden gebruikersnaam om de gebruiker te vinden
+        UserModel user = userRepository.findUserModelByUsername(username)
+                .orElseThrow(() -> new RecordNotFoundException("Gebruiker niet gevonden voor gebruikersnaam: " + username));
+
+
+        OrderModel order = new OrderModel();
+//        order.setUser(user);
+        OrderModel orderModel = transferToOrder(createOrderDto, user);
 
         orderRepository.save(orderModel);
         return transferToDto(orderModel);
@@ -111,7 +126,7 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
 }
 
 
-    public OrderModel transferToOrder(OrderInputDto dto){
+    public OrderModel transferToOrder(OrderInputDto dto, UserModel user){
 
        var existingOrder = new OrderModel();
 
@@ -129,6 +144,8 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
         existingOrder.setQuantity(dto.quantity);
         existingOrder.setTotalPriceOrder(dto.getPrice() * dto.getQuantity());
         existingOrder.setInvoiceModel(dto.invoiceModel);
+
+
         return existingOrder;
     }
 

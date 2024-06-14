@@ -1,6 +1,5 @@
 package nl.bitsentools.eindprojectbackendmetabo.services;
 
-
 import nl.bitsentools.eindprojectbackendmetabo.dto.user.UserInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.user.UserOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
