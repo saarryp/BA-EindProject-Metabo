@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 public class InvoiceModel {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
 
     private Long id;
@@ -44,7 +44,7 @@ public class InvoiceModel {
     private LocalDate dateOfPurchase;
 
     @OneToOne( cascade = CascadeType.ALL)
-    @JoinColumn
+    @JoinColumn(name = "warranty_id")
     WarrantyModel warrantyModel;
 
     @OneToOne

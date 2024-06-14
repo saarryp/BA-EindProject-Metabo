@@ -11,7 +11,7 @@ import java.util.List;
 public class OrderModel {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
 
     private Long id;
@@ -35,7 +35,10 @@ public class OrderModel {
 
 
     @ManyToMany
-    @JoinTable(name = "order_product", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "order_id"))
+    @JoinTable(
+            name = "order_product",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
     List<ProductModel> productModel  = new ArrayList<>();
 
     @OneToOne(mappedBy = "orderModel", cascade = CascadeType.ALL)

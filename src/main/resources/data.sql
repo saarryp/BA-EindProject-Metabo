@@ -25,6 +25,10 @@ VALUES
 ALTER TABLE orders
     ADD COLUMN product_id INTEGER;
 
+-- Voeg de kolom "invoice_id" toe aan de "orders" tabel
+ALTER TABLE orders
+    ADD COLUMN invoice_id INTEGER;
+
 
 -------------------------------ORDERS--------------------------------------
 
@@ -44,6 +48,26 @@ SET product_id = (
     )
 WHERE order_number IN (1, 2);
 
+
+-- Orders koppelen aan invoices
+UPDATE orders
+SET invoice_id = (
+    CASE
+        WHEN order_number = 1 THEN 101
+        WHEN order_number = 2 THEN 102
+        END
+    )
+WHERE order_number IN (1, 2);
+
+-- Invoices koppelen aan orders
+UPDATE invoices
+SET order_id = (
+    CASE
+        WHEN invoice_id = 'INV123' THEN 101
+        WHEN invoice_id = 'inv321' THEN 102
+        END
+    )
+WHERE invoice_id IN ('INV123', 'inv321');
 
 
 
@@ -80,11 +104,6 @@ VALUES (101, 1, '2024-05-17', '2025-07-17'),
 -- -------------------------------INVOICES & WARRANTIES----------------------------------------
 
 
--- Voeg de kolom "warranty_id" toe aan de "invoices" tabel
-ALTER TABLE invoices
-    ADD COLUMN warranty_id INTEGER;
-
-
 -- Factuur 101 koppelen aan garantie 101
 UPDATE invoices
 SET warranty_id = 101
@@ -94,6 +113,8 @@ WHERE id = 101;
 UPDATE invoices
 SET warranty_id = 102
 WHERE id = 102;
+
+
 
 
 
