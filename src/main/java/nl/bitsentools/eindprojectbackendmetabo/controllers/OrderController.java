@@ -59,6 +59,11 @@ public class OrderController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/assignUserToOrder")
+    public void assignUserToOrder(@RequestParam Long id, @RequestParam Long userId) {
+        orderService.assignUserToOrder(id, userId);
+    }
+
     @PostMapping("/{id}/invoices")
     public ResponseEntity<Object>assignOrderToInvoice(@PathVariable("id")Long id, @Valid @RequestBody IdInputDto input){
         orderService.assignOrderToInvoice(id, input.id);
@@ -70,6 +75,7 @@ public class OrderController {
     OrderOutputDto dto = orderService.updateOrder(id, updateOrder);
     return ResponseEntity.ok().body(dto);
     }
+
 
     @PutMapping("/{id}/admin")
     public ResponseEntity<OrderOutputDto> updateOrderForAdmin(@PathVariable("id") Long id, @Valid @RequestBody OrderInputDto updateDto) {

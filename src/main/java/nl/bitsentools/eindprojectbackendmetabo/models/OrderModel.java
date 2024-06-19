@@ -16,8 +16,9 @@ public class OrderModel {
 
     private Long id;
 
-    @Column
-    private int userId;
+    //moet ik deze er nu wel of niet inlaten?
+//    @Column
+//    private Long userId;
     @Column
     private int productNumber;
     @Column
@@ -34,6 +35,7 @@ public class OrderModel {
     private double totalPriceOrder;
 
 
+    //targetkant van de relatie
     @ManyToMany
     @JoinTable(
             name = "order_product",
@@ -45,15 +47,16 @@ public class OrderModel {
     @NotNull
     InvoiceModel invoiceModel;
 
+    //owner van de relatie. Foreign key in de database
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_user_id")
     private UserModel user;
 
     public OrderModel(){}
 
-    public OrderModel(Long id, int userId, String userEmail, String userDetails, int productNumber, int orderNumber, ProductModel productModel, double price, int quantity, double totalPriceOrder, InvoiceModel invoiceModel, UserModel user) {
+    public OrderModel(Long id, String userEmail, String userDetails, int productNumber, int orderNumber, ProductModel productModel, double price, int quantity, double totalPriceOrder, InvoiceModel invoiceModel, UserModel user) {
         this.id = id;
-        this.userId = userId;
+//        this.userId = userId;
         this.userEmail = userEmail;
         this.userDetails = userDetails;
         this.productNumber = productNumber;
@@ -73,13 +76,16 @@ public class OrderModel {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
-    }
+//
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+
+//    public Long getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(Long userId) {
+//        this.userId = userId;
+//    }
 
     public int getProductNumber() {
         return productNumber;

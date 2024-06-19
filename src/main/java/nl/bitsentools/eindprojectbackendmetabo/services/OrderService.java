@@ -75,7 +75,7 @@ public class OrderService {
                 .orElseThrow(() -> new RecordNotFoundException("Gebruiker niet gevonden voor gebruikersnaam: " + username));
 
 
-        OrderModel order = new OrderModel();
+//        OrderModel orderModel = new OrderModel();
 //        order.setUser(user);
         OrderModel orderModel = transferToOrder(createOrderDto, user);
 
@@ -144,6 +144,7 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
         existingOrder.setQuantity(dto.quantity);
         existingOrder.setTotalPriceOrder(dto.getPrice() * dto.getQuantity());
         existingOrder.setInvoiceModel(dto.invoiceModel);
+        existingOrder.setUser(user);
 
 
         return existingOrder;
@@ -154,7 +155,9 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
 
         OrderOutputDto dto = new OrderOutputDto();
         dto.setId(orderModel.getId());
-        dto.setUserId(orderModel.getUserId());
+//        dto.setUserId(orderModel.getUserId());
+
+
         dto.setUserEmail(orderModel.getUserEmail());
         dto.setUserDetails(orderModel.getUserDetails());
         dto.setOrderNumber(orderModel.getOrderNumber());
@@ -174,6 +177,12 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
                 products.add(productOutPutDto);
 
             }
+        }
+
+        //relatietoevoegen. Null check toevoegen.
+
+        if(orderModel.getUser() !=null){
+            dto.setUserId(orderModel.getUser().getId());
         }
         dto.setProductDto(products);
 
@@ -213,8 +222,8 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
         }
     }
     @Transactional
-    public void assignOrderToInvoice(Long orderId, Long invoiceId){
-        var optionalOrder = orderRepository.findById(orderId);
+    public void assignOrderToInvoice(Long id, Long invoiceId){
+        var optionalOrder = orderRepository.findById(id);
         var optionalInvoice = invoiceRepository.findById(invoiceId);
 
         if(optionalOrder.isPresent() && optionalInvoice.isPresent()) {
@@ -227,6 +236,21 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
         } else {
             System.out.println("order or invoice not found");
             throw new RecordNotFoundException("Order or invoice not found. ");
+        }
+    }
+    public void assignUserToOrder(Long orderId, Long userId) {
+        var optionalOrder = orderRepository.findById(orderId);
+        var optionalUser = userRepository.findById(userId);
+
+        if (optionalOrder.isPresent() && optionalUser.isPresent()) {
+            var order = optionalOrder.get();
+            var user = optionalUser.get();
+
+
+            order.setUser(user);
+            orderRepository.save(order);
+        } else {
+            throw new RecordNotFoundException();
         }
     }
 }

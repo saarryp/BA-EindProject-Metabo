@@ -2,15 +2,12 @@ package nl.bitsentools.eindprojectbackendmetabo.dto.order;
 
 import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class OrderOutputDto {
 
     public Long id;
-    public int userId;
+    public Long userId;
     public String userEmail;
 
     public String userDetails;
@@ -32,11 +29,11 @@ public class OrderOutputDto {
         this.id = id;
     }
 
-    public int getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

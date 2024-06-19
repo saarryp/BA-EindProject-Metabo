@@ -25,15 +25,11 @@ ALTER TABLE orders
 
 -------------------------------ORDERS--------------------------------------
 
--- INSERT INTO orders(id, user_id, product_number, user_email, user_details, order_number, price, quantity, total_price_order)
--- VALUES (101,1, 1, 'saskia@hotmail.com', 'saskia noord prinsenstraat 12 2415 XG Edam', 1, 300, 2, 600),
---        (102, 2, 2, 'bertus@gmail.com', 'berts beukerhuis bedrijventerrein zichters hollandse rading', 2, 20, 5, 100);
 
-
-INSERT INTO orders(id, user_id, product_id, invoice_id, product_number, user_email, user_details, order_number, price, quantity, total_price_order)
+INSERT INTO orders(id, product_id, invoice_id, product_number, user_email, user_details, order_number, price, quantity, total_price_order)
 VALUES
-    (101, 1, 1, 101, 1, 'saskia@hotmail.com', 'saskia noord prinsenstraat 12 2415 XG Edam', 1, 300, 2, 600),
-    (102, 2, 2, 102, 2, 'bertus@gmail.com', 'berts beukerhuis bedrijventerrein zichters hollandse rading', 2, 20, 5, 100);
+    (101, 10, 101, 123456, 'saskia@hotmail.com', 'saskia noord prinsenstraat 12 2415 XG Edam', 1, 300, 2, 600),
+    (102, 11, 102, 202030, 'bertus@gmail.com', 'berts beukerhuis bedrijventerrein zichters hollandse rading', 2, 20, 5, 100);
 
 -------------------------kolom toevoegen van product en orders-------------
 
@@ -67,7 +63,6 @@ SET order_id = (
         END
     )
 WHERE invoice_id IN ('INV123', 'inv321');
-
 
 ----------------------------------STOCKS--------------------------------------------------
 INSERT INTO stocks(id,brand_name, product_name, product_number, type_of_machine,
@@ -131,3 +126,4 @@ VALUES (1, 'ROLE_CLIENT');
 INSERT INTO authorities (id, authority)
 VALUES (2, 'ROLE_ADMIN');
 
+SELECT * FROM users;
