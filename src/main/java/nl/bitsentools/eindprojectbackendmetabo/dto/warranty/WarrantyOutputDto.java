@@ -7,8 +7,6 @@ public class WarrantyOutputDto {
     public Long id;
 
 
-    public int productNumber;
-
     public LocalDate warrantyStart;
 
     public LocalDate warrantyEnds;
@@ -21,13 +19,6 @@ public class WarrantyOutputDto {
         this.id = id;
     }
 
-    public int getProductNumber() {
-        return productNumber;
-    }
-
-    public void setProductNumber(int productNumber) {
-        this.productNumber = productNumber;
-    }
 
     public LocalDate getWarrantyStart() {
         return warrantyStart;

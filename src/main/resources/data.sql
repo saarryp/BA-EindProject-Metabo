@@ -83,9 +83,9 @@ INSERT INTO invoices ( id,
 
 --------------------------------WARRANTIES------------------------------------------------
 
-INSERT INTO warranties(id, product_number, warranty_start, warranty_ends)
-VALUES (101, 1, '2024-05-17', '2025-07-17'),
-       (102, 2, '2023-12-24', '2026-01-01');
+INSERT INTO warranties(id, warranty_start, warranty_ends)
+VALUES (101,  '2024-05-17', '2025-07-17'),
+       (102,  '2023-12-24', '2026-01-01');
 
 -- -------------------------------INVOICES & WARRANTIES----------------------------------------
 

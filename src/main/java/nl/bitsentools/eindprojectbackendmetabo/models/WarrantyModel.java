@@ -15,9 +15,6 @@ public class WarrantyModel {
 
         private Long id;
         @Column
-
-        private int productNumber;
-        @Column
         private LocalDate warrantyStart;
         @Column
         private LocalDate warrantyEnds;
@@ -26,9 +23,8 @@ public class WarrantyModel {
         @OneToOne(mappedBy = "warrantyModel")
         InvoiceModel invoiceModel;
 
-    public WarrantyModel(Long id, int productNumber, LocalDate warrantyStart, LocalDate warrantyEnds, InvoiceModel invoiceModel) {
+    public WarrantyModel(Long id, LocalDate warrantyStart, LocalDate warrantyEnds, InvoiceModel invoiceModel) {
         this.id = id;
-        this.productNumber = productNumber;
         this.warrantyStart = warrantyStart;
         this.warrantyEnds = warrantyEnds;
         this.invoiceModel = invoiceModel;
@@ -51,13 +47,6 @@ public class WarrantyModel {
             return warrantyStart;
         }
 
-        public int getProductNumber() {
-        return productNumber;
-        }
-
-        public void setProductNumber(int productName) {
-        this.productNumber = productName;
-        }
 
         public void setWarrantyStart(LocalDate warrantyStart) {
             this.warrantyStart = warrantyStart;
