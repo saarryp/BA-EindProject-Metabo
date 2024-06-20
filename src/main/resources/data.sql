@@ -1,10 +1,35 @@
--------------------------------PRODUCTS----------------------------------------------
+-------------------------------USERS-------------------------------------------------
+
+-- password password
+INSERT INTO users (username, password, email, enabled, api_key, user_details)
+VALUES ('client', '$2a$12$YDXdroti6FVOoZe8mThefe5MWSJ6iBLHp5oT7DyOcDP6lLbjNx8Ly','user@test.nl',
+        TRUE, 'Key_Api_User', 'client Bertus Spoorweglaan 4 Bunnik');
+
+INSERT INTO users (username, password, email, enabled, api_key, user_details)
+VALUES ('admin', '$2a$12$02hpDdW3Nbh0lN6RPVgz3utGcvyKCppow/vst5UlDypzyBkAMJjNW', 'admin@test.nl', TRUE,
+        'Key_Api_Admin', 'admin1 hoofdkantoor afdeling inkoop');
+
+INSERT INTO authorities (id, authority)
+VALUES (1, 'ROLE_CLIENT');
+
+INSERT INTO authorities (id, authority)
+VALUES (2, 'ROLE_ADMIN');
+
+SELECT * FROM users;
+
+
+------------------------------PRODUCTS----------------------------------------------
 
 INSERT INTO products(id, brand_name, product_name, product_number, price, type_of_machine, product_warranty, warranty_in_months)
 values (101,'test', 'testName',1, 300, 'SCHUURMACHINE',true, 5),
-       (102, 'test2', 'testname2', 2,  60, 'ZAAGMACHINE', false, 0);
+       (102, 'test2', 'testname2', 2,  60, 'ZAAGMACHINE', false, 0),
+       (103, 'test3', 'testname3', 3, 1500, 'BOORMACHINE', true, 2);
 
+--------------------------------WARRANTIES------------------------------------------------
 
+INSERT INTO warranties(id, warranty_start, warranty_ends, product_model_id)
+VALUES (401,  '2024-05-17', '2025-07-17', 101),
+       (402,  '2023-12-24', '2026-01-01', 102);
 
 
 -- Voeg de kolom "product_id" toe aan de "orders" tabel
@@ -19,10 +44,10 @@ ALTER TABLE orders
 -------------------------------ORDERS--------------------------------------
 
 
-INSERT INTO orders(id, product_id, invoice_id, product_number, user_email, user_details, order_number, price, quantity, total_price_order)
+INSERT INTO orders(id, order_number, price, quantity, total_price_order, order_user_id)
 VALUES
-    (101, 10, 101, 123456, 'saskia@hotmail.com', 'saskia noord prinsenstraat 12 2415 XG Edam', 1, 300, 2, 600),
-    (102, 11, 102, 202030, 'bertus@gmail.com', 'berts beukerhuis bedrijventerrein zichters hollandse rading', 2, 20, 5, 100);
+    (101,  1, 300, 2, 600,1),
+    (102,  2, 20, 5, 100,2);
 
 -------------------------kolom toevoegen van product en orders-------------
 
@@ -81,42 +106,19 @@ INSERT INTO invoices ( id,
          );
 
 
---------------------------------WARRANTIES------------------------------------------------
-
-INSERT INTO warranties(id, warranty_start, warranty_ends)
-VALUES (101,  '2024-05-17', '2025-07-17'),
-       (102,  '2023-12-24', '2026-01-01');
 
 -- -------------------------------INVOICES & WARRANTIES----------------------------------------
 
 
--- Factuur 101 koppelen aan garantie 101
-UPDATE invoices
-SET warranty_id = 101
-WHERE id = 101;
+-- -- Factuur 101 koppelen aan garantie 101
+-- UPDATE invoices
+-- SET warranty_id = 101
+-- WHERE id = 101;
+--
+-- -- Factuur 102 koppelen aan garantie 102
+-- UPDATE invoices
+-- SET warranty_id = 102
+-- WHERE id = 102;
 
--- Factuur 102 koppelen aan garantie 102
-UPDATE invoices
-SET warranty_id = 102
-WHERE id = 102;
 
 
-
--------------------------------USERS-------------------------------------------------
-
--- password password
-INSERT INTO users (username, password, email, enabled, api_key, user_details)
-VALUES ('client', '$2a$12$YDXdroti6FVOoZe8mThefe5MWSJ6iBLHp5oT7DyOcDP6lLbjNx8Ly','user@test.nl',
-        TRUE, 'Key_Api_User', 'client Bertus Spoorweglaan 4 Bunnik');
-
-INSERT INTO users (username, password, email, enabled, api_key, user_details)
-VALUES ('admin', '$2a$12$02hpDdW3Nbh0lN6RPVgz3utGcvyKCppow/vst5UlDypzyBkAMJjNW', 'admin@test.nl', TRUE,
-        'Key_Api_Admin', 'admin1 hoofdkantoor afdeling inkoop');
-
-INSERT INTO authorities (id, authority)
-VALUES (1, 'ROLE_CLIENT');
-
-INSERT INTO authorities (id, authority)
-VALUES (2, 'ROLE_ADMIN');
-
-SELECT * FROM users;

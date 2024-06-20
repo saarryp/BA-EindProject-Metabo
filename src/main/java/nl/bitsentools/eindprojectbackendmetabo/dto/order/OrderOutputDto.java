@@ -8,9 +8,6 @@ public class OrderOutputDto {
 
     public Long id;
     public Long userId;
-    public String userEmail;
-
-    public String userDetails;
     public int orderNumber;
     public List<Object> productDto;
 
@@ -37,21 +34,7 @@ public class OrderOutputDto {
         this.userId = userId;
     }
 
-    public String getUserEmail() {
-        return userEmail;
-    }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
-    public String getUserDetails() {
-        return userDetails;
-    }
-
-    public void setUserDetails(String userDetails) {
-        this.userDetails = userDetails;
-    }
 
     public int getOrderNumber() {
         return orderNumber;

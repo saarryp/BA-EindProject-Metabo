@@ -40,6 +40,7 @@ public class OrderService {
         this.productRepository = productRepository;
         this.invoiceRepository = invoiceRepository;
         this.userRepository = userRepository;
+
     }
 
     //GET-all
@@ -88,9 +89,11 @@ public OrderOutputDto updateOrder(Long id, OrderInputDto updateDto) {
 
         OrderModel existingOrder = orderRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException("Order with id: " + id + "is not found."));
-        existingOrder.setUserEmail(updateDto.userEmail);
-        existingOrder.setUserDetails(updateDto.userDetails);
+
         existingOrder.setQuantity(updateDto.quantity);
+    existingOrder.setTotalPriceOrder(updateDto.getPrice() * updateDto.getQuantity());
+    existingOrder.setInvoiceModel(updateDto.getInvoiceModel());
+
 
     orderRepository.save(existingOrder);
 
@@ -106,7 +109,8 @@ public OrderOutputDto updateOrder(Long id, OrderInputDto updateDto) {
         existingOrder.setOrderNumber(updateDto.orderNumber);
         existingOrder.setPrice(updateDto.price);
         existingOrder.setQuantity((updateDto.quantity));
-        existingOrder.setUserDetails(updateDto.userDetails);
+        existingOrder.setTotalPriceOrder(updateDto.getPrice() * updateDto.getQuantity());
+        existingOrder.setInvoiceModel(updateDto.getInvoiceModel());
 
         orderRepository.save(existingOrder);
 
@@ -130,17 +134,19 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
 
        var existingOrder = new OrderModel();
 
-       if(dto.productNumber == null){
-           throw new IllegalArgumentException("Product Id cannot be null");
-       }
+//       if(dto.productNumber == null){
+//           throw new IllegalArgumentException("Product Id cannot be null");
+//       }
+//
+//       var product = productRepository.findById(dto.productNumber);
 
-       var product = productRepository.findById(dto.productNumber);
+//        product.ifPresent(productModel -> existingOrder.getProductModel().add(productModel));
 
-        product.ifPresent(productModel -> existingOrder.getProductModel().add(productModel));
-        existingOrder.setOrderNumber(dto.orderNumber);
+        ProductModel product = productRepository.findById(dto.getProductNumber())
+                .orElseThrow(() -> new RecordNotFoundException("Product with id: " + dto.getProductNumber() + " not found."));
+
+//        orderModel.getProductModel().add(product);existingOrder.setOrderNumber(dto.orderNumber);
         existingOrder.setPrice(dto.price);
-        existingOrder.setUserEmail(dto.userEmail);
-        existingOrder.setUserDetails(dto.userDetails);
         existingOrder.setQuantity(dto.quantity);
         existingOrder.setTotalPriceOrder(dto.getPrice() * dto.getQuantity());
         existingOrder.setInvoiceModel(dto.invoiceModel);
@@ -155,11 +161,6 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
 
         OrderOutputDto dto = new OrderOutputDto();
         dto.setId(orderModel.getId());
-//        dto.setUserId(orderModel.getUserId());
-
-
-        dto.setUserEmail(orderModel.getUserEmail());
-        dto.setUserDetails(orderModel.getUserDetails());
         dto.setOrderNumber(orderModel.getOrderNumber());
         dto.setPrice(orderModel.getPrice());
         dto.setQuantity(orderModel.getQuantity());
@@ -178,8 +179,6 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
 
             }
         }
-
-        //relatietoevoegen. Null check toevoegen.
 
         if(orderModel.getUser() !=null){
             dto.setUserId(orderModel.getUser().getId());

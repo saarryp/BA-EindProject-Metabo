@@ -5,6 +5,7 @@ import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.WarrantyModel;
+import nl.bitsentools.eindprojectbackendmetabo.repositories.ProductRepository;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.WarrantyRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -17,9 +18,11 @@ import java.util.Optional;
 public class WarrantyService {
 
     private final WarrantyRepository warrantyRepository;
+    private final ProductRepository productRepository;
 
-    public WarrantyService(WarrantyRepository warrantyRepository){
+    public WarrantyService(WarrantyRepository warrantyRepository, ProductRepository productRepository){
         this.warrantyRepository = warrantyRepository;
+        this.productRepository = productRepository;
     }
 
 
@@ -81,6 +84,7 @@ public void deleteWarranty(Long id) {
     public WarrantyModel transferToWarranty(WarrantyModel warrantyModel, WarrantyInputDto dto) {
         warrantyModel.setWarrantyStart(dto.getWarrantyStart());
         warrantyModel.setWarrantyEnds(dto.getWarrantyEnds());
+        warrantyModel.setProductModel(productRepository.findById(dto.getProductModelId()).orElseThrow(()-> new RecordNotFoundException()));
         return warrantyModel;
     }
 

@@ -10,6 +10,8 @@ public class WarrantyInputDto {
 
        public LocalDate warrantyEnds;
 
+       public Long productModelId;
+
 
 
     public LocalDate getWarrantyStart() {
@@ -28,6 +30,12 @@ public class WarrantyInputDto {
         this.warrantyEnds = warrantyEnds;
     }
 
+    public Long getProductModelId() {
+        return productModelId;
+    }
 
+    public void setProductModelId(Long productModelId) {
+        this.productModelId = productModelId;
+    }
 }
 

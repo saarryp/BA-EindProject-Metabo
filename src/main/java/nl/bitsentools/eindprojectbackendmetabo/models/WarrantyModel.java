@@ -20,14 +20,15 @@ public class WarrantyModel {
         private LocalDate warrantyEnds;
 
 
-        @OneToOne(mappedBy = "warrantyModel")
-        InvoiceModel invoiceModel;
+        @OneToOne
+        @JoinColumn(name = "product_model_id", referencedColumnName = "id")
+      ProductModel productModel;
 
-    public WarrantyModel(Long id, LocalDate warrantyStart, LocalDate warrantyEnds, InvoiceModel invoiceModel) {
+    public WarrantyModel(Long id, LocalDate warrantyStart, LocalDate warrantyEnds, ProductModel productModel) {
         this.id = id;
         this.warrantyStart = warrantyStart;
         this.warrantyEnds = warrantyEnds;
-        this.invoiceModel = invoiceModel;
+        this.productModel = productModel;
         }
 
         public WarrantyModel()
@@ -60,12 +61,12 @@ public class WarrantyModel {
             this.warrantyEnds = warrantyEnds;
         }
 
-         public InvoiceModel getInvoiceModel() {
-        return invoiceModel;
+         public ProductModel getProductModel() {
+        return productModel;
         }
 
-         public void setInvoiceModel(InvoiceModel invoiceModel) {
-        this.invoiceModel = invoiceModel;
+         public void setProductModel(ProductModel productModel) {
+        this.productModel = productModel;
         }
 }
 

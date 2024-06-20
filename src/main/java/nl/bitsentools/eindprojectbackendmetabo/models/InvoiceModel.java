@@ -37,16 +37,12 @@ public class InvoiceModel {
     @Column
     private LocalDate dateOfPurchase;
 
-    @OneToOne( cascade = CascadeType.ALL)
-    @JoinColumn(name = "warranty_id")
-    WarrantyModel warrantyModel;
-
     @OneToOne
     @JoinColumn(name = "order_id")
     OrderModel orderModel;
 
 
-    public InvoiceModel(Long id, String invoiceId, double totalPrice, double vat21ProductPrice, double vat9ProductPrice, double netPriceWithoutVat,double vatRate,  int userId, String userAddress, boolean productWarranty, LocalDate dateOfPurchase, WarrantyModel warrantyModel, OrderModel orderModel) {
+    public InvoiceModel(Long id, String invoiceId, double totalPrice, double vat21ProductPrice, double vat9ProductPrice, double netPriceWithoutVat,double vatRate,  int userId, String userAddress, boolean productWarranty, LocalDate dateOfPurchase,  OrderModel orderModel) {
         this.id = id;
         this.invoiceId = invoiceId;
         this.totalPrice = totalPrice;
@@ -58,7 +54,7 @@ public class InvoiceModel {
         this.userAddress = userAddress;
         this.productWarranty = productWarranty;
         this.dateOfPurchase = dateOfPurchase;
-        this.warrantyModel = warrantyModel;
+//        this.warrantyModel = warrantyModel;
         this.orderModel = orderModel;
     }
 
@@ -153,13 +149,6 @@ public class InvoiceModel {
         this.dateOfPurchase = dateOfPurchase;
     }
 
-    public WarrantyModel getWarrantyModel() {
-        return warrantyModel;
-    }
-
-    public void setWarrantyModel(WarrantyModel warrantyModel) {
-        this.warrantyModel = warrantyModel;
-    }
 
     public OrderModel getOrderModel() {
         return orderModel;

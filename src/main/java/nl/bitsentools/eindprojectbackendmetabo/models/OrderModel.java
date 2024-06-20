@@ -15,16 +15,6 @@ public class OrderModel {
     @Column
 
     private Long id;
-
-    //moet ik deze er nu wel of niet inlaten?
-//    @Column
-//    private Long userId;
-    @Column
-    private int productNumber;
-    @Column
-    private String userEmail;
-    @Column
-    private String userDetails;
     @Column
     private int orderNumber;
     @Column
@@ -34,8 +24,6 @@ public class OrderModel {
     @Column
     private double totalPriceOrder;
 
-
-    //targetkant van de relatie
     @ManyToMany
     @JoinTable(
             name = "order_product",
@@ -47,23 +35,19 @@ public class OrderModel {
     @NotNull
     InvoiceModel invoiceModel;
 
-    //owner van de relatie. Foreign key in de database
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_user_id")
     private UserModel user;
 
     public OrderModel(){}
 
-    public OrderModel(Long id, String userEmail, String userDetails, int productNumber, int orderNumber, ProductModel productModel, double price, int quantity, double totalPriceOrder, InvoiceModel invoiceModel, UserModel user) {
+    public OrderModel(Long id,  int orderNumber,  double price, int quantity, double totalPriceOrder, ProductModel productModel,InvoiceModel invoiceModel, UserModel user) {
         this.id = id;
-//        this.userId = userId;
-        this.userEmail = userEmail;
-        this.userDetails = userDetails;
-        this.productNumber = productNumber;
         this.orderNumber = orderNumber;
         this.price = price;
         this.quantity = quantity;
         this.totalPriceOrder = totalPriceOrder;
+        this.productModel = new ArrayList<>();
         this.invoiceModel = invoiceModel;
         this.user = user;
     }
@@ -74,41 +58,6 @@ public class OrderModel {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-//
-
-
-//    public Long getUserId() {
-//        return userId;
-//    }
-//
-//    public void setUserId(Long userId) {
-//        this.userId = userId;
-//    }
-
-    public int getProductNumber() {
-        return productNumber;
-    }
-
-    public void setProductNumber(int productNumber) {
-        this.productNumber = productNumber;
-    }
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
-    public String getUserDetails() {
-        return userDetails;
-    }
-
-    public void setUserDetails(String userDetails) {
-        this.userDetails = userDetails;
     }
 
     public int getOrderNumber() {

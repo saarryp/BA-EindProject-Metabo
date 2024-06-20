@@ -157,7 +157,7 @@ public class InvoiceService {
             var invoice = optionalInvoice.get();
             var warranty = optionalWarranty.get();
 
-            invoice.setWarrantyModel(warranty);
+//            invoice.setWarrantyModel(warranty);
             invoiceRepository.save(invoice);
         } else {
             throw new RecordNotFoundException("Warranty or invoice is not found.");
