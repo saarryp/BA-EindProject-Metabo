@@ -5,13 +5,6 @@ values (101,'test', 'testName',1, 300, 'SCHUURMACHINE',true, 5),
        (102, 'test2', 'testname2', 2,  60, 'ZAAGMACHINE', false, 0);
 
 
-----------------------------meerdere images aan product koppelen-----------------------------------
-
-
-INSERT INTO product_images (product_id, image_url)
-VALUES
-    (101, 'url_naar_afbeelding_1.jpg'),
-    (101, 'url_naar_afbeelding_2.jpg');
 
 
 -- Voeg de kolom "product_id" toe aan de "orders" tabel
