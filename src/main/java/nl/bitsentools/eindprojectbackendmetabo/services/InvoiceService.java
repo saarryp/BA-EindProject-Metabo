@@ -115,7 +115,6 @@ public class InvoiceService {
     public InvoiceModel transferToInvoice(InvoiceModel invoice, InvoiceInputDto dto) {
 
         invoice.setInvoiceId(dto.invoiceId);
-        invoice.setProductName(dto.productName);
         invoice.setTotalPrice(dto.totalPrice);
         invoice.setVat21ProductPrice(dto.vat21ProductPrice);
         invoice.setVat9ProductPrice(dto.vat9ProductPrice);
@@ -124,7 +123,6 @@ public class InvoiceService {
         invoice.setUserId(dto.userId);
         invoice.setUserAddress(dto.userAddress);
         invoice.setProductWarranty(dto.productWarranty);
-        invoice.setWarrantyInMonths(dto.warrantyInMonths);
         invoice.setDateOfPurchase(dto.dateOfPurchase);
 
         //berekening VAT
@@ -137,7 +135,6 @@ public class InvoiceService {
 
         dto.setId(invoiceModel.getId());
         dto.setInvoiceId(invoiceModel.getInvoiceId());
-        dto.setProductName(invoiceModel.getProductName());
         dto.setTotalPrice(invoiceModel.getTotalPrice());
         dto.setVat21ProductPrice(invoiceModel.getVat21ProductPrice());
         dto.setVat9ProductPrice(invoiceModel.getVat9ProductPrice());
@@ -146,7 +143,6 @@ public class InvoiceService {
         dto.setUserId(invoiceModel.getUserId());
         dto.setUserAddress(invoiceModel.getUserAddress());
         dto.setProductWarranty(invoiceModel.isProductWarranty());
-        dto.setWarrantyInMonths(invoiceModel.getWarrantyInMonths());
         dto.setDateOfPurchase(invoiceModel.getDateOfPurchase());
         dto.setTotalPrice(invoiceModel.getTotalPrice());
 

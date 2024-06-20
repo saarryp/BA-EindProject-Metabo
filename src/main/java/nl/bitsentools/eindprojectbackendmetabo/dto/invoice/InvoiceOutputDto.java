@@ -11,16 +11,10 @@ public class InvoiceOutputDto {
 
     public String invoiceId;
 
-
-
-    public String productName;
-
-
     public double totalPrice;
 
 
     public double vat21ProductPrice;
-
 
     public double vat9ProductPrice;
 
@@ -28,15 +22,11 @@ public class InvoiceOutputDto {
 
     public double vatRate;
 
-    public double vatAmount;
-
     public int userId;
 
     public String userAddress;
 
     public boolean productWarranty;
-
-    public int warrantyInMonths;
 
     public LocalDate dateOfPurchase;
 
@@ -48,10 +38,6 @@ public class InvoiceOutputDto {
 
     public void setInvoiceId(String invoiceId) {
         this.invoiceId = invoiceId;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
     }
 
     public void setTotalPrice(double totalPrice) {
@@ -75,10 +61,6 @@ public class InvoiceOutputDto {
     }
 
 
-    public void setVatAmount(double vatAmount) {
-        this.vatAmount = vatAmount;
-    }
-
     public void setUserId(int userId) {
         this.userId = userId;
     }
@@ -89,10 +71,6 @@ public class InvoiceOutputDto {
 
     public void setProductWarranty(boolean productWarranty) {
         this.productWarranty = productWarranty;
-    }
-
-    public void setWarrantyInMonths(int warrantyInMonths) {
-        this.warrantyInMonths = warrantyInMonths;
     }
 
     public void setDateOfPurchase(LocalDate dateOfPurchase) {

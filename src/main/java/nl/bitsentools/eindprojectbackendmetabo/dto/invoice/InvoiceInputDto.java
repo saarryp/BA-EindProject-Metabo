@@ -13,10 +13,6 @@ public class InvoiceInputDto {
          @NotNull(message = "Factuurnummer is verplicht")
         public String invoiceId;
 
-
-        @NotBlank(message = "Productnaam is verplicht")
-        public String productName;
-
         @NotNull(message = "Totaalprijs is verplicht.")
         @PositiveOrZero(message = "Totaalprijs moet positief of 0 zijn.")
         public Double totalPrice;
@@ -33,7 +29,6 @@ public class InvoiceInputDto {
 
         public Double vatRate;
 
-        public Double vatAmount;
         @NotNull(message = "een UserId is verplicht.")
 
         public Integer userId;
@@ -43,8 +38,6 @@ public class InvoiceInputDto {
 
         public boolean productWarranty;
 
-        public Integer warrantyInMonths;
-
        public LocalDate dateOfPurchase;
 
         public String getInvoiceId() {
@@ -53,14 +46,6 @@ public class InvoiceInputDto {
 
         public void setInvoiceId(String invoiceId) {
                 this.invoiceId = invoiceId;
-        }
-
-        public String getProductName() {
-                return productName;
-        }
-
-        public void setProductName(String productName) {
-                this.productName = productName;
         }
 
         public double getTotalPrice() {
@@ -103,14 +88,6 @@ public class InvoiceInputDto {
                 this.netPriceWithoutVat = netPriceWithoutVat;
         }
 
-    public double getVatAmount() {
-        return vatAmount;
-    }
-
-    public void setVatAmount(double vatAmount) {
-        this.vatAmount = vatAmount;
-    }
-
     public int getUserId() {
                 return userId;
         }
@@ -135,13 +112,6 @@ public class InvoiceInputDto {
                 this.productWarranty = productWarranty;
         }
 
-        public int getWarrantyInMonths() {
-                return warrantyInMonths;
-        }
-
-        public void setWarrantyInMonths(int warrantyInMonths) {
-                this.warrantyInMonths = warrantyInMonths;
-        }
 
         public LocalDate getDateOfPurchase() {
                 return dateOfPurchase;

@@ -69,15 +69,15 @@ VALUES (101, 'Metabo', 'Metabo Schuurmachine Z234', 987654, 'SCHUURMACHINE',
 
 
 INSERT INTO invoices ( id,
-    invoice_id, product_number, product_name, total_price, vat21product_price,
-    vat9product_price, net_price_without_vat, vat_rate, vat_amount, user_id,
-    user_address, product_warranty, warranty_in_months, date_of_purchase
+    invoice_id, total_price, vat21product_price,
+    vat9product_price, net_price_without_vat, vat_rate,  user_id,
+    user_address, product_warranty,  date_of_purchase
 ) VALUES (
-           101, 'INV123', 1, 'Metabo zaagmachine', 500.00, 100.00, 50.00, 350.00, 21.0, 150.00, 101,
-             'Burgemeester Reigerstraat 14 Utrecht', true, 12, '2024-03-08'
+           101, 'INV123',  500.00, 100.00, 50.00, 350.00, 21.0, 101,
+             'Burgemeester Reigerstraat 14 Utrecht', true, '2024-03-08'
          ),
-            (102, 'inv321', 2, 'Metabo', 120.00, 200.00, 50.00, 350.00, 9.0, 140.00, 102,
-             'Stadsring 12 3512 WX Zaandam', false, 0, '2024-03-01'
+            (102, 'inv321', 120.00, 200.00, 50.00, 350.00, 9.0, 102,
+             'Stadsring 12 3512 WX Zaandam', false, '2024-03-01'
          );
 
 
