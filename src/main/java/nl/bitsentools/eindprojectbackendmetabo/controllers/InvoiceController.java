@@ -53,11 +53,11 @@ public class InvoiceController {
 
         return ResponseEntity.created(uri).body(savedInvoice);
     }
-    @PostMapping("/{id}/warranties")
-    public ResponseEntity<Object>assignWarrantyToInvoice(@PathVariable("id") Long id, @Valid @RequestBody IdInputDto input){
-        invoiceService.assignWarrantyToInvoice(id, input.id);
-        return ResponseEntity.noContent().build();
-    }
+//    @PostMapping("/{id}/warranties")
+//    public ResponseEntity<Object>assignWarrantyToInvoice(@PathVariable("id") Long id, @Valid @RequestBody IdInputDto input){
+//        invoiceService.assignWarrantyToInvoice(id, input.id);
+//        return ResponseEntity.noContent().build();
+//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<InvoiceOutputDto>updateInvoice(@PathVariable("id") Long id, @Valid @RequestBody InvoiceInputDto updateInvoice){

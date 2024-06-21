@@ -1,8 +1,5 @@
 package nl.bitsentools.eindprojectbackendmetabo.dto.invoice;
 
-import jakarta.persistence.*;
-import org.aspectj.weaver.ast.Not;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;

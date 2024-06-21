@@ -65,11 +65,11 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{id}/images")
-    public ResponseEntity<List<ImageData>> getAllImagesByProductId(@PathVariable Long id) {
-        List<ImageData> images = productService.getAllImagesByProductId(id);
-        return ResponseEntity.ok(images);
-    }
+//    @GetMapping("/{id}/images")
+//    public ResponseEntity<List<ImageData>> getAllImagesByProductId(@PathVariable Long id) {
+//        List<ImageData> images = productService.getAllImagesByProductId(id);
+//        return ResponseEntity.ok(images);
+//    }
 }
 
 

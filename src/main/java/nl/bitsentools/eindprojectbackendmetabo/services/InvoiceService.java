@@ -120,8 +120,8 @@ public class InvoiceService {
         invoice.setVat9ProductPrice(dto.vat9ProductPrice);
         invoice.setNetPriceWithoutVat(dto.netPriceWithoutVat);
         invoice.setVatRate(dto.vatRate);
-        invoice.setUserId(dto.userId);
-        invoice.setUserAddress(dto.userAddress);
+//        invoice.setUserId(dto.userId);
+//        invoice.setUserAddress(dto.userAddress);
         invoice.setProductWarranty(dto.productWarranty);
         invoice.setDateOfPurchase(dto.dateOfPurchase);
 

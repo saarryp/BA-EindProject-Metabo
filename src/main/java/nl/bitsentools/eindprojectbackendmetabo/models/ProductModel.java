@@ -66,8 +66,6 @@ private Long id;
         this.warrantyModel = warrantyModel;
     }
 
-
-
     public Long getId() {
         return id;
     }

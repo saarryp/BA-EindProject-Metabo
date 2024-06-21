@@ -14,7 +14,7 @@ public class InvoiceModel {
     @Column
 
     private Long id;
-    @Column
+    @Column(unique = true)
     private String invoiceId;
 
     @Column
