@@ -10,6 +10,7 @@ public class WarrantyInputDto {
 
        public LocalDate warrantyEnds;
 
+       @NotNull(message = "Product id is verplicht")
        public Long productModelId;
 
 
