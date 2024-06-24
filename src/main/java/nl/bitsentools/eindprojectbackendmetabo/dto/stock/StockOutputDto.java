@@ -11,17 +11,6 @@ public class StockOutputDto {
 
 public Long id;
 
-//public String brandName;
-//
-//public String productName;
-//
-//public int productNumber;
-//
-//@Enumerated(EnumType.STRING)
-//public TypeOfMachine typeOfMachine;
-
-public int productInStock;
-
 public LocalDate orderPlacedDate;
 public int weeksToDelivery;
 
@@ -35,46 +24,6 @@ public boolean outOfStock;
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-//  public String getBrandName() {
-//    return brandName;
-//  }
-//
-//  public void setBrandName(String brandName) {
-//    this.brandName = brandName;
-//  }
-//
-//  public String getProductName() {
-//    return productName;
-//  }
-//
-//  public void setProductName(String productName) {
-//    this.productName = productName;
-//  }
-//
-//  public int getProductNumber() {
-//    return productNumber;
-//  }
-//
-//  public void setProductNumber(int productNumber) {
-//    this.productNumber = productNumber;
-//  }
-//
-//  public TypeOfMachine getTypeOfMachine() {
-//    return typeOfMachine;
-//  }
-//
-//  public void setTypeOfMachine(TypeOfMachine typeOfMachine) {
-//    this.typeOfMachine = typeOfMachine;
-//  }
-
-  public int getProductInStock() {
-    return productInStock;
-  }
-
-  public void setProductInStock(int productInStock) {
-    this.productInStock = productInStock;
   }
 
   public LocalDate getOrderPlacedDate() {
