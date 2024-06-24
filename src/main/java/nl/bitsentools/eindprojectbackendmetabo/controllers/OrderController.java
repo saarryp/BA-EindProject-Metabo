@@ -48,7 +48,9 @@ public class OrderController {
     }
 
     @PostMapping("/orders/{id}/products")
-    public ResponseEntity<Object>assignOrderToProduct(@PathVariable("id") Long id, @Valid @RequestBody IdInputDto input){
+    public ResponseEntity<Object>assignOrderToProduct(
+            @PathVariable("id") Long id,
+            @Valid @RequestBody IdInputDto input){
         orderService.assignOrderToProduct(id, input.id);
         return ResponseEntity.noContent().build();
     }

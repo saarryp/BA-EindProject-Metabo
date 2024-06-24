@@ -41,6 +41,10 @@ public class InvoiceModel {
     @JoinColumn(name = "order_id")
     OrderModel orderModel;
 
+//    @OneToOne(mappedBy = "invoiceModel", fetch = FetchType.LAZY)
+//    private OrderModel orderModel;
+
+
 
     public InvoiceModel(Long id, String invoiceId, double totalPrice, double vat21ProductPrice, double vat9ProductPrice, double netPriceWithoutVat,double vatRate,  int userId, String userAddress, boolean productWarranty, LocalDate dateOfPurchase,  OrderModel orderModel) {
         this.id = id;
@@ -148,7 +152,6 @@ public class InvoiceModel {
     public void setDateOfPurchase(LocalDate dateOfPurchase) {
         this.dateOfPurchase = dateOfPurchase;
     }
-
 
     public OrderModel getOrderModel() {
         return orderModel;

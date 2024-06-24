@@ -207,6 +207,7 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
         }
     }
 
+    @Transactional
     public void assignAllOrdersToAllProducts(){
         List<OrderModel> allOrders = orderRepository.findAll();
         List<ProductModel> allProducts = productRepository.findAll();

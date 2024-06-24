@@ -32,8 +32,14 @@ public class OrderModel {
     List<ProductModel> productModel  = new ArrayList<>();
 
     @OneToOne(mappedBy = "orderModel", cascade = CascadeType.ALL)
+    @JoinColumn(name = "invoice_id")
     @NotNull
     InvoiceModel invoiceModel;
+
+//    @OneToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "invoice_id", referencedColumnName = "id")
+//    private InvoiceModel invoiceModel;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_user_id")

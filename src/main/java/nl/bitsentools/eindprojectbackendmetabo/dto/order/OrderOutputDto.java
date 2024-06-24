@@ -52,6 +52,7 @@ public class OrderOutputDto {
         this.productDto = productDto;
     }
 
+
     public double getPrice() {
         return price;
     }
