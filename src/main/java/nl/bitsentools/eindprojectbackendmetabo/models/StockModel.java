@@ -16,14 +16,14 @@ public class StockModel {
 
     private Long id;
 
-    @Column
-    private String brandName;
-    @Column
-    private String productName;
-    @Column
-    private int productNumber;
-    @Column @Enumerated(EnumType.STRING)
-    private TypeOfMachine typeOfMachine;
+//    @Column
+//    private String brandName;
+//    @Column
+//    private String productName;
+//    @Column
+//    private int productNumber;
+//    @Column @Enumerated(EnumType.STRING)
+//    private TypeOfMachine typeOfMachine;
     @Column
     private int productInStock;
     @Column
@@ -41,18 +41,18 @@ public class StockModel {
 
 
 
-    public StockModel(Long id, String brandName, String productName, int productNumber, int productInStock, LocalDate orderPlacedDate, int weeksToDelivery, int productSold, int quantityInStock, boolean outOfStock, TypeOfMachine typeOfMachine) {
+    public StockModel(Long id, int productInStock, LocalDate orderPlacedDate, int weeksToDelivery, int productSold, int quantityInStock, boolean outOfStock) {
         this.id = id;
-        this.brandName = brandName;
-        this.productName = productName;
-        this.productNumber = productNumber;
+//        this.brandName = brandName;
+//        this.productName = productName;
+//        this.productNumber = productNumber;
         this.productInStock = productInStock;
         this.orderPlacedDate = orderPlacedDate;
         this.weeksToDelivery = weeksToDelivery;
         this.productSold = productSold;
         this.quantityInStock = quantityInStock;
         this.outOfStock = outOfStock;
-        this.typeOfMachine = typeOfMachine;
+//        this.typeOfMachine = typeOfMachine;
     }
 
     public StockModel() {
@@ -68,29 +68,29 @@ public Long getId() {
         this.id = id;
     }
 
-    public String getBrandName() {
-        return brandName;
-    }
-
-    public void setBrandName(String brandName) {
-        this.brandName = brandName;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public int getProductNumber() {
-        return productNumber;
-    }
-
-    public void setProductNumber(int productNumber) {
-        this.productNumber = productNumber;
-    }
+//    public String getBrandName() {
+//        return brandName;
+//    }
+//
+//    public void setBrandName(String brandName) {
+//        this.brandName = brandName;
+//    }
+//
+//    public String getProductName() {
+//        return productName;
+//    }
+//
+//    public void setProductName(String productName) {
+//        this.productName = productName;
+//    }
+//
+//    public int getProductNumber() {
+//        return productNumber;
+//    }
+//
+//    public void setProductNumber(int productNumber) {
+//        this.productNumber = productNumber;
+//    }
 
     public int getProductInStock() {
         return productInStock;
@@ -140,11 +140,11 @@ public Long getId() {
         this.outOfStock = outOfStock;
     }
 
-    public TypeOfMachine getTypeOfMachine() {
-        return typeOfMachine;
-    }
-
-    public void setTypeOfMachine(TypeOfMachine typeOfMachine) {
-        this.typeOfMachine = typeOfMachine;
-    }
+//    public TypeOfMachine getTypeOfMachine() {
+//        return typeOfMachine;
+//    }
+//
+//    public void setTypeOfMachine(TypeOfMachine typeOfMachine) {
+//        this.typeOfMachine = typeOfMachine;
+//    }
 }

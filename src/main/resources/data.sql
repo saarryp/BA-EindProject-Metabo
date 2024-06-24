@@ -83,12 +83,10 @@ SET order_id = (
 WHERE invoice_id IN ('INV123', 'inv321');
 
 ----------------------------------STOCKS--------------------------------------------------
-INSERT INTO stocks(id,brand_name, product_name, product_number, type_of_machine,
+INSERT INTO stocks(id,
                    product_in_stock, order_placed_date, weeks_to_delivery, product_sold, quantity_in_stock, out_of_stock)
-VALUES (101, 'Metabo', 'Metabo Schuurmachine Z234', 987654, 'SCHUURMACHINE',
-        15, '2024-03-12', 0, 5, 25, FALSE),
-        (102, 'Metabo', 'Metabo schroefmachine S123', 12345, 'SCHROEFMACHINE',
-         5, '2024-01-01', 2, 15, 7,'True');
+VALUES (101, 15, '2024-03-12', 0, 5, 25, FALSE),
+        (102, 5, '2024-01-01', 2, 15, 7,'True');
 
 ---------------------------------INVOICE----------------------------------------------------
 
