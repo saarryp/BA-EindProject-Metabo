@@ -14,7 +14,7 @@ public class OrderOutputDto {
     public double price;
     public int quantity;
     public double totalPriceOrder;
-    public InvoiceModel invoiceModel;
+    public long invoiceModel;
 
     public OrderOutputDto(){}
 
@@ -77,11 +77,11 @@ public class OrderOutputDto {
         this.totalPriceOrder = totalPriceOrder;
     }
 
-    public InvoiceModel getInvoiceModel() {
+    public long getInvoiceModel() {
         return invoiceModel;
     }
 
-    public void setInvoiceModel(InvoiceModel invoiceModel) {
+    public void setInvoiceModel(long invoiceModel) {
         this.invoiceModel = invoiceModel;
     }
 }

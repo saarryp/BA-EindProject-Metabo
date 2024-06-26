@@ -165,7 +165,7 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
         dto.setPrice(orderModel.getPrice());
         dto.setQuantity(orderModel.getQuantity());
         dto.setTotalPriceOrder(orderModel.getTotalPriceOrder());
-        dto.setInvoiceModel(orderModel.getInvoiceModel());
+        dto.setInvoiceModel(orderModel.getInvoiceModel().getId());
 
         for (ProductModel productModel : orderModel.getProductModel()){
 

@@ -1,6 +1,7 @@
 package nl.bitsentools.eindprojectbackendmetabo.services;
 
 
+import jakarta.transaction.Transactional;
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDtoWarranty;
@@ -33,6 +34,7 @@ public class ProductService {
 
     //GET-all
 
+    @Transactional
     public List<Object> getAllProducts() {
         List<ProductModel>productList = productRepository.findAll();
         List<Object> productOutputDtoList = new ArrayList<>();
@@ -47,7 +49,7 @@ public class ProductService {
     }
 
     //GET-byId
-
+@Transactional
     public ProductOutputDto getOneProductById(Long id) {
         Optional<ProductModel> productOptional = productRepository.findById(id);
         if (productOptional.isPresent()) {
@@ -126,6 +128,7 @@ public class ProductService {
         dto.setTypeOfMachine(product.getTypeOfMachine());
         dto.setWarranty(product.isProductWarranty());
         dto.setWarrantyInMonths(product.getWarrantyInMonths());
+        dto.setImageData(product.getImageData());
         return dto;
     }
 
