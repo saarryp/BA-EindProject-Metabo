@@ -1,5 +1,6 @@
 package nl.bitsentools.eindprojectbackendmetabo.dto.order;
 
+import jakarta.persistence.Column;
 import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
 import nl.bitsentools.eindprojectbackendmetabo.models.OrderModel;
 
@@ -9,7 +10,7 @@ import javax.validation.constraints.NotNull;
 public class OrderInputDto {
     //deze input beperkt omdat USER GEEN AANPASSINGEN MAG DOEN IN BEPAALDE ONDERDELEN VAN DE GEGEVENS.
 
-    @NotNull(message = "Bestelnummer is verplicht")
+//    @NotNull(message = "Bestelnummer is verplicht")
     public Integer orderNumber;
 
     @NotNull(message = "prijs is verplicht")
@@ -21,15 +22,16 @@ public class OrderInputDto {
     @NotNull(message = "Gebruiker ID is verplicht")
     private Long userId;
 
+    @Column(unique = true)
     @NotNull(message = "Productnummer is verplicht")
-    private Long productNumber;
+    private Integer productNumber;
     public InvoiceModel invoiceModel;
 
     public OrderModel orderModel;
 
     public OrderInputDto(){}
 
-    public OrderInputDto(Integer orderNumber, Double price, Integer quantity, Long userId, Long productNumber, InvoiceModel invoiceModel, OrderModel orderModel) {
+    public OrderInputDto(Integer orderNumber, Double price, Integer quantity, Long userId, Integer productNumber, InvoiceModel invoiceModel, OrderModel orderModel) {
         this.orderNumber = orderNumber;
         this.price = price;
         this.quantity = quantity;
@@ -38,13 +40,6 @@ public class OrderInputDto {
         this.orderModel = orderModel;
         this.invoiceModel = invoiceModel;
     }
-//    public OrderInputDto( int orderNumber, int quantity,
-//                         double price, InvoiceModel invoiceModel) {
-//        this.orderNumber = orderNumber;
-//        this.quantity = quantity;
-//        this.price = price;
-//        this.invoiceModel = invoiceModel;
-//    }
 
     private static final int MINIMUM_NUMBER_OF_PRODUCTS = 1;
 
@@ -60,11 +55,11 @@ public class OrderInputDto {
     }
 
 
-    public int getOrderNumber() {
+    public Integer getOrderNumber() {
         return orderNumber;
     }
 
-    public void setOrderNumber(int orderNumber) {
+    public void setOrderNumber(Integer orderNumber) {
         this.orderNumber = orderNumber;
     }
 
@@ -77,11 +72,11 @@ public class OrderInputDto {
         this.price = price;
     }
 
-    public Long getProductNumber() {
+    public int getProductNumber() {
         return productNumber;
     }
 
-    public void setProductNumber(Long productNumber) {
+    public void setProductNumber(Integer productNumber) {
         this.productNumber = productNumber;
     }
 

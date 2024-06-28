@@ -51,7 +51,7 @@ public class OrderController {
     public ResponseEntity<Object>assignOrderToProduct(
             @PathVariable("id") Long id,
             @Valid @RequestBody IdInputDto input){
-        orderService.assignOrderToProduct(id, input.id);
+        orderService.assignOrderToProduct(id, input.getId());
         return ResponseEntity.noContent().build();
     }
 

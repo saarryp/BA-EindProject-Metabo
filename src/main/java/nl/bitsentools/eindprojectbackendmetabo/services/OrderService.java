@@ -6,6 +6,7 @@ import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDtoWarranty;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
+import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
 import nl.bitsentools.eindprojectbackendmetabo.models.OrderModel;
 import nl.bitsentools.eindprojectbackendmetabo.models.ProductModel;
 import nl.bitsentools.eindprojectbackendmetabo.models.UserModel;
@@ -66,23 +67,35 @@ public class OrderService {
 
     //POST
 @Transactional
-    public OrderOutputDto createOrder(OrderInputDto createOrderDto){
-        // Haal de gebruikersinformatie op vanuit de beveiligingscontext
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-
-        // Gebruik de gevonden gebruikersnaam om de gebruiker te vinden
-        UserModel user = userRepository.findUserModelByUsername(username)
-                .orElseThrow(() -> new RecordNotFoundException("Gebruiker niet gevonden voor gebruikersnaam: " + username));
+public OrderOutputDto createOrder(OrderInputDto createOrderDto) {
+    // Haal de gebruikersinformatie op vanuit de beveiligingscontext
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String username = authentication.getName();
+    UserModel user = userRepository.findUserModelByUsername(username)
+            .orElseThrow(() -> new RecordNotFoundException("Gebruiker niet gevonden voor gebruikersnaam: " + username));
 
 
-//        OrderModel orderModel = new OrderModel();
-//        order.setUser(user);
-        OrderModel orderModel = transferToOrder(createOrderDto, user);
+    //controleer of het product bestaat
+    ProductModel product = productRepository.findByProductNumber(createOrderDto.getProductNumber())
+            .orElseThrow(() -> new RecordNotFoundException("Product met id: " + createOrderDto.getProductNumber() + " niet gevonden."));
 
-        orderRepository.save(orderModel);
-        return transferToDto(orderModel);
+    //maak een nieuwe order aan
+    OrderModel orderModel = transferToOrder(createOrderDto);
+    orderModel.setUser(user);  // Koppel de gebruiker aan de bestelling
+
+
+    // Als er een InvoiceModel is meegegeven, haal deze dan op uit de database en koppel het aan de order
+    if (createOrderDto.getInvoiceModel() != null) {
+        InvoiceModel invoice = invoiceRepository.findById(createOrderDto.getInvoiceModel().getId())
+                .orElseThrow(() -> new RecordNotFoundException("Factuur niet gevonden voor id: " + createOrderDto.getInvoiceModel().getId()));
+        orderModel.setInvoiceModel(invoice);
     }
+
+    //opslaan van de order
+    OrderModel savedOrderModel = orderRepository.save(orderModel);
+
+    return transferToDto(savedOrderModel);
+}
 
     //PutById for CLIENT
 public OrderOutputDto updateOrder(Long id, OrderInputDto updateDto) {
@@ -130,28 +143,24 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
 }
 
 
-    public OrderModel transferToOrder(OrderInputDto dto, UserModel user){
+    public OrderModel transferToOrder(OrderInputDto dto){
 
        var existingOrder = new OrderModel();
 
-//       if(dto.productNumber == null){
-//           throw new IllegalArgumentException("Product Id cannot be null");
-//       }
-//
-//       var product = productRepository.findById(dto.productNumber);
-
-//        product.ifPresent(productModel -> existingOrder.getProductModel().add(productModel));
-
-        ProductModel product = productRepository.findById(dto.getProductNumber())
-                .orElseThrow(() -> new RecordNotFoundException("Product with id: " + dto.getProductNumber() + " not found."));
-
-//        orderModel.getProductModel().add(product);existingOrder.setOrderNumber(dto.orderNumber);
+//        ProductModel product = productRepository.findByProductNumber(dto.getProductNumber())
+//                .orElseThrow(() -> new RecordNotFoundException("Product with productnumber: " + dto.getProductNumber() + " not found."));
+        Optional<ProductModel> products = productRepository.findByProductNumber(dto.getProductNumber());
+        if (products.isEmpty()) {
+            throw new RecordNotFoundException("Product with product number: " + dto.getProductNumber() + " not found.");
+        }
+        ProductModel product = products.get();
+        existingOrder.setOrderNumber(dto.getOrderNumber());
         existingOrder.setPrice(dto.price);
         existingOrder.setQuantity(dto.quantity);
         existingOrder.setTotalPriceOrder(dto.getPrice() * dto.getQuantity());
-        existingOrder.setInvoiceModel(dto.invoiceModel);
-        existingOrder.setUser(user);
+        existingOrder.getProductModel().add(product);
 
+//        existingOrder.setInvoiceModel(dto.invoiceModel);
 
         return existingOrder;
     }
@@ -165,7 +174,7 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
         dto.setPrice(orderModel.getPrice());
         dto.setQuantity(orderModel.getQuantity());
         dto.setTotalPriceOrder(orderModel.getTotalPriceOrder());
-        dto.setInvoiceModel(orderModel.getInvoiceModel().getId());
+
 
         for (ProductModel productModel : orderModel.getProductModel()){
 
@@ -183,11 +192,16 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
         if(orderModel.getUser() !=null){
             dto.setUserId(orderModel.getUser().getId());
         }
+
+
         dto.setProductDto(products);
+
+//        dto.setInvoiceModel(orderModel.getInvoiceModel().getId());
 
         return dto;
     }
 
+    @Transactional
     //AssignOrderToProduct voor many-to-many relatie
     public void assignOrderToProduct(Long orderId, Long productId) {
         var optionalOrder = orderRepository.findById(orderId);
@@ -238,6 +252,7 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
             throw new RecordNotFoundException("Order or invoice not found. ");
         }
     }
+    @Transactional
     public void assignUserToOrder(Long orderId, Long userId) {
         var optionalOrder = orderRepository.findById(orderId);
         var optionalUser = userRepository.findById(userId);

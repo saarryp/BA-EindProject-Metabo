@@ -43,6 +43,8 @@ VALUES
     (401, 1, 300, 2, 600, 1),
     (402, 2, 20, 5, 100, 2);
 
+
+
 -------------------------kolom toevoegen van product en orders-------------
 
 -- Voeg producten aan orders toe
@@ -76,3 +78,6 @@ SET invoice_id = CASE
                      WHEN id = 402 THEN 502
     END
 WHERE id IN (401, 402);
+
+
+

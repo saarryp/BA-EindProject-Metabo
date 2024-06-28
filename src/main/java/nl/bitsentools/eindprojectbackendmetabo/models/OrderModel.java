@@ -16,7 +16,8 @@ public class OrderModel {
 
     private Long id;
     @Column
-    private int orderNumber;
+//    @NotNull(message = "Bestelnummer is verplicht")
+    private Integer orderNumber;
     @Column
     private double price;
     @Column
@@ -47,7 +48,7 @@ public class OrderModel {
 
     public OrderModel(){}
 
-    public OrderModel(Long id,  int orderNumber,  double price, int quantity, double totalPriceOrder, ProductModel productModel,InvoiceModel invoiceModel, UserModel user) {
+    public OrderModel(Long id, Integer orderNumber, double price, int quantity, double totalPriceOrder, ProductModel productModel, InvoiceModel invoiceModel, UserModel user) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.price = price;
@@ -66,11 +67,11 @@ public class OrderModel {
         this.id = id;
     }
 
-    public int getOrderNumber() {
+    public Integer getOrderNumber() {
         return orderNumber;
     }
 
-    public void setOrderNumber(int orderNumber) {
+    public void setOrderNumber(Integer orderNumber) {
         this.orderNumber = orderNumber;
     }
 
