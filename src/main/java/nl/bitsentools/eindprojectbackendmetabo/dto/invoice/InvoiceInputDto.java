@@ -1,13 +1,18 @@
 package nl.bitsentools.eindprojectbackendmetabo.dto.invoice;
 
+import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderInputDto;
+
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InvoiceInputDto {
 
-         @NotNull(message = "Factuurnummer is verplicht")
+         @NotBlank(message = "Factuurnummer is verplicht")
         public String invoiceId;
 
         @NotNull(message = "Totaalprijs is verplicht.")
@@ -36,6 +41,9 @@ public class InvoiceInputDto {
         public boolean productWarranty;
 
        public LocalDate dateOfPurchase;
+         @NotNull(message = "De orders lijst mag niet null zijn.")
+         @NotEmpty(message = "De orders lijst mag niet leeg zijn.")
+        public List<OrderInputDto> orders;
 
         public String getInvoiceId() {
                 return invoiceId;
@@ -73,19 +81,19 @@ public class InvoiceInputDto {
                 return netPriceWithoutVat;
         }
 
-    public double getVatRate() {
+        public double getVatRate() {
         return vatRate;
     }
 
-    public void setVatRate(double vatRate) {
+        public void setVatRate(double vatRate) {
         this.vatRate = vatRate;
     }
 
-    public void setNetPriceWithoutVat(double netPriceWithoutVat) {
+        public void setNetPriceWithoutVat(double netPriceWithoutVat) {
                 this.netPriceWithoutVat = netPriceWithoutVat;
         }
 
-    public int getUserId() {
+        public int getUserId() {
                 return userId;
         }
 
@@ -116,6 +124,14 @@ public class InvoiceInputDto {
 
         public void setDateOfPurchase(LocalDate dateOfPurchase) {
                 this.dateOfPurchase = dateOfPurchase;
+        }
+
+         public List<OrderInputDto> getOrders() {
+        return orders;
+         }
+
+         public void setOrders(List<OrderInputDto> orders) {
+        this.orders = orders;
         }
 }
 

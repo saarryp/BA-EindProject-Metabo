@@ -2,11 +2,11 @@ package nl.bitsentools.eindprojectbackendmetabo.services;
 
 import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceOutputDto;
+import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
-import nl.bitsentools.eindprojectbackendmetabo.repositories.InvoiceRepository;
-import nl.bitsentools.eindprojectbackendmetabo.repositories.UserRepository;
-import nl.bitsentools.eindprojectbackendmetabo.repositories.WarrantyRepository;
+import nl.bitsentools.eindprojectbackendmetabo.models.ProductModel;
+import nl.bitsentools.eindprojectbackendmetabo.repositories.*;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -20,12 +20,16 @@ public class InvoiceService {
     private final WarrantyRepository warrantyRepository;
     private final UserRepository userRepository;
     private final WarrantyService warrantyService;
+    private final ProductRepository productRepository;
+    private final OrderRepository orderRepository;
 
-    public InvoiceService(InvoiceRepository invoiceRepository, WarrantyRepository warrantyRepository, UserRepository userRepository, WarrantyService warrantyService) {
+    public InvoiceService(InvoiceRepository invoiceRepository, WarrantyRepository warrantyRepository, UserRepository userRepository, WarrantyService warrantyService, ProductRepository productRepository, OrderRepository orderRepository) {
         this.invoiceRepository = invoiceRepository;
         this.warrantyRepository = warrantyRepository;
         this.userRepository = userRepository;
         this.warrantyService = warrantyService;
+        this.productRepository = productRepository;
+        this.orderRepository = orderRepository;
     }
 
     //  GET-ALL
@@ -55,10 +59,31 @@ public class InvoiceService {
     public InvoiceOutputDto createInvoice(InvoiceInputDto createInvoiceDto) {
         InvoiceModel invoiceModel = new InvoiceModel();
         InvoiceModel invoice = transferToInvoice(invoiceModel, createInvoiceDto);
+//berekening maken voor meerdere producten ipv van een product
 
 
         // Berekening BTW
         double vatRate = createInvoiceDto.getVatRate();
+        double totalNetPriceWithoutVat = 0.0;
+
+        // Controleer of de orders lijst niet null is
+        List<OrderInputDto> orders = createInvoiceDto.getOrders();
+        if (orders == null || orders.isEmpty()) {
+            throw new IllegalArgumentException("De orders lijst mag niet null of leeg zijn.");
+        }
+
+
+        // Bereken de totale nettoprijs zonder BTW over alle producten op de factuur
+        for (OrderInputDto orderDto : orders) {
+            ProductModel product = productRepository.findByProductNumber(orderDto.getProductNumber())
+                    .orElseThrow(() -> new RecordNotFoundException("Product met productnummer: " + orderDto.getProductNumber() + " niet gevonden."));
+
+            double productNetPriceWithoutVat = product.getPrice() * orderDto.getQuantity();
+            totalNetPriceWithoutVat += productNetPriceWithoutVat;
+        }
+
+
+        //berekening btw bedrag
         double vatAmount = invoice.getNetPriceWithoutVat() * (vatRate / 100);
 
         // opslaan van verschillende berkeningen en uitkomsten BTW-bedrag
@@ -70,9 +95,11 @@ public class InvoiceService {
             invoice.setVat9ProductPrice(0.0); // Set 0 for 9% VAT if it's 21% VAT
         }
 
-        double totalPriceWithoutVat = invoiceModel.getNetPriceWithoutVat();
-        double totalPrice = invoice.getNetPriceWithoutVat() + vatAmount;
+//       instellen nettoprijs en totaele prijs zonder btw
 
+         invoice.setNetPriceWithoutVat(totalNetPriceWithoutVat);
+        double totalPrice = invoice.getNetPriceWithoutVat() + vatAmount;
+         invoice.setTotalPrice(totalPrice);
 
         invoice.setTotalPrice(totalPrice);
 

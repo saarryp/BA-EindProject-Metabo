@@ -1,11 +1,13 @@
 package nl.bitsentools.eindprojectbackendmetabo.dto.order;
 
 import jakarta.persistence.Column;
+import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
 import nl.bitsentools.eindprojectbackendmetabo.models.OrderModel;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 public class OrderInputDto {
     //deze input beperkt omdat USER GEEN AANPASSINGEN MAG DOEN IN BEPAALDE ONDERDELEN VAN DE GEGEVENS.
@@ -25,18 +27,22 @@ public class OrderInputDto {
     @Column(unique = true)
     @NotNull(message = "Productnummer is verplicht")
     private Integer productNumber;
-    public InvoiceModel invoiceModel;
+//    public InvoiceModel invoiceModel;
 
+//    private List<Long> productIds;
+
+    public InvoiceInputDto invoiceModel;
     public OrderModel orderModel;
 
     public OrderInputDto(){}
 
-    public OrderInputDto(Integer orderNumber, Double price, Integer quantity, Long userId, Integer productNumber, InvoiceModel invoiceModel, OrderModel orderModel) {
+    public OrderInputDto(Integer orderNumber, Double price, Integer quantity, Long userId, Integer productNumber, List<Long> productIds, InvoiceInputDto invoiceModel, OrderModel orderModel) {
         this.orderNumber = orderNumber;
         this.price = price;
         this.quantity = quantity;
         this.userId = userId;
         this.productNumber = productNumber;
+//        this.productIds = productIds;
         this.orderModel = orderModel;
         this.invoiceModel = invoiceModel;
     }
@@ -80,6 +86,14 @@ public class OrderInputDto {
         this.productNumber = productNumber;
     }
 
+//    public List<Long> getProductIds() {
+//        return productIds;
+//    }
+//
+//    public void setProductIds(List<Long> productIds) {
+//        this.productIds = productIds;
+//    }
+
     public OrderModel getOrderModel() {
         return orderModel;
     }
@@ -88,11 +102,20 @@ public class OrderInputDto {
         this.orderModel = orderModel;
     }
 
-    public InvoiceModel getInvoiceModel() {
+    public InvoiceInputDto getInvoiceModel() {
         return invoiceModel;
     }
 
-    public void setInvoiceModel(InvoiceModel invoiceModel) {
+    public void setInvoiceModel(InvoiceInputDto invoiceModel) {
         this.invoiceModel = invoiceModel;
     }
-}
+
+    //    public InvoiceModel getInvoiceModel() {
+//        return invoiceModel;
+//    }
+//
+//    public void setInvoiceModel(InvoiceModel invoiceModel) {
+//        this.invoiceModel = invoiceModel;
+//    }
+//
+ }
