@@ -141,6 +141,8 @@ public class InvoiceService {
 
     public InvoiceModel transferToInvoice(InvoiceModel invoice, InvoiceInputDto dto) {
 
+
+
         invoice.setInvoiceId(dto.invoiceId);
         invoice.setTotalPrice(dto.totalPrice);
         invoice.setVat21ProductPrice(dto.vat21ProductPrice);

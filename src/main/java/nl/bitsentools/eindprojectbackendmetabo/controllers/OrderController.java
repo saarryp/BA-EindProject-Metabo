@@ -1,5 +1,6 @@
 package nl.bitsentools.eindprojectbackendmetabo.controllers;
 import nl.bitsentools.eindprojectbackendmetabo.dto.id.IdInputDto;
+import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.services.OrderService;
@@ -66,11 +67,18 @@ public class OrderController {
         orderService.assignUserToOrder(id, userId);
     }
 
+//    @PostMapping("/{id}/invoices")
+//    public ResponseEntity<Object>assignOrderToInvoice(@PathVariable("id")Long id, @Valid @RequestBody IdInputDto input){
+//        orderService.assignOrderToInvoice(id, input.id);
+//        return ResponseEntity.noContent().build();
+//    }
+
     @PostMapping("/{id}/invoices")
-    public ResponseEntity<Object>assignOrderToInvoice(@PathVariable("id")Long id, @Valid @RequestBody IdInputDto input){
-        orderService.assignOrderToInvoice(id, input.id);
+    public ResponseEntity<Object> assignOrderToInvoice(@PathVariable("id") Long id, @Valid @RequestBody InvoiceInputDto invoiceInputDto) {
+        orderService.assignOrderToInvoice(id, invoiceInputDto);
         return ResponseEntity.noContent().build();
     }
+
 
     @PutMapping("/{id}/client")
     public ResponseEntity<OrderOutputDto>updateOrder(@PathVariable("id") Long id, @Valid @RequestBody OrderInputDto updateOrder){
