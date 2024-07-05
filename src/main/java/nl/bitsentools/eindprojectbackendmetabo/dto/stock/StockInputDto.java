@@ -9,8 +9,6 @@ import java.time.LocalDate;
 
 public class StockInputDto {
 
-        public LocalDate orderPlacedDate;
-
         @Min(value = 0, message = "Aantal weken voor levering moet 0 of groter zijn.")
         public Integer weeksToDelivery;
 
@@ -21,15 +19,6 @@ public class StockInputDto {
         public Integer quantityInStock;
 
         public boolean outOfStock;
-
-
-        public LocalDate getOrderPlacedDate() {
-                return orderPlacedDate;
-        }
-
-        public void setOrderPlacedDate(LocalDate orderPlacedDate) {
-                this.orderPlacedDate = orderPlacedDate;
-        }
 
         public int getWeeksToDelivery() {
                 return weeksToDelivery;

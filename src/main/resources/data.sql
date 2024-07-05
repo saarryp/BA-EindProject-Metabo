@@ -10,6 +10,10 @@ INSERT INTO users ( username, password, email, enabled, api_key, user_details)
 VALUES ('admin', '$2a$12$02hpDdW3Nbh0lN6RPVgz3utGcvyKCppow/vst5UlDypzyBkAMJjNW', 'admin@test.nl', TRUE,
         'Key_Api_Admin', 'admin1 hoofdkantoor afdeling inkoop');
 
+INSERT INTO users ( username, password, email, enabled, api_key, user_details)
+VALUES ('test_gebruiker', '$2a$12$YDXdroti6FVOoZe8mThefe5MWSJ6iBLHp5oT7DyOcDP6lLbjNx8Ly', 'test_gebruiker@test.nl', TRUE,
+        'Key_Api_User', 'test gebruiker');
+
 INSERT INTO authorities (id, authority)
 VALUES (1, 'ROLE_CLIENT');
 
@@ -61,9 +65,9 @@ SET product_id = CASE
 WHERE id IN (401, 402);
 
 ---------------------------------STOCKS--------------------------------------------------
-INSERT INTO stocks(id, order_placed_date, weeks_to_delivery, product_sold, quantity_in_stock, out_of_stock)
-VALUES (401, '2024-03-12', 0, 5, 25, FALSE),
-       (402, '2024-01-01', 2, 15, 7, TRUE);
+INSERT INTO stocks(id, weeks_to_delivery, product_sold, quantity_in_stock, out_of_stock)
+VALUES (401, 0, 5, 25, FALSE),
+       (402, 2, 15, 7, TRUE);
 
 ---------------------------------INVOICE----------------------------------------------------
 

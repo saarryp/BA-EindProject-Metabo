@@ -47,13 +47,13 @@ class StockControllerTest {
 
    @BeforeEach
     public void setUp(){
-       stock1 = new StockModel(1L, "Metabo", "Metabo schuurmachine", 102030,
-               10, LocalDate.of(2024, 1,14),
-               16, 0, 10, false, TypeOfMachine.SCHUURMACHINE);
+       stock1 = new StockModel(1L,
+               10,
+               16, 10, false);
 
-       stock2 = new StockModel(2L, "Haikoki", "Metabo zaagmachine", 302010,
-               100, LocalDate.of(2019, 10,30 ),
-               12, 2, 0, true, TypeOfMachine.ZAAGMACHINE);
+       stock2 = new StockModel(2L,
+               100,
+               12, 2, true);
 
 
        stockRepository.save(stock1);
@@ -72,16 +72,16 @@ class StockControllerTest {
         mockMvc.perform(get("/stocks"))
                 .andExpect(status().isOk())
 //                .andExpect(jsonPath("$[0].id").value(stock1.getId().toString()))
-                .andExpect(jsonPath("$[0].brandName").value("Metabo"))
-                .andExpect(jsonPath("$[0].productName").value("Metabo schuurmachine"))
-                .andExpect(jsonPath("$[0].productNumber").value(102030))
-                .andExpect(jsonPath("$[0].productInStock").value(10))
-                .andExpect(jsonPath("$[0].orderPlacedDate").value("2024-01-14"))
+//                .andExpect(jsonPath("$[0].brandName").value("Metabo"))
+//                .andExpect(jsonPath("$[0].productName").value("Metabo schuurmachine"))
+//                .andExpect(jsonPath("$[0].productNumber").value(102030))
+//                .andExpect(jsonPath("$[0].productInStock").value(10))
+//                .andExpect(jsonPath("$[0].orderPlacedDate").value("2024-01-14"))
                 .andExpect(jsonPath("$[0].weeksToDelivery").value(16))
                 .andExpect(jsonPath("$[0].productSold").value(0))
                 .andExpect(jsonPath("$[0].quantityInStock").value(10))
                 .andExpect(jsonPath("$[0].outOfStock").value(false))
-                .andExpect(jsonPath("$[0].typeOfMachine").value("SCHUURMACHINE"))
+//                .andExpect(jsonPath("$[0].typeOfMachine").value("SCHUURMACHINE"))
 //                .andExpect(jsonPath("$[1].id").value(stock2.getId().toString()))
                 .andExpect(jsonPath("$[1].brandName").value("Haikoki"))
                 .andExpect(jsonPath("$[1].productName").value("Metabo zaagmachine"))

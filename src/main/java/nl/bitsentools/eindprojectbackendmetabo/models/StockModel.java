@@ -17,9 +17,6 @@ public class StockModel {
     private Long id;
 
     @Column
-    private LocalDate orderPlacedDate;
-
-    @Column
     private int weeksToDelivery;
 
     @Column
@@ -31,9 +28,8 @@ public class StockModel {
 
 
 
-    public StockModel(Long id, LocalDate orderPlacedDate, int weeksToDelivery, int productSold, int quantityInStock, boolean outOfStock) {
+    public StockModel(Long id, int weeksToDelivery, int productSold, int quantityInStock, boolean outOfStock) {
         this.id = id;
-        this.orderPlacedDate = orderPlacedDate;
         this.weeksToDelivery = weeksToDelivery;
         this.productSold = productSold;
         this.quantityInStock = quantityInStock;
@@ -51,16 +47,6 @@ public Long getId() {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-
-
-    public LocalDate getOrderPlacedDate() {
-        return orderPlacedDate;
-    }
-
-    public void setOrderPlacedDate(LocalDate orderPlacedDate) {
-        this.orderPlacedDate = orderPlacedDate;
     }
 
     public int getWeeksToDelivery() {

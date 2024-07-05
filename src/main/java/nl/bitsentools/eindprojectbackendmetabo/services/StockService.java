@@ -77,8 +77,6 @@ public class StockService {
 
 
     public StockModel transferToStock(StockModel stock,StockInputDto dto){
-
-        stock.setOrderPlacedDate(dto.getOrderPlacedDate());
         stock.setWeeksToDelivery(dto.getWeeksToDelivery());
         stock.setProductSold(dto.getProductSold());
         stock.setQuantityInStock(dto.getQuantityInStock());
@@ -92,7 +90,6 @@ public class StockService {
 
 
         dto.setId(stockModel.getId());
-        dto.setOrderPlacedDate(stockModel.getOrderPlacedDate());
         dto.setWeeksToDelivery(stockModel.getWeeksToDelivery());
         dto.setProductSold(stockModel.getProductSold());
         dto.setQuantityInStock(stockModel.getQuantityInStock());

@@ -54,7 +54,7 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth
                                 // Wanneer je deze uncomments, staat je hele security open. Je hebt dan alleen nog een jwt nodig.
-                .requestMatchers("/**").permitAll()
+                //.requestMatchers("/**").permitAll()
 
 
                                 // Algemene request matchers
@@ -66,13 +66,14 @@ public class SpringSecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/users/{username}").hasAnyRole("ADMIN", "CLIENT")
                                 .requestMatchers(HttpMethod.GET, "/users/{username}/authorities").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.POST, "/users/{username}/authorities").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/users/{username}/exists").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.PUT, "/users/{username}").hasAnyRole("ADMIN", "CLIENT")
                                 .requestMatchers(HttpMethod.DELETE, "/users/{username}").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/users/{username}/authorities/{authority}").hasRole("ADMIN")
 
                                 // Request matchers voor StockController
-                                .requestMatchers(HttpMethod.GET, "/stocks").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/stocks/{id}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/stocks").hasAnyRole("CLIENT", "ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/stocks/{id}").hasAnyRole("CLIENT", "ADMIN")
                                 .requestMatchers(HttpMethod.POST, "/stocks").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.PUT, "/stocks/{id}").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/stocks/{id}").hasRole("ADMIN")
@@ -106,7 +107,8 @@ public class SpringSecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/invoices/{id}/warranties").hasRole("ADMIN")
 
                                 // Request matchers voor WarrantyController
-                                .requestMatchers(HttpMethod.GET, "/warranties").hasAnyRole("ADMIN", "CLIENT")
+                                .requestMatchers(HttpMethod.GET, "/warranties").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/warranties/{id}").hasAnyRole("ADMIN", "CLIENT")
                                 .requestMatchers(HttpMethod.POST, "/warranties").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.PUT, "/warranties/{id}").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/warranties/{id}").hasRole("ADMIN")

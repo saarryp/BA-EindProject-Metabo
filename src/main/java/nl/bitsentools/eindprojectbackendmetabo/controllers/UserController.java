@@ -55,7 +55,6 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getAuthorities(username));
     }
 
-
     @PostMapping()
     public ResponseEntity<Object> createUser(@Valid @RequestBody UserInputDto userDto) {
 

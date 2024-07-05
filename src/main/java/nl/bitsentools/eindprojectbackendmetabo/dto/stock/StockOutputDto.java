@@ -11,7 +11,6 @@ public class StockOutputDto {
 
 public Long id;
 
-public LocalDate orderPlacedDate;
 public int weeksToDelivery;
 
 public int productSold;
@@ -24,14 +23,6 @@ public boolean outOfStock;
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public LocalDate getOrderPlacedDate() {
-    return orderPlacedDate;
-  }
-
-  public void setOrderPlacedDate(LocalDate orderPlacedDate) {
-    this.orderPlacedDate = orderPlacedDate;
   }
 
   public int getWeeksToDelivery() {
