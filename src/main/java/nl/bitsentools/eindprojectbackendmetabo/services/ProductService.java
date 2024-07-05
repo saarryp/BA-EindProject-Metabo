@@ -107,14 +107,6 @@ public class ProductService {
         }
     }
 
-//    // Methode om alle afbeeldingen van een product op te halen
-//    public List<ImageData> getAllImagesByProductId(Long productId) {
-//        ProductModel product = productRepository.findById(productId)
-//                .orElseThrow(() -> new RecordNotFoundException("Product not found"));
-//        return product.getImageData();
-//    }
-//
-
 
 
     public static ProductOutputDtoWarranty transferToDtoWarranty(ProductModel product){

@@ -56,23 +56,23 @@ public class OrderController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/assignAllOrders")
-    public ResponseEntity<Object>assignAllOrdersToAllProducts(){
-        orderService.assignAllOrdersToAllProducts();
-        return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping("/assignUserToOrder")
-    public void assignUserToOrder(@RequestParam Long id, @RequestParam Long userId) {
-        orderService.assignUserToOrder(id, userId);
-    }
-
-
-    @PostMapping("/{id}/invoices")
-    public ResponseEntity<Object> assignOrderToInvoice(@PathVariable("id") Long id, @Valid @RequestBody InvoiceInputDto invoiceInputDto) {
-        orderService.assignOrderToInvoice(id, invoiceInputDto);
-        return ResponseEntity.noContent().build();
-    }
+//    @PostMapping("/assignAllOrders")
+//    public ResponseEntity<Object>assignAllOrdersToAllProducts(){
+//        orderService.assignAllOrdersToAllProducts();
+//        return ResponseEntity.noContent().build();
+//    }
+//
+//    @PostMapping("/assignUserToOrder")
+//    public void assignUserToOrder(@RequestParam Long id, @RequestParam Long userId) {
+//        orderService.assignUserToOrder(id, userId);
+//    }
+//
+//
+//    @PostMapping("/{id}/invoices")
+//    public ResponseEntity<Object> assignOrderToInvoice(@PathVariable("id") Long id, @Valid @RequestBody InvoiceInputDto invoiceInputDto) {
+//        orderService.assignOrderToInvoice(id, invoiceInputDto);
+//        return ResponseEntity.noContent().build();
+//    }
 
 
     @PutMapping("/{id}/client")

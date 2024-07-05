@@ -59,7 +59,6 @@ public class InvoiceService {
     public InvoiceOutputDto createInvoice(InvoiceInputDto createInvoiceDto) {
         InvoiceModel invoiceModel = new InvoiceModel();
         InvoiceModel invoice = transferToInvoice(invoiceModel, createInvoiceDto);
-//berekening maken voor meerdere producten ipv van een product
 
 
         // Berekening BTW
@@ -89,13 +88,13 @@ public class InvoiceService {
         // opslaan van verschillende berkeningen en uitkomsten BTW-bedrag
         if (vatRate == 9) {
             invoice.setVat9ProductPrice(vatAmount);
-            invoice.setVat21ProductPrice(0.0); // Set 0 for 21% VAT if it's 9% VAT
+            invoice.setVat21ProductPrice(0.0);
         } else {
             invoice.setVat21ProductPrice(vatAmount);
-            invoice.setVat9ProductPrice(0.0); // Set 0 for 9% VAT if it's 21% VAT
+            invoice.setVat9ProductPrice(0.0);
         }
 
-//       instellen nettoprijs en totaele prijs zonder btw
+//       instellen nettoprijs en totale prijs zonder btw
 
          invoice.setNetPriceWithoutVat(totalNetPriceWithoutVat);
         double totalPrice = invoice.getNetPriceWithoutVat() + vatAmount;
@@ -149,8 +148,6 @@ public class InvoiceService {
         invoice.setVat9ProductPrice(dto.vat9ProductPrice);
         invoice.setNetPriceWithoutVat(dto.netPriceWithoutVat);
         invoice.setVatRate(dto.vatRate);
-//        invoice.setUserId(dto.userId);
-//        invoice.setUserAddress(dto.userAddress);
         invoice.setProductWarranty(dto.productWarranty);
         invoice.setDateOfPurchase(dto.dateOfPurchase);
 
@@ -178,6 +175,7 @@ public class InvoiceService {
         return dto;
     }
 
+    //TODO HEB IK VAN DEZE NU WEL EEN ENDPOINT GEMAAKT EN IS DIE NODIG?
     public void assignWarrantyToInvoice(Long id, Long warrantyId) {
         var optionalInvoice = invoiceRepository.findById(id);
         var optionalWarranty = warrantyRepository.findById(warrantyId);

@@ -235,57 +235,58 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
         }
     }
 
-    @Transactional
-    public void assignAllOrdersToAllProducts(){
-        List<OrderModel> allOrders = orderRepository.findAll();
-        List<ProductModel> allProducts = productRepository.findAll();
-
-        for (OrderModel order : allOrders){
-            for (ProductModel product : allProducts){
-                order.getProductModel().add(product);
-                product.getOrderModel().add(order);
-                orderRepository.save(order);
-                productRepository.save(product);
-            }
-        }
-    }
+//    @Transactional
+//    public void assignAllOrdersToAllProducts(){
+//        List<OrderModel> allOrders = orderRepository.findAll();
+//        List<ProductModel> allProducts = productRepository.findAll();
 //
-
-    @Transactional
-    public void assignOrderToInvoice(Long orderId, InvoiceInputDto invoiceInputDto) {
-        Optional<OrderModel> optionalOrder = orderRepository.findById(orderId);
-
-        if (optionalOrder.isPresent()) {
-            OrderModel order = optionalOrder.get();
-            InvoiceModel invoiceModel = InvoiceMapper.transferToInvoiceModel(invoiceInputDto);
-
-            // Aanvullende logica om de juiste velden in te stellen in InvoiceModel
-            // invoiceModel.setDateOfPurchase(...);
-            // invoiceModel.setTotalPrice(...);
-            // ...
-
-            order.setInvoiceModel(invoiceModel);
-            orderRepository.save(order);
-            System.out.println("Order assigned to invoice successfully");
-        } else {
-            throw new RecordNotFoundException("Order not found with ID: " + orderId);
-        }
-    }
-
-    @Transactional
-    public void assignUserToOrder(Long orderId, Long userId) {
-        var optionalOrder = orderRepository.findById(orderId);
-        var optionalUser = userRepository.findById(userId);
-
-        if (optionalOrder.isPresent() && optionalUser.isPresent()) {
-            var order = optionalOrder.get();
-            var user = optionalUser.get();
-
-
-            order.setUser(user);
-            orderRepository.save(order);
-        } else {
-            throw new RecordNotFoundException();
-        }
-    }
-}
+//        for (OrderModel order : allOrders){
+//            for (ProductModel product : allProducts){
+//                order.getProductModel().add(product);
+//                product.getOrderModel().add(order);
+//                orderRepository.save(order);
+//                productRepository.save(product);
+//            }
+//        }
+//    }
+////
+//
+//    @Transactional
+//    public void assignOrderToInvoice(Long orderId, InvoiceInputDto invoiceInputDto) {
+//        Optional<OrderModel> optionalOrder = orderRepository.findById(orderId);
+//
+//        if (optionalOrder.isPresent()) {
+//            OrderModel order = optionalOrder.get();
+//            InvoiceModel invoiceModel = InvoiceMapper.transferToInvoiceModel(invoiceInputDto);
+//
+//            // Aanvullende logica om de juiste velden in te stellen in InvoiceModel
+//            // invoiceModel.setDateOfPurchase(...);
+//            // invoiceModel.setTotalPrice(...);
+//            // ...
+//
+//            order.setInvoiceModel(invoiceModel);
+//            orderRepository.save(order);
+//            System.out.println("Order assigned to invoice successfully");
+//        } else {
+//            throw new RecordNotFoundException("Order not found with ID: " + orderId);
+//        }
+//    }
+//
+//    @Transactional
+//    public void assignUserToOrder(Long orderId, Long userId) {
+//        var optionalOrder = orderRepository.findById(orderId);
+//        var optionalUser = userRepository.findById(userId);
+//
+//        if (optionalOrder.isPresent() && optionalUser.isPresent()) {
+//            var order = optionalOrder.get();
+//            var user = optionalUser.get();
+//
+//
+//            order.setUser(user);
+//            orderRepository.save(order);
+//        } else {
+//            throw new RecordNotFoundException();
+//        }
+//    }
+//
+ }
