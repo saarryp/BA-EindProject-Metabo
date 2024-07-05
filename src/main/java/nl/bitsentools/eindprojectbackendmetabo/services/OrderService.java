@@ -102,8 +102,6 @@ public OrderOutputDto updateOrder(Long id, OrderInputDto updateDto) {
 
         existingOrder.setQuantity(updateDto.quantity);
     existingOrder.setTotalPriceOrder(updateDto.getPrice() * updateDto.getQuantity());
-//    existingOrder.setInvoiceModel(updateDto.getInvoiceModel());
-
 
     orderRepository.save(existingOrder);
 
@@ -120,7 +118,6 @@ public OrderOutputDto updateOrder(Long id, OrderInputDto updateDto) {
         existingOrder.setPrice(updateDto.price);
         existingOrder.setQuantity((updateDto.quantity));
         existingOrder.setTotalPriceOrder(updateDto.getPrice() * updateDto.getQuantity());
-//        existingOrder.setInvoiceModel(updateDto.getInvoiceModel());
 
         orderRepository.save(existingOrder);
 
