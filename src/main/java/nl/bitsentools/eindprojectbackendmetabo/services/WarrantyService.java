@@ -1,6 +1,5 @@
 package nl.bitsentools.eindprojectbackendmetabo.services;
 
-
 import jakarta.transaction.Transactional;
 import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyOutputDto;

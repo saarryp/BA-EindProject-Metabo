@@ -44,6 +44,11 @@ public class UserController {
        }
            }
 
+    @GetMapping("/{username}/exists")
+    public ResponseEntity<Boolean> checkIfUserExists(@PathVariable String username) {
+        boolean userExists = userService.userExists(username);
+        return ResponseEntity.ok(userExists);
+    }
 
     @GetMapping(value = "/{username}/authorities")
     public ResponseEntity<Object> getAuthority(@PathVariable String username) {
@@ -82,6 +87,8 @@ public class UserController {
             return ResponseEntity.ok().body("user updated");
 
     }
+
+
 
     @DeleteMapping(value = "/{username}")
     public ResponseEntity<Object> deleteUser(@PathVariable("username") String username) {

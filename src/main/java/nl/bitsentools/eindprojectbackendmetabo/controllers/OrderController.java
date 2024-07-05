@@ -67,11 +67,6 @@ public class OrderController {
         orderService.assignUserToOrder(id, userId);
     }
 
-//    @PostMapping("/{id}/invoices")
-//    public ResponseEntity<Object>assignOrderToInvoice(@PathVariable("id")Long id, @Valid @RequestBody IdInputDto input){
-//        orderService.assignOrderToInvoice(id, input.id);
-//        return ResponseEntity.noContent().build();
-//    }
 
     @PostMapping("/{id}/invoices")
     public ResponseEntity<Object> assignOrderToInvoice(@PathVariable("id") Long id, @Valid @RequestBody InvoiceInputDto invoiceInputDto) {

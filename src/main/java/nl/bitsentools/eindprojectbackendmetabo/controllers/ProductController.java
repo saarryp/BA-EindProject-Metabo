@@ -2,7 +2,6 @@ package nl.bitsentools.eindprojectbackendmetabo.controllers;
 
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
-import nl.bitsentools.eindprojectbackendmetabo.models.ImageData;
 import nl.bitsentools.eindprojectbackendmetabo.services.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -65,11 +64,6 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
 
-//    @GetMapping("/{id}/images")
-//    public ResponseEntity<List<ImageData>> getAllImagesByProductId(@PathVariable Long id) {
-//        List<ImageData> images = productService.getAllImagesByProductId(id);
-//        return ResponseEntity.ok(images);
-//    }
 }
 
 

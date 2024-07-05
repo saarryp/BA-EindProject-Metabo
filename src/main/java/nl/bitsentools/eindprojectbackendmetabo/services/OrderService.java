@@ -91,18 +91,12 @@ public OrderOutputDto createOrder(OrderInputDto createOrderDto) {
     orderModel.getProductModel().add(product);
 
 
-
-    // Koppel de factuur aan de order indien meegegeven
-//    if (createOrderDto.getInvoiceModel() != null) {
-//        InvoiceModel invoiceModel = InvoiceMapper.transferToInvoiceModel(createOrderDto.getInvoiceModel());
-////        invoiceRepository.save(invoiceModel); // Sla de factuur op in de database
-//        orderModel.setInvoiceModel(invoiceModel); // Koppel de factuur aan de order
-//    }
-
     //opslaan van de order
     OrderModel savedOrderModel = orderRepository.save(orderModel);
+    savedOrderModel.getInvoiceModel().setOrderModel(savedOrderModel);
+    OrderModel savedOrderModel2 = orderRepository.save(orderModel);
 
-    return transferToDto(savedOrderModel);
+    return transferToDto(savedOrderModel2);
 }
 
     //PutById for CLIENT
@@ -169,38 +163,13 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
         existingOrder.setTotalPriceOrder(dto.getPrice() * dto.getQuantity());
         existingOrder.getProductModel().add(product);
 
-        //iets aanroepen van de invoice met de juiste gegevens
 
-        // Als er een InvoiceModel is meegegeven, maak deze dan aan en koppel het aan de order
-//        InvoiceModel invoiceModel = null;
         if (dto.getInvoiceModel() != null) {
             InvoiceModel invoiceModel1 = InvoiceMapper.transferToInvoiceModel(dto.getInvoiceModel());
-//            invoiceModel1.setDateOfPurchase(dto.getInvoiceModel().getDateOfPurchase());
-//            invoiceModel1.setTotalPrice(dto.getInvoiceModel().getTotalPrice());
-//            invoiceModel1.setVat21ProductPrice(dto.getInvoiceModel().getVat21ProductPrice());
-//            invoiceModel1.setVat9ProductPrice(dto.getInvoiceModel().getVat9ProductPrice());
-//            invoiceModel1.setUserAddress(dto.getInvoiceModel().getUserAddress());
-//            invoiceModel1.setProductWarranty(dto.getInvoiceModel().isProductWarranty());
 
             existingOrder.setInvoiceModel(invoiceModel1);
         }
-        //service create invoice
-//        InvoiceInputDto invoiceInputDto = new InvoiceInputDto();
-//       invoiceInputDto.setDateOfPurchase(LocalDate.now());
-//
-//
-//
-////        //for
-////        invoiceInputDto.setNetPriceWithoutVat(product.getPrice());
-//
-////DEZE NOG AFMAKEN!!!
-//        InvoiceModel invoiceToOrder = new InvoiceModel();
-//        //maak nieuwe InvoiceModel aan en setl velden in
-//        invoiceToOrder.setVatRate(dto.getInvoiceModel().getVatRate());
-//        invoiceToOrder.setDateOfPurchase(dto.getInvoiceModel().dateOfPurchase);
-//        //koppel de invoicemodel aan ordermodel
 
-//        existingOrder.setInvoiceModel(invoiceModel1);
 
         orderRepository.save(existingOrder);
 
@@ -241,13 +210,8 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
         //hier iets maken voor het doorgeven van de invoice
 
         if(orderModel.getInvoiceModel() !=null) {
-            dto.setInvoiceModel(orderModel.getInvoiceModel().getId());
+            dto.setInvoiceModel(InvoiceMapper.convertToInvoiceOutputDto(orderModel.getInvoiceModel()));
         }
-
-
-
-//        dto.setInvoiceModel(orderModel.getInvoiceModel().getId());
-
         return dto;
     }
 
@@ -285,23 +249,7 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
             }
         }
     }
-//    @Transactional
-//    public void assignOrderToInvoice(Long orderId, @Valid InvoiceInputDto invoiceId){
-//        var optionalOrder = orderRepository.findById(orderId);
-//        var optionalInvoice = invoiceRepository.findById(invoiceId);
 //
-//        if(optionalOrder.isPresent() && optionalInvoice.isPresent()) {
-//            var order = optionalOrder.get();
-//            var invoice = optionalInvoice.get();
-//
-//            order.setInvoiceModel(invoice);
-//            orderRepository.save(order);
-//            System.out.println("order assigned to invoice succesfull");
-//        } else {
-//            System.out.println("order or invoice not found");
-//            throw new RecordNotFoundException("Order or invoice not found. ");
-//        }
-//    }
 
     @Transactional
     public void assignOrderToInvoice(Long orderId, InvoiceInputDto invoiceInputDto) {

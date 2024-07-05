@@ -1,6 +1,7 @@
 package nl.bitsentools.eindprojectbackendmetabo.mapper;
 
 import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceInputDto;
+import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
 
 public class InvoiceMapper {
@@ -21,5 +22,21 @@ public class InvoiceMapper {
 
 
         return invoiceModel;
+    }
+
+    public static InvoiceOutputDto convertToInvoiceOutputDto(InvoiceModel invoiceModel) {
+        InvoiceOutputDto invoiceDto = new InvoiceOutputDto();
+        invoiceDto.setId(invoiceModel.getId());
+        invoiceDto.setInvoiceId(invoiceModel.getInvoiceId());
+        invoiceDto.setTotalPrice(invoiceModel.getTotalPrice());
+        invoiceDto.setVat21ProductPrice(invoiceModel.getVat21ProductPrice());
+        invoiceDto.setVat9ProductPrice(invoiceModel.getVat9ProductPrice());
+        invoiceDto.setNetPriceWithoutVat(invoiceModel.getNetPriceWithoutVat());
+        invoiceDto.setVatRate(invoiceModel.getVatRate());
+        invoiceDto.setUserId(invoiceModel.getUserId());
+        invoiceDto.setUserAddress(invoiceModel.getUserAddress());
+        invoiceDto.setProductWarranty(invoiceModel.isProductWarranty());
+        invoiceDto.setDateOfPurchase(invoiceModel.getDateOfPurchase());
+        return invoiceDto;
     }
 }
