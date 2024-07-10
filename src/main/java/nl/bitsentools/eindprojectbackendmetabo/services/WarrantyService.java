@@ -78,7 +78,6 @@ public class WarrantyService {
 
         transferToWarranty(existingWarranty, warrantyInputDto);
 
-        // Fetch the product using productModelId from warrantyInputDto
         existingWarranty.setProductModel(productRepository.findById(warrantyInputDto.getProductModelId())
                 .orElseThrow(() -> new RecordNotFoundException("Product not found with id: " + warrantyInputDto.getProductModelId())));
 

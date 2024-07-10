@@ -19,7 +19,7 @@ import org.mockito.Mockito;
 
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.security.core.parameters.P;
+
 
 
 import java.time.LocalDate;
@@ -44,14 +44,11 @@ class WarrantyServiceTest {
 
     @BeforeEach
     void setUp(){
-        //Met garantie
+
         warrantyWithProduct = new WarrantyModel();
         warrantyWithProduct.setId(101L);
         warrantyWithProduct.setWarrantyStart(LocalDate.of(2024, 4, 24));
         warrantyWithProduct.setWarrantyEnds(LocalDate.of(2026,4, 24));
-
-        //koppeling factuur aan garantie
-
 
         ProductModel product = new ProductModel();
         warrantyWithProduct.setProductModel(new ProductModel());
@@ -174,6 +171,7 @@ class WarrantyServiceTest {
         when(warrantyRepository.findById(warrantyId)).thenReturn(Optional.of(warrantyWithProduct));
         when(productRepository.findById(1L)).thenReturn(Optional.of(productModel));
         when(warrantyRepository.save(any(WarrantyModel.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
         //ACT
 
         WarrantyOutputDto updatedResult = warrantyService.updateWarranty(warrantyId, updatedWarrantyInputDto);
