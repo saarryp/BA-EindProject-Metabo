@@ -86,6 +86,9 @@ public class StockService {
     }
 
     public StockOutputDto transferToDto(StockModel stockModel){
+
+//        if(stockModel == null){
+//            throw new IllegalArgumentException("StockModel cannot be null");
         StockOutputDto dto = new StockOutputDto();
 
 

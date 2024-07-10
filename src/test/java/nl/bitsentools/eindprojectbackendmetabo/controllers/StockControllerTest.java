@@ -3,7 +3,6 @@ package nl.bitsentools.eindprojectbackendmetabo.controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.bitsentools.eindprojectbackendmetabo.models.StockModel;
-import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.StockRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import java.time.LocalDate;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.text.MatchesPattern.matchesPattern;
 
@@ -71,30 +68,15 @@ class StockControllerTest {
     void getAllStocks() throws Exception {
         mockMvc.perform(get("/stocks"))
                 .andExpect(status().isOk())
-//                .andExpect(jsonPath("$[0].id").value(stock1.getId().toString()))
-//                .andExpect(jsonPath("$[0].brandName").value("Metabo"))
-//                .andExpect(jsonPath("$[0].productName").value("Metabo schuurmachine"))
-//                .andExpect(jsonPath("$[0].productNumber").value(102030))
-//                .andExpect(jsonPath("$[0].productInStock").value(10))
-//                .andExpect(jsonPath("$[0].orderPlacedDate").value("2024-01-14"))
                 .andExpect(jsonPath("$[0].weeksToDelivery").value(16))
                 .andExpect(jsonPath("$[0].productSold").value(0))
                 .andExpect(jsonPath("$[0].quantityInStock").value(10))
                 .andExpect(jsonPath("$[0].outOfStock").value(false))
-//                .andExpect(jsonPath("$[0].typeOfMachine").value("SCHUURMACHINE"))
-//                .andExpect(jsonPath("$[1].id").value(stock2.getId().toString()))
-                .andExpect(jsonPath("$[1].brandName").value("Haikoki"))
-                .andExpect(jsonPath("$[1].productName").value("Metabo zaagmachine"))
-                .andExpect(jsonPath("$[1].productNumber").value(302010))
-                .andExpect(jsonPath("$[1].productInStock").value(100))
-                .andExpect(jsonPath("$[1].orderPlacedDate").value("2019-10-30"))
+
                 .andExpect(jsonPath("$[1].weeksToDelivery").value(12))
                 .andExpect(jsonPath("$[1].productSold").value(2))
                 .andExpect(jsonPath("$[1].quantityInStock").value(0))
-                .andExpect(jsonPath("$[1].outOfStock").value(true))
-                .andExpect(jsonPath("$[1].typeOfMachine").value("ZAAGMACHINE"));
-
-
+                .andExpect(jsonPath("$[1].outOfStock").value(true));
 
     }
 
@@ -105,16 +87,10 @@ class StockControllerTest {
        mockMvc.perform(get("/stocks/" + stock2.getId().toString()))
                .andExpect(status().isOk())
                .andExpect(jsonPath("id").value(stock2.getId()))
-               .andExpect(jsonPath("brandName").value("Haikoki"))
-               .andExpect(jsonPath("productName").value("Metabo zaagmachine"))
-               .andExpect(jsonPath("productInStock").value(100))
-               .andExpect(jsonPath("orderPlacedDate").value("2019-10-30"))
                .andExpect(jsonPath("weeksToDelivery").value(12))
                .andExpect(jsonPath("productSold").value(2))
                .andExpect(jsonPath("quantityInStock").value(0))
-               .andExpect(jsonPath("outOfStock").value(true))
-               .andExpect(jsonPath("typeOfMachine").value("ZAAGMACHINE"));
-
+               .andExpect(jsonPath("outOfStock").value(true));
     }
 
     @Test
@@ -122,14 +98,12 @@ class StockControllerTest {
     void createStock() throws Exception {
         String jsonInput = """
                 {
-                    "brandName": "Metabo",
-                    "productName": "Metabo schuurmachine",
-                    "productNumber": 102030,
-                    "productInStock": 10,
-                    "orderPlacedDate": "2024-01-14T10:30:00.000Z",
+                 
                     "weeksToDelivery": 16,
+                    "productSold": 0,
                     "quantityInStock": 10,
-                    "typeOfMachine": "SCHUURMACHINE"
+                    "outOfStock: false
+                    
                 }
                 """;
 
@@ -154,14 +128,10 @@ class StockControllerTest {
 
         String jsonInput = """
             {
-                "brandName": "Metabo",
-                "productName": "Metabo schuurmachine",
-                "productNumber": 102030,
-                "productInStock": 10,
-                "orderPlacedDate": "2024-01-14T10:30:00.000Z",
                 "weeksToDelivery": 16,
+                "productSold: 0,
                 "quantityInStock": 10,
-                "typeOfMachine": "SCHUURMACHINE"
+                "outOfStock": false
             }
             """;
 
@@ -175,14 +145,11 @@ class StockControllerTest {
         String updateJsonInput = """
             {
                 "id" : 1,
-                "brandName": "MetaboSuper",
-                "productName": "Metabo SCHROEFMACHINE",
-                "productNumber": 123456,
-                "productInStock": 500,
-                "orderPlacedDate": "2024-04-28T09:00:00.000Z",
                 "weeksToDelivery": 1,
+                "productSold"; 0,
                 "quantityInStock": 1,
-                "typeOfMachine": "SCHROEFMACHINE"
+                "outOfStock": false
+               
             }
             """;
 

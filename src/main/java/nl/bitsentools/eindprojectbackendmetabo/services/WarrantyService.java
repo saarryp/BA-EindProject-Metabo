@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
+import nl.bitsentools.eindprojectbackendmetabo.models.ProductModel;
 import nl.bitsentools.eindprojectbackendmetabo.models.WarrantyModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.ProductRepository;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.WarrantyRepository;
@@ -54,6 +55,15 @@ public class WarrantyService {
     public WarrantyOutputDto createWarranty(WarrantyInputDto createWarrantyDto) {
         WarrantyModel warrantyModel = new WarrantyModel();
         WarrantyModel warranty = transferToWarranty(warrantyModel, createWarrantyDto);
+
+        // Fetch the product using productModelId
+        ProductModel product = productRepository.findById(createWarrantyDto.getProductModelId())
+                .orElseThrow(() -> new RecordNotFoundException("Product not found with id: " + createWarrantyDto.getProductModelId()));
+
+        warranty.setProductModel(product); // Set the product in the warranty
+
+
+
         WarrantyModel warrantyModel1 = warrantyRepository.save(warranty);
         return transferToDto(warrantyModel1);
 
@@ -61,12 +71,19 @@ public class WarrantyService {
 
     //put
 
+    @Transactional
     public WarrantyOutputDto updateWarranty(Long id, WarrantyInputDto warrantyInputDto){
         WarrantyModel existingWarranty = warrantyRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException("This Warranty with id :" + id + "is not found."));
-    transferToWarranty(existingWarranty, warrantyInputDto);
 
-    warrantyRepository.save(existingWarranty);
+        transferToWarranty(existingWarranty, warrantyInputDto);
+
+        // Fetch the product using productModelId from warrantyInputDto
+        existingWarranty.setProductModel(productRepository.findById(warrantyInputDto.getProductModelId())
+                .orElseThrow(() -> new RecordNotFoundException("Product not found with id: " + warrantyInputDto.getProductModelId())));
+
+
+    WarrantyModel updatedWarranty = warrantyRepository.save(existingWarranty);
     return transferToDto(existingWarranty);
 
     }
@@ -85,8 +102,12 @@ public void deleteWarranty(Long id) {
     public WarrantyModel transferToWarranty(WarrantyModel warrantyModel, WarrantyInputDto dto) {
         warrantyModel.setWarrantyStart(dto.getWarrantyStart());
         warrantyModel.setWarrantyEnds(dto.getWarrantyEnds());
-        warrantyModel.setProductModel(productRepository.findById(dto.getProductModelId())
-                .orElseThrow(()-> new RecordNotFoundException("Product not found with id: " + dto.getProductModelId())));
+
+        ProductModel productModel = productRepository.findById(dto.getProductModelId())
+                .orElseThrow(() -> new RecordNotFoundException("Product not found with id: " + dto.getProductModelId()));
+
+        warrantyModel.setProductModel(productModel);
+
         return warrantyModel;
     }
 
@@ -97,7 +118,11 @@ public void deleteWarranty(Long id) {
         dto.setId(warrantyModel.getId());
         dto.setWarrantyStart(warrantyModel.getWarrantyStart());
         dto.setWarrantyEnds(warrantyModel.getWarrantyEnds());
-        dto.setProductModelId(warrantyModel.getProductModel().getId());
+
+        if (warrantyModel.getProductModel() != null) {
+            dto.setProductModelId(warrantyModel.getProductModel().getId());
+        }
+
         return dto;
     }
 }
