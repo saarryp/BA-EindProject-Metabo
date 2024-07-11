@@ -67,11 +67,6 @@ class StockServiceTest {
             stockInputDto.setProductSold(stock.getProductSold());
             stockInputDto.setQuantityInStock(stock.getQuantityInStock());
             stockInputDto.setOutOfStock(stock.isOutOfStock());
-//            assertNotNull(result);
-//            assertEquals(101L, result.get(0).getId());;
-//            assertEquals(15, result.get(0).getWeeksToDelivery());;
-//            assertEquals(20, result.get(0).getProductSold());
-//            assertEquals(15, result.get(0).getQuantityInStock());;
         }
 
     @Test
@@ -151,12 +146,6 @@ class StockServiceTest {
 
         //ARRANGE
 
-//        StockInputDto updatedStockInputDto = new StockInputDto();
-//        updatedStockInputDto.setWeeksToDelivery(stock.getWeeksToDelivery());
-//        updatedStockInputDto.setProductSold(stock.getProductSold());
-//        updatedStockInputDto.setQuantityInStock(stock.getQuantityInStock());
-//        updatedStockInputDto.setOutOfStock(stock.isOutOfStock());
-
         Long stockId = stock.getId();
         when(stockRepository.findById(stockId)).thenReturn(Optional.of(stock));
 
@@ -166,7 +155,7 @@ class StockServiceTest {
         stockInputDto.setProductSold(25);
         stockInputDto.setQuantityInStock(10);
         stockInputDto.setOutOfStock(false);
-        // De verwachte geüpdatete stock
+
         StockModel updatedStock = new StockModel(
                 stockId,
                 3,
@@ -178,7 +167,6 @@ class StockServiceTest {
         // Mock de save methode
         when(stockRepository.save(any(StockModel.class))).thenReturn(updatedStock);
 
-//        when(stockRepository.findById(101L)).thenReturn(Optional.of(stock));
 
         //ACT
 
@@ -192,20 +180,7 @@ class StockServiceTest {
         assertEquals(3, updatedResult.getWeeksToDelivery());
         assertEquals(25, updatedResult.getProductSold());
         assertEquals(10, updatedResult.getQuantityInStock());
-//        assertEquals(stock.getWeeksToDelivery(), updatedResult.getWeeksToDelivery());
-//        assertEquals(stock.getProductSold(), updatedResult.getProductSold());
-////        assertEquals(stock.getQuantityInStock(), updatedResult.getQuantityInStock());
-//        assertEquals(17000, updatedResult.getQuantityInStock());
-//        assertEquals(stock.isOutOfStock(), updatedResult.isOutOfStock());
-//
-//
-//        verify(stockRepository, times(1)).save(any(StockModel.class));
-//
-//        // Check the updated amount in the repository
-//        Optional<StockModel> updatedStockOptional = stockRepository.findById(101L);
-//        assertTrue(updatedStockOptional.isPresent());
-//        StockModel updatedStock = updatedStockOptional.get();
-//        assertEquals(17000, updatedStock.getQuantityInStock());
+
     }
 
         @Test
