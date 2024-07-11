@@ -1,22 +1,17 @@
 package nl.bitsentools.eindprojectbackendmetabo.dto.warranty;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class WarrantyInputDto {
 
-       public int productNumber;
+
        public LocalDate warrantyStart;
 
        public LocalDate warrantyEnds;
 
-
-    public int getProductNumber() {
-        return productNumber;
-    }
-
-    public void setProductNumber(int productNumber) {
-        this.productNumber = productNumber;
-    }
+       @NotNull(message = "Product id is verplicht")
+       public Long productModelId;
 
     public LocalDate getWarrantyStart() {
         return warrantyStart;
@@ -34,6 +29,12 @@ public class WarrantyInputDto {
         this.warrantyEnds = warrantyEnds;
     }
 
+    public Long getProductModelId() {
+        return productModelId;
+    }
 
+    public void setProductModelId(Long productModelId) {
+        this.productModelId = productModelId;
+    }
 }
 

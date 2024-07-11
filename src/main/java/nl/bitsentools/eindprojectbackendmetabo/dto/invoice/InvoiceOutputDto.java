@@ -8,36 +8,25 @@ import java.time.LocalDate;
 public class InvoiceOutputDto {
 
     public Long id;
-    @NotBlank(message = "Factuurnummer is verplicht.")
+
     public String invoiceId;
 
-
-    @NotBlank(message = "De naam product is verplicht")
-    public String productName;
-
-    @NotNull(message = "Totaalprijs is verplicht")
-    @PositiveOrZero(message = "Totaalprijs moet positief of 0 zijn.")
     public double totalPrice;
 
-    @PositiveOrZero(message = "Bedrag van 21% BTW moet positief of 0 zijn.")
+
     public double vat21ProductPrice;
 
-    @PositiveOrZero(message = "Bedrag van 9% BTW moet positief of 0 zijn.")
     public double vat9ProductPrice;
 
     public  double netPriceWithoutVat;
 
     public double vatRate;
 
-    public double vatAmount;
-
     public int userId;
 
     public String userAddress;
 
     public boolean productWarranty;
-
-    public int warrantyInMonths;
 
     public LocalDate dateOfPurchase;
 
@@ -49,10 +38,6 @@ public class InvoiceOutputDto {
 
     public void setInvoiceId(String invoiceId) {
         this.invoiceId = invoiceId;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
     }
 
     public void setTotalPrice(double totalPrice) {
@@ -76,10 +61,6 @@ public class InvoiceOutputDto {
     }
 
 
-    public void setVatAmount(double vatAmount) {
-        this.vatAmount = vatAmount;
-    }
-
     public void setUserId(int userId) {
         this.userId = userId;
     }
@@ -90,10 +71,6 @@ public class InvoiceOutputDto {
 
     public void setProductWarranty(boolean productWarranty) {
         this.productWarranty = productWarranty;
-    }
-
-    public void setWarrantyInMonths(int warrantyInMonths) {
-        this.warrantyInMonths = warrantyInMonths;
     }
 
     public void setDateOfPurchase(LocalDate dateOfPurchase) {

@@ -1,14 +1,12 @@
 package nl.bitsentools.eindprojectbackendmetabo.services;
 
-import nl.bitsentools.eindprojectbackendmetabo.dto.stock.StockOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
-import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
-import nl.bitsentools.eindprojectbackendmetabo.models.StockModel;
+import nl.bitsentools.eindprojectbackendmetabo.models.ProductModel;
 import nl.bitsentools.eindprojectbackendmetabo.models.WarrantyModel;
+import nl.bitsentools.eindprojectbackendmetabo.repositories.ProductRepository;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.WarrantyRepository;
-import org.checkerframework.common.value.qual.ArrayLenRange;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,6 +19,7 @@ import org.mockito.Mockito;
 
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.EmptyResultDataAccessException;
+
 
 
 import java.time.LocalDate;
@@ -36,32 +35,28 @@ class WarrantyServiceTest {
 
   @Mock
     WarrantyRepository warrantyRepository;
+  @Mock
+  ProductRepository productRepository;
 
     @InjectMocks
     WarrantyService warrantyService;
-
-    WarrantyModel warrantyWithInvoice = new WarrantyModel();
+    WarrantyModel warrantyWithProduct = new WarrantyModel();
 
     @BeforeEach
     void setUp(){
 
-        //Met garantie
+        warrantyWithProduct = new WarrantyModel();
+        warrantyWithProduct.setId(101L);
+        warrantyWithProduct.setWarrantyStart(LocalDate.of(2024, 4, 24));
+        warrantyWithProduct.setWarrantyEnds(LocalDate.of(2026,4, 24));
 
-                warrantyWithInvoice.setId(101L);
-                warrantyWithInvoice.setProductNumber(1001);
-                warrantyWithInvoice.setWarrantyStart(LocalDate.of(2024, 4, 24));
-                warrantyWithInvoice.setWarrantyEnds(LocalDate.of(2026,4, 24));
-
-
-                //koppeling factuur aan garantie
-
-        InvoiceModel invoice = new InvoiceModel();
-        warrantyWithInvoice.setInvoiceModel(invoice);
-
+        ProductModel product = new ProductModel();
+        warrantyWithProduct.setProductModel(new ProductModel());
     }
+
     @AfterEach
     void tearDown () {
-        warrantyWithInvoice = null;
+        warrantyWithProduct = null;
     }
 
     @Test
@@ -70,7 +65,7 @@ class WarrantyServiceTest {
 
         //ARRANGE
 
-        when(warrantyRepository.findAll()).thenReturn(List.of(warrantyWithInvoice));
+        when(warrantyRepository.findAll()).thenReturn(List.of(warrantyWithProduct));
 
         //ACT
 
@@ -79,9 +74,8 @@ class WarrantyServiceTest {
         //ASSERT
 
         WarrantyInputDto warrantyInputDto = new WarrantyInputDto();
-        warrantyInputDto.setProductNumber(warrantyWithInvoice.getProductNumber());
-        warrantyInputDto.setWarrantyStart(warrantyWithInvoice.getWarrantyStart());
-        warrantyInputDto.setWarrantyEnds(warrantyWithInvoice.getWarrantyEnds());
+        warrantyInputDto.setWarrantyStart(warrantyWithProduct.getWarrantyStart());
+        warrantyInputDto.setWarrantyEnds(warrantyWithProduct.getWarrantyEnds());
     }
 
     @Test
@@ -90,7 +84,7 @@ class WarrantyServiceTest {
 
         //ARRANGE
 
-        when(warrantyRepository.findById(101L)).thenReturn(Optional.of(warrantyWithInvoice));
+        when(warrantyRepository.findById(101L)).thenReturn(Optional.of(warrantyWithProduct));
 
         //ACT
          WarrantyOutputDto resultById = warrantyService.getOneWarrantyById(101L);
@@ -99,7 +93,6 @@ class WarrantyServiceTest {
         //ASSERT
 
         assertEquals(101L, resultById.getId());
-        assertEquals(1001, resultById.getProductNumber());
         assertEquals(LocalDate.of(2024, 4, 24), resultById.getWarrantyStart());
         assertEquals(LocalDate.of(2026,4,24), resultById.getWarrantyEnds());
     }
@@ -121,22 +114,26 @@ class WarrantyServiceTest {
     }
 
     @Test
-    @DisplayName("Should post/create a warranty to an invoice")
+    @DisplayName("Should post/create a warranty to a product")
     void createWarranty() {
 
         //ARRANGE
 
         WarrantyInputDto warrantyInputDto = new WarrantyInputDto();
-        warrantyInputDto.setProductNumber(1001);
         warrantyInputDto.setWarrantyStart(LocalDate.of(2024, 1, 15));
         warrantyInputDto.setWarrantyEnds(LocalDate.of(2026, 1, 15));
-
+        warrantyInputDto.setProductModelId(1l);
         WarrantyModel savedWarranty = new WarrantyModel();
         savedWarranty.setId(102L);
-        savedWarranty.setProductNumber(1002);
         savedWarranty.setWarrantyStart(LocalDate.of(2024,1, 15));
         savedWarranty.setWarrantyEnds(LocalDate.of(2026, 1, 15));
 
+        ProductModel productModel = new ProductModel();
+        productModel.setId(1l);
+
+        savedWarranty.setProductModel(productModel);
+        productRepository.save(productModel);
+        when(productRepository.findById(1l)).thenReturn(Optional.of(productModel));
         when(warrantyRepository.save(ArgumentMatchers.any(WarrantyModel.class))).thenReturn(savedWarranty);
 
 
@@ -148,7 +145,6 @@ class WarrantyServiceTest {
 
         assertNotNull(createResult);
         assertEquals(102, createResult.getId());
-        assertEquals(1002, createResult.getProductNumber());
         assertEquals(LocalDate.of(2024, 1, 15), createResult.getWarrantyStart());
         assertEquals(LocalDate.of(2026, 1, 15), createResult.getWarrantyEnds());
 
@@ -160,24 +156,32 @@ class WarrantyServiceTest {
 
         //ARRANGE
 
-        //test if warranty changed from productnumber 1001 to 1020
         WarrantyInputDto updatedWarrantyInputDto = new WarrantyInputDto();
-        updatedWarrantyInputDto.setProductNumber(1020);
-        updatedWarrantyInputDto.setWarrantyStart((warrantyWithInvoice.getWarrantyStart()));
-        updatedWarrantyInputDto.setWarrantyEnds(warrantyWithInvoice.getWarrantyEnds());
+        updatedWarrantyInputDto.setWarrantyStart((warrantyWithProduct.getWarrantyStart()));
+        updatedWarrantyInputDto.setWarrantyEnds(warrantyWithProduct.getWarrantyEnds());
+        updatedWarrantyInputDto.setProductModelId(1L);
 
-        when(warrantyRepository.findById(101L)).thenReturn(Optional.of(warrantyWithInvoice));
+        Long warrantyId = 101L;
+
+        ProductModel productModel = new ProductModel();
+        productModel.setId(1l);
+
+
+
+        when(warrantyRepository.findById(warrantyId)).thenReturn(Optional.of(warrantyWithProduct));
+        when(productRepository.findById(1L)).thenReturn(Optional.of(productModel));
+        when(warrantyRepository.save(any(WarrantyModel.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         //ACT
 
-        WarrantyOutputDto updatedResult = warrantyService.updateWarranty(101L, updatedWarrantyInputDto);
+        WarrantyOutputDto updatedResult = warrantyService.updateWarranty(warrantyId, updatedWarrantyInputDto);
 
         //ASSERT
 
         assertNotNull(updatedResult);
-        assertEquals(warrantyWithInvoice.getProductNumber(), updatedResult.getProductNumber());
-        assertEquals(warrantyWithInvoice.getWarrantyStart(), updatedResult.getWarrantyStart());
-        assertEquals(warrantyWithInvoice.getWarrantyEnds(), updatedResult.getWarrantyEnds());
+        assertEquals(warrantyWithProduct.getWarrantyStart(), updatedResult.getWarrantyStart());
+        assertEquals(warrantyWithProduct.getWarrantyEnds(), updatedResult.getWarrantyEnds());
+        assertEquals(updatedWarrantyInputDto.getProductModelId(), updatedResult.getProductModelId());
 
     }
 
@@ -220,20 +224,27 @@ class WarrantyServiceTest {
         //ARRANGE
 
         WarrantyInputDto inputDto = new WarrantyInputDto();
-        inputDto.setProductNumber(1500);
         inputDto.setWarrantyStart(LocalDate.of(2024, 3, 30));
         inputDto.setWarrantyEnds(LocalDate.of(2028, 3,30));
+        inputDto.setProductModelId(1L);
+
+        // Simuleer het ProductModel in de repository
+        ProductModel productModel = new ProductModel();
+        productModel.setId(1L);
+        when(productRepository.findById(1L)).thenReturn(Optional.of(productModel));
+
+
 
         //ACT
 
-        WarrantyModel updatedWarranty = warrantyService.transferToWarranty(warrantyWithInvoice, inputDto);
+        WarrantyModel updatedWarranty = warrantyService.transferToWarranty(warrantyWithProduct, inputDto);
 
         //ASSERT
 
         assertNotNull(updatedWarranty);
-        assertEquals(1500, updatedWarranty.getProductNumber());
         assertEquals(LocalDate.of(2024,3,30), updatedWarranty.getWarrantyStart());
         assertEquals(LocalDate.of(2028, 3, 30), updatedWarranty.getWarrantyEnds());
+        assertEquals(1L, updatedWarranty.getProductModel().getId());
     }
 
     @Test
@@ -243,9 +254,13 @@ class WarrantyServiceTest {
 
             WarrantyModel warrantyModel = new WarrantyModel();
             warrantyModel.setId(105L);
-            warrantyModel.setProductNumber(3500);
             warrantyModel.setWarrantyStart(LocalDate.of(2022, 12, 15));
             warrantyModel.setWarrantyEnds(LocalDate.of(2026, 12, 15));
+
+        // Simuleer het ProductModel in WarrantyModel
+        ProductModel productModel = new ProductModel();
+        productModel.setId(1L);
+        warrantyModel.setProductModel(productModel);
 
         //ACT
 
@@ -255,8 +270,8 @@ class WarrantyServiceTest {
 
         assertNotNull(dto);
         assertEquals(105L, dto.getId());
-        assertEquals(3500, dto.getProductNumber());
         assertEquals(LocalDate.of(2022, 12, 15), dto.getWarrantyStart());
         assertEquals(LocalDate.of(2026, 12, 15), dto.getWarrantyEnds());
+        assertEquals(1L, dto.getProductModelId());
     }
 }

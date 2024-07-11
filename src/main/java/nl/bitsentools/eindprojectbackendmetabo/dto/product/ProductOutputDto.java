@@ -2,9 +2,11 @@ package nl.bitsentools.eindprojectbackendmetabo.dto.product;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import nl.bitsentools.eindprojectbackendmetabo.models.ImageData;
 import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import nl.bitsentools.eindprojectbackendmetabo.utils.ImageUtil;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -12,27 +14,32 @@ public class ProductOutputDto {
 
     public Long id;
 
-    @NotBlank(message = "Merknaam is niet ingevoerd.")
     public String brandName;
 
-    @NotBlank(message = "Productnaam is niet ingevoerd")
     public String productName;
 
-    @NotBlank(message = "Het productnummer moet ingevoerd zijn.")
-    @NotNull(message = "Het productnummer moet groter dan 0 zijn.")
     public int productNumber;
 
-    @NotNull(message = "De prijs moet zijn ingevoerd.")
     public double price;
 
-    @NotBlank(message = "Het type machine is niet ingevoerd.")
     @Enumerated(EnumType.STRING)
     public TypeOfMachine typeOfMachine;
 
-    public List<String> imageUrls;
-
+    public List<byte[]> imageData;
 
     public ProductOutputDto() {
+    }
+
+    public List<byte[]> getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(List<ImageData> imageData) {
+        List<byte[]> imgbase64 = new ArrayList<>();
+        for (ImageData ig : imageData){
+            imgbase64.add(ImageUtil.decompressImage(ig.getImageData()));
+        }
+        this.imageData = imgbase64;
     }
 
     public Long getId() {
@@ -83,11 +90,5 @@ public class ProductOutputDto {
         this.typeOfMachine = typeOfMachine;
     }
 
-    public List<String> getImageUrls() {
-        return imageUrls;
-    }
 
-    public void setImageUrls(List<String> imageUrls) {
-        this.imageUrls = imageUrls;
-    }
 }

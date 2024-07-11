@@ -1,10 +1,12 @@
 package nl.bitsentools.eindprojectbackendmetabo.services;
 
-
+import jakarta.transaction.Transactional;
 import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.warranty.WarrantyOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
+import nl.bitsentools.eindprojectbackendmetabo.models.ProductModel;
 import nl.bitsentools.eindprojectbackendmetabo.models.WarrantyModel;
+import nl.bitsentools.eindprojectbackendmetabo.repositories.ProductRepository;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.WarrantyRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -17,9 +19,11 @@ import java.util.Optional;
 public class WarrantyService {
 
     private final WarrantyRepository warrantyRepository;
+    private final ProductRepository productRepository;
 
-    public WarrantyService(WarrantyRepository warrantyRepository){
+    public WarrantyService(WarrantyRepository warrantyRepository, ProductRepository productRepository){
         this.warrantyRepository = warrantyRepository;
+        this.productRepository = productRepository;
     }
 
 
@@ -47,9 +51,16 @@ public class WarrantyService {
 
     //post
 
+    @Transactional
     public WarrantyOutputDto createWarranty(WarrantyInputDto createWarrantyDto) {
         WarrantyModel warrantyModel = new WarrantyModel();
         WarrantyModel warranty = transferToWarranty(warrantyModel, createWarrantyDto);
+
+        ProductModel product = productRepository.findById(createWarrantyDto.getProductModelId())
+                .orElseThrow(() -> new RecordNotFoundException("Product not found with id: " + createWarrantyDto.getProductModelId()));
+
+        warranty.setProductModel(product);
+
         WarrantyModel warrantyModel1 = warrantyRepository.save(warranty);
         return transferToDto(warrantyModel1);
 
@@ -57,12 +68,18 @@ public class WarrantyService {
 
     //put
 
+    @Transactional
     public WarrantyOutputDto updateWarranty(Long id, WarrantyInputDto warrantyInputDto){
         WarrantyModel existingWarranty = warrantyRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException("This Warranty with id :" + id + "is not found."));
-    transferToWarranty(existingWarranty, warrantyInputDto);
 
-    warrantyRepository.save(existingWarranty);
+        transferToWarranty(existingWarranty, warrantyInputDto);
+
+        existingWarranty.setProductModel(productRepository.findById(warrantyInputDto.getProductModelId())
+                .orElseThrow(() -> new RecordNotFoundException("Product not found with id: " + warrantyInputDto.getProductModelId())));
+
+
+    WarrantyModel updatedWarranty = warrantyRepository.save(existingWarranty);
     return transferToDto(existingWarranty);
 
     }
@@ -79,9 +96,14 @@ public void deleteWarranty(Long id) {
 
 
     public WarrantyModel transferToWarranty(WarrantyModel warrantyModel, WarrantyInputDto dto) {
-        warrantyModel.setProductNumber(dto.getProductNumber());
         warrantyModel.setWarrantyStart(dto.getWarrantyStart());
         warrantyModel.setWarrantyEnds(dto.getWarrantyEnds());
+
+        ProductModel productModel = productRepository.findById(dto.getProductModelId())
+                .orElseThrow(() -> new RecordNotFoundException("Product not found with id: " + dto.getProductModelId()));
+
+        warrantyModel.setProductModel(productModel);
+
         return warrantyModel;
     }
 
@@ -90,9 +112,13 @@ public void deleteWarranty(Long id) {
         WarrantyOutputDto dto = new WarrantyOutputDto();
 
         dto.setId(warrantyModel.getId());
-        dto.setProductNumber(warrantyModel.getProductNumber());
         dto.setWarrantyStart(warrantyModel.getWarrantyStart());
         dto.setWarrantyEnds(warrantyModel.getWarrantyEnds());
+
+        if (warrantyModel.getProductModel() != null) {
+            dto.setProductModelId(warrantyModel.getProductModel().getId());
+        }
+
         return dto;
     }
 }

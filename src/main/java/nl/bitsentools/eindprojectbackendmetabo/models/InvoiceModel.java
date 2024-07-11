@@ -10,16 +10,13 @@ import java.time.LocalDate;
 
 public class InvoiceModel {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
 
     private Long id;
-    @Column
+    @Column(unique = true)
     private String invoiceId;
-    @Column
-    private int productNumber;
-    @Column
-    private String productName;
+
     @Column
     private double totalPrice;
     @Column
@@ -31,44 +28,32 @@ public class InvoiceModel {
     @Column
     private double vatRate;
     @Column
-    private double vatAmount;
-    @Column
     private int userId;
     @Column
     private String userAddress;
     @Column
     private boolean productWarranty;
-    @Column
-    private int warrantyInMonths;
+
     @Column
     private LocalDate dateOfPurchase;
-
-    @OneToOne( cascade = CascadeType.ALL)
-    @JoinColumn
-    WarrantyModel warrantyModel;
 
     @OneToOne
     @JoinColumn(name = "order_id")
     OrderModel orderModel;
 
-
-    public InvoiceModel(Long id, String invoiceId, int productNumber, String productName, double totalPrice, double vat21ProductPrice, double vat9ProductPrice, double netPriceWithoutVat,double vatRate, double vatAmount, int userId, String userAddress, boolean productWarranty, int warrantyInMonths, LocalDate dateOfPurchase, WarrantyModel warrantyModel, OrderModel orderModel) {
+    public InvoiceModel(Long id, String invoiceId, double totalPrice, double vat21ProductPrice, double vat9ProductPrice, double netPriceWithoutVat,double vatRate,  int userId, String userAddress, boolean productWarranty, LocalDate dateOfPurchase,  OrderModel orderModel) {
         this.id = id;
         this.invoiceId = invoiceId;
-        this.productNumber = productNumber;
-        this.productName = productName;
         this.totalPrice = totalPrice;
         this.vat21ProductPrice = vat21ProductPrice;
         this.vat9ProductPrice = vat9ProductPrice;
         this.netPriceWithoutVat = netPriceWithoutVat;
         this.vatRate = vatRate;
-        this.vatAmount = vatAmount;
         this.userId = userId;
         this.userAddress = userAddress;
         this.productWarranty = productWarranty;
-        this.warrantyInMonths = warrantyInMonths;
         this.dateOfPurchase = dateOfPurchase;
-        this.warrantyModel = warrantyModel;
+//        this.warrantyModel = warrantyModel;
         this.orderModel = orderModel;
     }
 
@@ -98,21 +83,6 @@ public class InvoiceModel {
         this.invoiceId = invoiceId;
     }
 
-    public int getProductNumber() {
-        return productNumber;
-    }
-
-    public void setProductNumber(int productNumber) {
-        this.productNumber = productNumber;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
 
     public double getTotalPrice() {
         return totalPrice;
@@ -146,14 +116,6 @@ public class InvoiceModel {
         this.vatRate = vatRate;
     }
 
-    public double getVatAmount() {
-        return vatAmount;
-    }
-
-    public void setVatAmount(double vatAmount) {
-        this.vatAmount = vatAmount;
-    }
-
     public int getUserId() {
         return userId;
     }
@@ -178,28 +140,12 @@ public class InvoiceModel {
         this.productWarranty = productWarranty;
     }
 
-    public int getWarrantyInMonths() {
-        return warrantyInMonths;
-    }
-
-    public void setWarrantyInMonths(int warrantyInMonths) {
-        this.warrantyInMonths = warrantyInMonths;
-    }
-
     public LocalDate getDateOfPurchase() {
         return dateOfPurchase;
     }
 
     public void setDateOfPurchase(LocalDate dateOfPurchase) {
         this.dateOfPurchase = dateOfPurchase;
-    }
-
-    public WarrantyModel getWarrantyModel() {
-        return warrantyModel;
-    }
-
-    public void setWarrantyModel(WarrantyModel warrantyModel) {
-        this.warrantyModel = warrantyModel;
     }
 
     public OrderModel getOrderModel() {

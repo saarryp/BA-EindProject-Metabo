@@ -1,26 +1,20 @@
 package nl.bitsentools.eindprojectbackendmetabo.dto.user;
 
 import nl.bitsentools.eindprojectbackendmetabo.models.Authority;
-
-import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 public class UserOutputDto {
 
     public Long id;
 
-    @NotBlank (message = "Gebruiksnaam mag niet leeg zijn")
     public String username;
 
-    @NotBlank(message = "Wachtwoord mag niet leeg zijn.")
     public String password;
 
     public Boolean enabled;
     public String apikey;
-    @NotBlank(message = "E-mailadres mag niet leeg zijn.")
     public String email;
 
-    @NotBlank(message = "dit veld met gegevens mag niet leeg zijn.")
     public String userDetails;
 
     public Set<Authority> authority;

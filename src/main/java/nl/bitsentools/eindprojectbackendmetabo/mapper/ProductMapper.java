@@ -32,6 +32,7 @@ public class ProductMapper {
         dto.setProductNumber(product.getProductNumber());
         dto.setPrice(product.getPrice());
         dto.setTypeOfMachine(product.getTypeOfMachine());
+        dto.setImageData(product.getImageData());
 
 
         return dto;

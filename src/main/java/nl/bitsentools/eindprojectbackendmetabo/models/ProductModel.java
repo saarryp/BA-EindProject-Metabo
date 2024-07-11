@@ -36,18 +36,19 @@ private Long id;
     private int warrantyInMonths;
 
 
-    @ManyToMany
-            (mappedBy = "productModel")
+    @ManyToMany(mappedBy = "productModel")
     List< OrderModel> orderModel = new ArrayList<>();
 
     @OneToMany(mappedBy = "productModel", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<ImageData> imageData;
+    private List<ImageData> imageData = new ArrayList<>();
 
+    @OneToOne(mappedBy = "productModel", cascade = CascadeType.ALL)
+    WarrantyModel warrantyModel;
 
     public ProductModel(){}
 
 
-    public ProductModel(Long id, String brandName, String productName, int productNumber, double price, TypeOfMachine typeOfMachine, boolean productWarranty, int warrantyInMonths, List<OrderModel> orderModel, List<ImageData>imageData) {
+    public ProductModel(Long id, String brandName, String productName, int productNumber, double price, TypeOfMachine typeOfMachine, boolean productWarranty, int warrantyInMonths, List<OrderModel> orderModel, List<ImageData>imageData, WarrantyModel warrantyModel) {
         this.id = id;
         this.brandName = brandName;
         this.productName = productName;
@@ -58,9 +59,8 @@ private Long id;
         this.warrantyInMonths = warrantyInMonths;
         this.orderModel = orderModel;
         this.imageData = imageData;
+        this.warrantyModel = warrantyModel;
     }
-
-
 
     public Long getId() {
         return id;
@@ -142,5 +142,12 @@ private Long id;
         this.imageData = imageData;
     }
 
+    public WarrantyModel getWarrantyModel() {
+        return warrantyModel;
+    }
+
+    public void setWarrantyModel(WarrantyModel warrantyModel) {
+        this.warrantyModel = warrantyModel;
+    }
 }
 

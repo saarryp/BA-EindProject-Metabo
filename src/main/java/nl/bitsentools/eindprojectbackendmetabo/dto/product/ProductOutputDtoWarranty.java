@@ -2,36 +2,45 @@ package nl.bitsentools.eindprojectbackendmetabo.dto.product;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import nl.bitsentools.eindprojectbackendmetabo.models.ImageData;
 import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import nl.bitsentools.eindprojectbackendmetabo.utils.ImageUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductOutputDtoWarranty {
 
     public Long id;
 
-    @NotBlank(message = "Merknaam is niet ingevoerd.")
     public String brandName;
 
-    @NotBlank(message = "Productnaam is niet ingevoerd")
     public String productName;
 
-    @NotBlank(message = "Het productnummer moet ingevoerd zijn.")
-    @NotNull(message = "Het productnummer moet groter dan 0 zijn.")
-    public int productNumber;
+    public Integer productNumber;
 
-    @NotNull(message = "De prijs moet zijn ingevoerd.")
-    public double price;
+    public Double price;
     public boolean hasWarranty;
 
-    @NotNull(message = "Garantie heeft een minimum waarde die 0 of groter is.")
-    public int warrantyInMonths;
+    public Integer warrantyInMonths;
 
-    @NotBlank(message = "Het type machine is niet ingevoerd.")
     @Enumerated(EnumType.STRING)
     public TypeOfMachine typeOfMachine;
 
-    public String defaultImageBase64;
+    public List<byte[]> imageData;
+
+    public List<byte[]> getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(List<ImageData> imageData) {
+        List<byte[]> imgbase64 = new ArrayList<>();
+        for (ImageData ig : imageData){
+            imgbase64.add(ImageUtil.decompressImage(ig.getImageData()));
+        }
+        this.imageData = imgbase64;
+    }
+
     public ProductOutputDtoWarranty(){}
 
     public Long getId() {
@@ -49,7 +58,6 @@ public class ProductOutputDtoWarranty {
         this.hasWarranty = hasWarranty;
         this.warrantyInMonths = warrantyInMonths;
         this.typeOfMachine = typeOfMachine;
-        this.defaultImageBase64 = defaultImageBase64;
     }
 
     public void setId(Long id) {
@@ -120,11 +128,4 @@ public class ProductOutputDtoWarranty {
         this.hasWarranty = hasWarranty;
     }
 
-    public String getDefaultImageBase64() {
-        return defaultImageBase64;
-    }
-
-    public void setDefaultImageBase64(String defaultImageBase64) {
-        this.defaultImageBase64 = defaultImageBase64;
-    }
 }

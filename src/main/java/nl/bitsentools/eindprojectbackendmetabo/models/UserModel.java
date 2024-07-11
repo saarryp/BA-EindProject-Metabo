@@ -2,7 +2,9 @@ package nl.bitsentools.eindprojectbackendmetabo.models;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -11,7 +13,7 @@ public class UserModel {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "id")
     private Long id;
     @Column(nullable = false, unique = true)
     private String username;
@@ -41,19 +43,26 @@ public class UserModel {
 
     private Set<Authority> authorities = new HashSet<>();
 
+    @OneToMany(targetEntity = OrderModel.class,
+                mappedBy = "user",
+                cascade =CascadeType.ALL,
+                orphanRemoval = true,
+                fetch = FetchType.LAZY)
+    private List<OrderModel> orders = new ArrayList<>();
 
     public UserModel() {
     }
 
-    public UserModel(Long id, String userName, String password, boolean enabled, String apiKey, String email, String userDetails, Set<Authority> authorities) {
+    public UserModel(Long id, String username, String password, boolean enabled, String apiKey, String email, String userDetails, Set<Authority> authorities,List<OrderModel>orders ) {
         this.id = id;
-        this.username = userName;
+        this.username = username;
         this.password = password;
         this.enabled = enabled;
         this.apiKey = apiKey;
         this.email = email;
         this.userDetails = userDetails;
         this.authorities = authorities;
+        this.orders = orders;
     }
 
     public Long getId() {
@@ -127,5 +136,13 @@ public class UserModel {
 
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
+    }
+
+    public List<OrderModel> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<OrderModel> orders) {
+        this.orders = orders;
     }
 }

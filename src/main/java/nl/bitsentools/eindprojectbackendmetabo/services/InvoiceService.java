@@ -2,11 +2,11 @@ package nl.bitsentools.eindprojectbackendmetabo.services;
 
 import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceOutputDto;
+import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
 import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
-import nl.bitsentools.eindprojectbackendmetabo.repositories.InvoiceRepository;
-import nl.bitsentools.eindprojectbackendmetabo.repositories.UserRepository;
-import nl.bitsentools.eindprojectbackendmetabo.repositories.WarrantyRepository;
+import nl.bitsentools.eindprojectbackendmetabo.models.ProductModel;
+import nl.bitsentools.eindprojectbackendmetabo.repositories.*;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -20,12 +20,16 @@ public class InvoiceService {
     private final WarrantyRepository warrantyRepository;
     private final UserRepository userRepository;
     private final WarrantyService warrantyService;
+    private final ProductRepository productRepository;
+    private final OrderRepository orderRepository;
 
-    public InvoiceService(InvoiceRepository invoiceRepository, WarrantyRepository warrantyRepository, UserRepository userRepository, WarrantyService warrantyService) {
+    public InvoiceService(InvoiceRepository invoiceRepository, WarrantyRepository warrantyRepository, UserRepository userRepository, WarrantyService warrantyService, ProductRepository productRepository, OrderRepository orderRepository) {
         this.invoiceRepository = invoiceRepository;
         this.warrantyRepository = warrantyRepository;
         this.userRepository = userRepository;
         this.warrantyService = warrantyService;
+        this.productRepository = productRepository;
+        this.orderRepository = orderRepository;
     }
 
     //  GET-ALL
@@ -59,20 +63,41 @@ public class InvoiceService {
 
         // Berekening BTW
         double vatRate = createInvoiceDto.getVatRate();
-        double vatAmount = invoice.getNetPriceWithoutVat() * (vatRate / 100);
+        double totalNetPriceWithoutVat = 0.0;
 
-        // opslaan van verschillende berkeningen en uitkomsten BTW-bedrag
-        if (vatRate == 9) {
-            invoice.setVat9ProductPrice(vatAmount);
-            invoice.setVat21ProductPrice(0.0); // Set 0 for 21% VAT if it's 9% VAT
-        } else {
-            invoice.setVat21ProductPrice(vatAmount);
-            invoice.setVat9ProductPrice(0.0); // Set 0 for 9% VAT if it's 21% VAT
+        // Controleer of de orders lijst niet null is
+        List<OrderInputDto> orders = createInvoiceDto.getOrders();
+        if (orders == null || orders.isEmpty()) {
+            throw new IllegalArgumentException("De orders lijst mag niet null of leeg zijn.");
         }
 
-        double totalPriceWithoutVat = invoiceModel.getNetPriceWithoutVat();
-        double totalPrice = invoice.getNetPriceWithoutVat() + vatAmount;
 
+        // Bereken de totale nettoprijs zonder BTW over alle producten op de factuur
+        for (OrderInputDto orderDto : orders) {
+            ProductModel product = productRepository.findByProductNumber(orderDto.getProductNumber())
+                    .orElseThrow(() -> new RecordNotFoundException("Product met productnummer: " + orderDto.getProductNumber() + " niet gevonden."));
+
+            double productNetPriceWithoutVat = product.getPrice() * orderDto.getQuantity();
+            totalNetPriceWithoutVat += productNetPriceWithoutVat;
+        }
+
+
+        //berekening btw bedrag
+        double vatAmount = invoice.getNetPriceWithoutVat() * (vatRate / 100);
+
+        if (vatRate == 9) {
+            invoice.setVat9ProductPrice(vatAmount);
+            invoice.setVat21ProductPrice(0.0);
+        } else {
+            invoice.setVat21ProductPrice(vatAmount);
+            invoice.setVat9ProductPrice(0.0);
+        }
+
+//       instellen nettoprijs en totale prijs zonder btw
+
+         invoice.setNetPriceWithoutVat(totalNetPriceWithoutVat);
+        double totalPrice = invoice.getNetPriceWithoutVat() + vatAmount;
+         invoice.setTotalPrice(totalPrice);
 
         invoice.setTotalPrice(totalPrice);
 
@@ -110,24 +135,17 @@ public class InvoiceService {
         }
     }
 
-    //2 METHODE VAN INVOICE NAAR DTO
 
     public InvoiceModel transferToInvoice(InvoiceModel invoice, InvoiceInputDto dto) {
 
         invoice.setInvoiceId(dto.invoiceId);
-        invoice.setProductName(dto.productName);
         invoice.setTotalPrice(dto.totalPrice);
         invoice.setVat21ProductPrice(dto.vat21ProductPrice);
         invoice.setVat9ProductPrice(dto.vat9ProductPrice);
         invoice.setNetPriceWithoutVat(dto.netPriceWithoutVat);
         invoice.setVatRate(dto.vatRate);
-        invoice.setUserId(dto.userId);
-        invoice.setUserAddress(dto.userAddress);
         invoice.setProductWarranty(dto.productWarranty);
-        invoice.setWarrantyInMonths(dto.warrantyInMonths);
         invoice.setDateOfPurchase(dto.dateOfPurchase);
-
-        //berekening VAT
 
         return invoice;
     }
@@ -137,7 +155,6 @@ public class InvoiceService {
 
         dto.setId(invoiceModel.getId());
         dto.setInvoiceId(invoiceModel.getInvoiceId());
-        dto.setProductName(invoiceModel.getProductName());
         dto.setTotalPrice(invoiceModel.getTotalPrice());
         dto.setVat21ProductPrice(invoiceModel.getVat21ProductPrice());
         dto.setVat9ProductPrice(invoiceModel.getVat9ProductPrice());
@@ -146,7 +163,6 @@ public class InvoiceService {
         dto.setUserId(invoiceModel.getUserId());
         dto.setUserAddress(invoiceModel.getUserAddress());
         dto.setProductWarranty(invoiceModel.isProductWarranty());
-        dto.setWarrantyInMonths(invoiceModel.getWarrantyInMonths());
         dto.setDateOfPurchase(invoiceModel.getDateOfPurchase());
         dto.setTotalPrice(invoiceModel.getTotalPrice());
 
@@ -161,7 +177,6 @@ public class InvoiceService {
             var invoice = optionalInvoice.get();
             var warranty = optionalWarranty.get();
 
-            invoice.setWarrantyModel(warranty);
             invoiceRepository.save(invoice);
         } else {
             throw new RecordNotFoundException("Warranty or invoice is not found.");

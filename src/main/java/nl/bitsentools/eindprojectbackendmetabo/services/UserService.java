@@ -1,6 +1,6 @@
 package nl.bitsentools.eindprojectbackendmetabo.services;
 
-
+import jakarta.transaction.Transactional;
 import nl.bitsentools.eindprojectbackendmetabo.dto.user.UserInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.user.UserOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
@@ -47,8 +47,6 @@ public class UserService {
         return userOutputDto;
     }
 
-
-
     public boolean userExists(String username) {
         return userRepository.existsUserModelByUsername(username);
     }
@@ -62,6 +60,7 @@ public class UserService {
         return newUser.getUsername();
     }
 
+    @Transactional
     public void deleteUser(String username) {
         userRepository.deleteUserModelByUsername(username);
     }

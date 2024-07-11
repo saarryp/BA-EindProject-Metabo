@@ -1,43 +1,20 @@
 package nl.bitsentools.eindprojectbackendmetabo.dto.order;
 
-import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
-
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceOutputDto;
 import java.util.List;
 
 public class OrderOutputDto {
 
     public Long id;
-
-    @NotNull(message = "Gebruikers-Id is verplicht")
-    public int userId;
-
-    @NotBlank(message = "E-mailadres van gebruiker is verplicht")
-    public String userEmail;
-
-    @NotBlank(message = "Leveringsadres van gebruiker is verplicht")
-    public String userDetails;
-
-    @NotNull(message = "Bestelnummer is verplicht")
+    public Long userId;
     public int orderNumber;
-
     public List<Object> productDto;
 
-    @NotNull(message = "Prijs is verplicht")
     public double price;
-
-    @Min(value = 1, message = "Aantal producten van minimum 1 is verplicht")
     public int quantity;
-
-    @NotNull(message = "Totaalprijs van alle bestelde prodcten is verplicht")
     public double totalPriceOrder;
-    public InvoiceModel invoiceModel;
-
-
-
-
+//    public long invoiceModel;
+    private InvoiceOutputDto invoiceModel;
 
     public OrderOutputDto(){}
 
@@ -49,29 +26,15 @@ public class OrderOutputDto {
         this.id = id;
     }
 
-    public int getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public String getUserEmail() {
-        return userEmail;
-    }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
-    public String getUserDetails() {
-        return userDetails;
-    }
-
-    public void setUserDetails(String userDetails) {
-        this.userDetails = userDetails;
-    }
 
     public int getOrderNumber() {
         return orderNumber;
@@ -88,6 +51,7 @@ public class OrderOutputDto {
     public void setProductDto(List<Object> productDto) {
         this.productDto = productDto;
     }
+
 
     public double getPrice() {
         return price;
@@ -113,11 +77,12 @@ public class OrderOutputDto {
         this.totalPriceOrder = totalPriceOrder;
     }
 
-    public InvoiceModel getInvoiceModel() {
+
+    public InvoiceOutputDto getInvoiceModel() {
         return invoiceModel;
     }
 
-    public void setInvoiceModel(InvoiceModel invoiceModel) {
+    public void setInvoiceModel(InvoiceOutputDto invoiceModel) {
         this.invoiceModel = invoiceModel;
     }
 }

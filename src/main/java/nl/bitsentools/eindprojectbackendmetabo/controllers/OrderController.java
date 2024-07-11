@@ -48,28 +48,20 @@ public class OrderController {
     }
 
     @PostMapping("/orders/{id}/products")
-    public ResponseEntity<Object>assignOrderToProduct(@PathVariable("id") Long id, @Valid @RequestBody IdInputDto input){
-        orderService.assignOrderToProduct(id, input.id);
+    public ResponseEntity<Object>assignOrderToProduct(
+            @PathVariable("id") Long id,
+            @Valid @RequestBody IdInputDto input){
+        orderService.assignOrderToProduct(id, input.getId());
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/assignAllOrders")
-    public ResponseEntity<Object>assignAllOrdersToAllProducts(){
-        orderService.assignAllOrdersToAllProducts();
-        return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping("/{id}/invoices")
-    public ResponseEntity<Object>assignOrderToInvoice(@PathVariable("id")Long id, @Valid @RequestBody IdInputDto input){
-        orderService.assignOrderToInvoice(id, input.id);
-        return ResponseEntity.noContent().build();
-    }
 
     @PutMapping("/{id}/client")
     public ResponseEntity<OrderOutputDto>updateOrder(@PathVariable("id") Long id, @Valid @RequestBody OrderInputDto updateOrder){
     OrderOutputDto dto = orderService.updateOrder(id, updateOrder);
     return ResponseEntity.ok().body(dto);
     }
+
 
     @PutMapping("/{id}/admin")
     public ResponseEntity<OrderOutputDto> updateOrderForAdmin(@PathVariable("id") Long id, @Valid @RequestBody OrderInputDto updateDto) {

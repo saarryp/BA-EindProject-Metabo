@@ -77,39 +77,24 @@ public class StockService {
 
 
     public StockModel transferToStock(StockModel stock,StockInputDto dto){
-
-
-        stock.setBrandName(dto.getBrandName());
-        stock.setProductName(dto.getProductName());
-        stock.setProductNumber(dto.getProductNumber());
-        stock.setProductInStock(dto.getProductInStock());
-        stock.setOrderPlacedDate(dto.getOrderPlacedDate());
         stock.setWeeksToDelivery(dto.getWeeksToDelivery());
         stock.setProductSold(dto.getProductSold());
         stock.setQuantityInStock(dto.getQuantityInStock());
         stock.setOutOfStock(dto.isOutOfStock());
-        stock.setTypeOfMachine(dto.getTypeOfMachine());
 
         return stock;
     }
 
     public StockOutputDto transferToDto(StockModel stockModel){
+
         StockOutputDto dto = new StockOutputDto();
 
 
         dto.setId(stockModel.getId());
-        dto.setBrandName(stockModel.getBrandName());
-        dto.setProductName(stockModel.getProductName());
-        dto.setProductNumber(stockModel.getProductNumber());
-        dto.setProductInStock(stockModel.getProductInStock());
-        dto.setOrderPlacedDate(stockModel.getOrderPlacedDate());
         dto.setWeeksToDelivery(stockModel.getWeeksToDelivery());
         dto.setProductSold(stockModel.getProductSold());
         dto.setQuantityInStock(stockModel.getQuantityInStock());
         dto.setOutOfStock(stockModel.isOutOfStock());
-        dto.setTypeOfMachine(stockModel.getTypeOfMachine());
-
-
         return dto;
     }
 

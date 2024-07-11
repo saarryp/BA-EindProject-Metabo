@@ -6,17 +6,25 @@ import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDtoWarranty;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
+import nl.bitsentools.eindprojectbackendmetabo.mapper.InvoiceMapper;
+import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
 import nl.bitsentools.eindprojectbackendmetabo.models.OrderModel;
 import nl.bitsentools.eindprojectbackendmetabo.models.ProductModel;
+import nl.bitsentools.eindprojectbackendmetabo.models.UserModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.InvoiceRepository;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.OrderRepository;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.ProductRepository;
+import nl.bitsentools.eindprojectbackendmetabo.repositories.UserRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
 import static nl.bitsentools.eindprojectbackendmetabo.services.ProductService.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,11 +37,14 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final InvoiceRepository invoiceRepository;
+    private final UserRepository userRepository;
 
-    public OrderService(OrderRepository orderRepository, ProductRepository productRepository, InvoiceRepository invoiceRepository) {
+    public OrderService(OrderRepository orderRepository, ProductRepository productRepository, InvoiceRepository invoiceRepository, UserRepository userRepository) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.invoiceRepository = invoiceRepository;
+        this.userRepository = userRepository;
+
     }
 
     //GET-all
@@ -58,24 +69,39 @@ public class OrderService {
     }
 
     //POST
+@Transactional
+public OrderOutputDto createOrder(OrderInputDto createOrderDto) {
 
-    public OrderOutputDto createOrder(OrderInputDto createOrderDto){
-        OrderModel order = new OrderModel();
-        OrderModel orderModel = transferToOrder(createOrderDto);
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String username = authentication.getName();
+    UserModel user = userRepository.findUserModelByUsername(username)
+            .orElseThrow(() -> new RecordNotFoundException("Gebruiker niet gevonden voor gebruikersnaam: " + username));
 
 
-        orderRepository.save(orderModel);
-        return transferToDto(orderModel);
-    }
+
+    ProductModel product = productRepository.findByProductNumber(createOrderDto.getProductNumber())
+            .orElseThrow(() -> new RecordNotFoundException("Product met id: " + createOrderDto.getProductNumber() + " niet gevonden."));
+
+
+    OrderModel orderModel = transferToOrder(createOrderDto);
+    orderModel.setUser(user);
+    orderModel.getProductModel().add(product);
+
+    OrderModel savedOrderModel = orderRepository.save(orderModel);
+    savedOrderModel.getInvoiceModel().setOrderModel(savedOrderModel);
+    OrderModel savedOrderModel2 = orderRepository.save(orderModel);
+
+    return transferToDto(savedOrderModel2);
+}
 
     //PutById for CLIENT
 public OrderOutputDto updateOrder(Long id, OrderInputDto updateDto) {
 
         OrderModel existingOrder = orderRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException("Order with id: " + id + "is not found."));
-        existingOrder.setUserEmail(updateDto.userEmail);
-        existingOrder.setUserDetails(updateDto.userDetails);
+
         existingOrder.setQuantity(updateDto.quantity);
+    existingOrder.setTotalPriceOrder(updateDto.getPrice() * updateDto.getQuantity());
 
     orderRepository.save(existingOrder);
 
@@ -91,7 +117,7 @@ public OrderOutputDto updateOrder(Long id, OrderInputDto updateDto) {
         existingOrder.setOrderNumber(updateDto.orderNumber);
         existingOrder.setPrice(updateDto.price);
         existingOrder.setQuantity((updateDto.quantity));
-        existingOrder.setUserDetails(updateDto.userDetails);
+        existingOrder.setTotalPriceOrder(updateDto.getPrice() * updateDto.getQuantity());
 
         orderRepository.save(existingOrder);
 
@@ -111,24 +137,33 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
 }
 
 
-    public OrderModel transferToOrder(OrderInputDto dto){
+    public OrderModel transferToOrder(OrderInputDto dto) {
 
-       var existingOrder = new OrderModel();
+        var existingOrder = new OrderModel();
 
-       if(dto.productNumber == null){
-           throw new IllegalArgumentException("Product Id cannot be null");
-       }
 
-       var product = productRepository.findById(dto.productNumber);
+        Optional<ProductModel> productOptional = productRepository.findByProductNumber(dto.getProductNumber());
+        if (productOptional.isEmpty()) {
+            throw new RecordNotFoundException("Product with product number: " + dto.getProductNumber() + " not found.");
+        }
+        ProductModel product = productOptional.get();
 
-        product.ifPresent(productModel -> existingOrder.getProductModel().add(productModel));
-        existingOrder.setOrderNumber(dto.orderNumber);
+        existingOrder.setOrderNumber(dto.getOrderNumber());
         existingOrder.setPrice(dto.price);
-        existingOrder.setUserEmail(dto.userEmail);
-        existingOrder.setUserDetails(dto.userDetails);
         existingOrder.setQuantity(dto.quantity);
         existingOrder.setTotalPriceOrder(dto.getPrice() * dto.getQuantity());
-        existingOrder.setInvoiceModel(dto.invoiceModel);
+        existingOrder.getProductModel().add(product);
+
+
+        if (dto.getInvoiceModel() != null) {
+            InvoiceModel invoiceModel1 = InvoiceMapper.transferToInvoiceModel(dto.getInvoiceModel());
+
+            existingOrder.setInvoiceModel(invoiceModel1);
+        }
+
+
+        orderRepository.save(existingOrder);
+
         return existingOrder;
     }
 
@@ -137,14 +172,11 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
 
         OrderOutputDto dto = new OrderOutputDto();
         dto.setId(orderModel.getId());
-        dto.setUserId(orderModel.getUserId());
-        dto.setUserEmail(orderModel.getUserEmail());
-        dto.setUserDetails(orderModel.getUserDetails());
         dto.setOrderNumber(orderModel.getOrderNumber());
         dto.setPrice(orderModel.getPrice());
         dto.setQuantity(orderModel.getQuantity());
         dto.setTotalPriceOrder(orderModel.getTotalPriceOrder());
-        dto.setInvoiceModel(orderModel.getInvoiceModel());
+
 
         for (ProductModel productModel : orderModel.getProductModel()){
 
@@ -158,12 +190,21 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
 
             }
         }
+
+        if(orderModel.getUser() !=null){
+            dto.setUserId(orderModel.getUser().getId());
+        }
+
+
         dto.setProductDto(products);
 
+        if(orderModel.getInvoiceModel() !=null) {
+            dto.setInvoiceModel(InvoiceMapper.convertToInvoiceOutputDto(orderModel.getInvoiceModel()));
+        }
         return dto;
     }
 
-    //AssignOrderToProduct voor many-to-many relatie
+    @Transactional
     public void assignOrderToProduct(Long orderId, Long productId) {
         var optionalOrder = orderRepository.findById(orderId);
         var optionalProduct = productRepository.findById(productId);
@@ -181,35 +222,4 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
             throw new RecordNotFoundException("Order or product not found.");
         }
     }
-
-    public void assignAllOrdersToAllProducts(){
-        List<OrderModel> allOrders = orderRepository.findAll();
-        List<ProductModel> allProducts = productRepository.findAll();
-
-        for (OrderModel order : allOrders){
-            for (ProductModel product : allProducts){
-                order.getProductModel().add(product);
-                product.getOrderModel().add(order);
-                orderRepository.save(order);
-                productRepository.save(product);
-            }
-        }
-    }
-    @Transactional
-    public void assignOrderToInvoice(Long orderId, Long invoiceId){
-        var optionalOrder = orderRepository.findById(orderId);
-        var optionalInvoice = invoiceRepository.findById(invoiceId);
-
-        if(optionalOrder.isPresent() && optionalInvoice.isPresent()) {
-            var order = optionalOrder.get();
-            var invoice = optionalInvoice.get();
-
-            order.setInvoiceModel(invoice);
-            orderRepository.save(order);
-            System.out.println("order assigned to invoice succesfull");
-        } else {
-            System.out.println("order or invoice not found");
-            throw new RecordNotFoundException("Order or invoice not found. ");
-        }
-    }
-}
+ }

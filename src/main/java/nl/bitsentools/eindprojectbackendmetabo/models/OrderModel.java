@@ -11,21 +11,13 @@ import java.util.List;
 public class OrderModel {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
 
     private Long id;
+    @Column
 
-    @Column
-    private int userId;
-    @Column
-    private int productNumber;
-    @Column
-    private String userEmail;
-    @Column
-    private String userDetails;
-    @Column
-    private int orderNumber;
+    private Integer orderNumber;
     @Column
     private double price;
     @Column
@@ -33,28 +25,34 @@ public class OrderModel {
     @Column
     private double totalPriceOrder;
 
-
     @ManyToMany
-    @JoinTable(name = "order_product", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "order_id"))
+    @JoinTable(
+            name = "order_product",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
     List<ProductModel> productModel  = new ArrayList<>();
 
     @OneToOne(mappedBy = "orderModel", cascade = CascadeType.ALL)
+    @JoinColumn(name = "invoice_id")
     @NotNull
     InvoiceModel invoiceModel;
 
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_user_id")
+    private UserModel user;
+
     public OrderModel(){}
 
-    public OrderModel(Long id, int userId, String userEmail, String userDetails, int productNumber, int orderNumber, ProductModel productModel, double price, int quantity, double totalPriceOrder, InvoiceModel invoiceModel) {
+    public OrderModel(Long id, Integer orderNumber, double price, int quantity, double totalPriceOrder, ProductModel productModel, InvoiceModel invoiceModel, UserModel user) {
         this.id = id;
-        this.userId = userId;
-        this.userEmail = userEmail;
-        this.userDetails = userDetails;
-        this.productNumber = productNumber;
         this.orderNumber = orderNumber;
         this.price = price;
         this.quantity = quantity;
         this.totalPriceOrder = totalPriceOrder;
+        this.productModel = new ArrayList<>();
         this.invoiceModel = invoiceModel;
+        this.user = user;
     }
 
     public Long getId() {
@@ -65,43 +63,11 @@ public class OrderModel {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getProductNumber() {
-        return productNumber;
-    }
-
-    public void setProductNumber(int productNumber) {
-        this.productNumber = productNumber;
-    }
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
-    public String getUserDetails() {
-        return userDetails;
-    }
-
-    public void setUserDetails(String userDetails) {
-        this.userDetails = userDetails;
-    }
-
-    public int getOrderNumber() {
+    public Integer getOrderNumber() {
         return orderNumber;
     }
 
-    public void setOrderNumber(int orderNumber) {
+    public void setOrderNumber(Integer orderNumber) {
         this.orderNumber = orderNumber;
     }
 
@@ -143,5 +109,13 @@ public class OrderModel {
 
     public void setInvoiceModel(InvoiceModel invoiceModel) {
         this.invoiceModel = invoiceModel;
+    }
+
+    public UserModel getUser() {
+        return user;
+    }
+
+    public void setUser(UserModel user) {
+        this.user = user;
     }
 }

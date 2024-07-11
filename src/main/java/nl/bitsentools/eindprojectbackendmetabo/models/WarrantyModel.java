@@ -9,29 +9,25 @@ import java.time.LocalDate;
 
 public class WarrantyModel {
 
-        @GeneratedValue
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Id
         @Column
 
         private Long id;
         @Column
-
-        private int productNumber;
-        @Column
         private LocalDate warrantyStart;
         @Column
         private LocalDate warrantyEnds;
 
+        @OneToOne
+        @JoinColumn(name = "product_model_id", referencedColumnName = "id")
+      ProductModel productModel;
 
-        @OneToOne(mappedBy = "warrantyModel")
-        InvoiceModel invoiceModel;
-
-    public WarrantyModel(Long id, int productNumber, LocalDate warrantyStart, LocalDate warrantyEnds, InvoiceModel invoiceModel) {
+    public WarrantyModel(Long id, LocalDate warrantyStart, LocalDate warrantyEnds, ProductModel productModel) {
         this.id = id;
-        this.productNumber = productNumber;
         this.warrantyStart = warrantyStart;
         this.warrantyEnds = warrantyEnds;
-        this.invoiceModel = invoiceModel;
+        this.productModel = productModel;
         }
 
         public WarrantyModel()
@@ -45,18 +41,8 @@ public class WarrantyModel {
             this.id = id;
         }
 
-
-
         public LocalDate getWarrantyStart() {
             return warrantyStart;
-        }
-
-        public int getProductNumber() {
-        return productNumber;
-        }
-
-        public void setProductNumber(int productName) {
-        this.productNumber = productName;
         }
 
         public void setWarrantyStart(LocalDate warrantyStart) {
@@ -71,12 +57,12 @@ public class WarrantyModel {
             this.warrantyEnds = warrantyEnds;
         }
 
-         public InvoiceModel getInvoiceModel() {
-        return invoiceModel;
+         public ProductModel getProductModel() {
+        return productModel;
         }
 
-         public void setInvoiceModel(InvoiceModel invoiceModel) {
-        this.invoiceModel = invoiceModel;
+         public void setProductModel(ProductModel productModel) {
+        this.productModel = productModel;
         }
 }
 
