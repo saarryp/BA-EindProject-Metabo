@@ -13,8 +13,6 @@ public class WarrantyInputDto {
        @NotNull(message = "Product id is verplicht")
        public Long productModelId;
 
-
-
     public LocalDate getWarrantyStart() {
         return warrantyStart;
     }

@@ -56,13 +56,10 @@ public class WarrantyService {
         WarrantyModel warrantyModel = new WarrantyModel();
         WarrantyModel warranty = transferToWarranty(warrantyModel, createWarrantyDto);
 
-        // Fetch the product using productModelId
         ProductModel product = productRepository.findById(createWarrantyDto.getProductModelId())
                 .orElseThrow(() -> new RecordNotFoundException("Product not found with id: " + createWarrantyDto.getProductModelId()));
 
-        warranty.setProductModel(product); // Set the product in the warranty
-
-
+        warranty.setProductModel(product);
 
         WarrantyModel warrantyModel1 = warrantyRepository.save(warranty);
         return transferToDto(warrantyModel1);

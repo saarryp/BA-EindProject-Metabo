@@ -1,10 +1,6 @@
 package nl.bitsentools.eindprojectbackendmetabo.models;
-
-
 import jakarta.persistence.*;
-import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
 
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "stocks")
@@ -15,7 +11,6 @@ public class StockModel {
     @Column
 
     private Long id;
-
     @Column
     private int weeksToDelivery;
 
@@ -25,8 +20,6 @@ public class StockModel {
     private int quantityInStock;
     @Column
     private boolean outOfStock;
-
-
 
     public StockModel(Long id, int weeksToDelivery, int productSold, int quantityInStock, boolean outOfStock) {
         this.id = id;
@@ -80,6 +73,5 @@ public Long getId() {
     public void setOutOfStock(boolean outOfStock) {
         this.outOfStock = outOfStock;
     }
-
 
 }

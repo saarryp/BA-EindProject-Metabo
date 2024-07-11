@@ -85,7 +85,6 @@ public class InvoiceService {
         //berekening btw bedrag
         double vatAmount = invoice.getNetPriceWithoutVat() * (vatRate / 100);
 
-        // opslaan van verschillende berkeningen en uitkomsten BTW-bedrag
         if (vatRate == 9) {
             invoice.setVat9ProductPrice(vatAmount);
             invoice.setVat21ProductPrice(0.0);
@@ -136,11 +135,8 @@ public class InvoiceService {
         }
     }
 
-    //2 METHODE VAN INVOICE NAAR DTO
 
     public InvoiceModel transferToInvoice(InvoiceModel invoice, InvoiceInputDto dto) {
-
-
 
         invoice.setInvoiceId(dto.invoiceId);
         invoice.setTotalPrice(dto.totalPrice);
@@ -150,8 +146,6 @@ public class InvoiceService {
         invoice.setVatRate(dto.vatRate);
         invoice.setProductWarranty(dto.productWarranty);
         invoice.setDateOfPurchase(dto.dateOfPurchase);
-
-        //berekening VAT
 
         return invoice;
     }
@@ -175,7 +169,6 @@ public class InvoiceService {
         return dto;
     }
 
-    //TODO HEB IK VAN DEZE NU WEL EEN ENDPOINT GEMAAKT EN IS DIE NODIG?
     public void assignWarrantyToInvoice(Long id, Long warrantyId) {
         var optionalInvoice = invoiceRepository.findById(id);
         var optionalWarranty = warrantyRepository.findById(warrantyId);
@@ -184,7 +177,6 @@ public class InvoiceService {
             var invoice = optionalInvoice.get();
             var warranty = optionalWarranty.get();
 
-//            invoice.setWarrantyModel(warranty);
             invoiceRepository.save(invoice);
         } else {
             throw new RecordNotFoundException("Warranty or invoice is not found.");

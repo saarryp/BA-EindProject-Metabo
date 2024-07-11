@@ -1,8 +1,6 @@
 package nl.bitsentools.eindprojectbackendmetabo.dto.order;
 
 import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceOutputDto;
-import nl.bitsentools.eindprojectbackendmetabo.models.InvoiceModel;
-
 import java.util.List;
 
 public class OrderOutputDto {

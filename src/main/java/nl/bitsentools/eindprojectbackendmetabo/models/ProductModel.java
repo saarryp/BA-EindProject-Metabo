@@ -44,10 +44,6 @@ private Long id;
 
     @OneToOne(mappedBy = "productModel", cascade = CascadeType.ALL)
     WarrantyModel warrantyModel;
-    //    @OneToOne( cascade = CascadeType.ALL)
-//    @JoinColumn(name = "warranty_id")
-//    WarrantyModel warrantyModel;
-
 
     public ProductModel(){}
 

@@ -10,9 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class OrderInputDto {
-    //deze input beperkt omdat USER GEEN AANPASSINGEN MAG DOEN IN BEPAALDE ONDERDELEN VAN DE GEGEVENS.
 
-//    @NotNull(message = "Bestelnummer is verplicht")
     public Integer orderNumber;
 
     @NotNull(message = "prijs is verplicht")
@@ -27,10 +25,6 @@ public class OrderInputDto {
     @Column(unique = true)
     @NotNull(message = "Productnummer is verplicht")
     private Integer productNumber;
-//    public InvoiceModel invoiceModel;
-
-//    private List<Long> productIds;
-
     public InvoiceInputDto invoiceModel;
     public OrderModel orderModel;
 
@@ -41,8 +35,6 @@ public class OrderInputDto {
         this.price = price;
         this.quantity = quantity;
         this.userId = userId;
-        this.productNumber = productNumber;
-//        this.productIds = productIds;
         this.orderModel = orderModel;
         this.invoiceModel = invoiceModel;
     }
@@ -60,7 +52,6 @@ public class OrderInputDto {
         this.quantity = quantity;
     }
 
-
     public Integer getOrderNumber() {
         return orderNumber;
     }
@@ -68,7 +59,6 @@ public class OrderInputDto {
     public void setOrderNumber(Integer orderNumber) {
         this.orderNumber = orderNumber;
     }
-
 
     public double getPrice() {
         return price;
@@ -86,14 +76,6 @@ public class OrderInputDto {
         this.productNumber = productNumber;
     }
 
-//    public List<Long> getProductIds() {
-//        return productIds;
-//    }
-//
-//    public void setProductIds(List<Long> productIds) {
-//        this.productIds = productIds;
-//    }
-
     public OrderModel getOrderModel() {
         return orderModel;
     }
@@ -105,17 +87,9 @@ public class OrderInputDto {
     public InvoiceInputDto getInvoiceModel() {
         return invoiceModel;
     }
-
     public void setInvoiceModel(InvoiceInputDto invoiceModel) {
         this.invoiceModel = invoiceModel;
     }
 
-    //    public InvoiceModel getInvoiceModel() {
-//        return invoiceModel;
-//    }
-//
-//    public void setInvoiceModel(InvoiceModel invoiceModel) {
-//        this.invoiceModel = invoiceModel;
-//    }
-//
+
  }

@@ -205,7 +205,6 @@ public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
     }
 
     @Transactional
-    //AssignOrderToProduct voor many-to-many relatie
     public void assignOrderToProduct(Long orderId, Long productId) {
         var optionalOrder = orderRepository.findById(orderId);
         var optionalProduct = productRepository.findById(productId);

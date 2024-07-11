@@ -1,6 +1,5 @@
 package nl.bitsentools.eindprojectbackendmetabo.controllers;
 import nl.bitsentools.eindprojectbackendmetabo.dto.id.IdInputDto;
-import nl.bitsentools.eindprojectbackendmetabo.dto.invoice.InvoiceInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.order.OrderOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.services.OrderService;

@@ -1,8 +1,6 @@
 package nl.bitsentools.eindprojectbackendmetabo.dto.user;
 
 import nl.bitsentools.eindprojectbackendmetabo.models.Authority;
-
-import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 public class UserOutputDto {

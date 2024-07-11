@@ -6,7 +6,6 @@ import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductInputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDto;
 import nl.bitsentools.eindprojectbackendmetabo.dto.product.ProductOutputDtoWarranty;
 import nl.bitsentools.eindprojectbackendmetabo.exceptions.RecordNotFoundException;
-import nl.bitsentools.eindprojectbackendmetabo.models.ImageData;
 import nl.bitsentools.eindprojectbackendmetabo.models.ProductModel;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.OrderRepository;
 import nl.bitsentools.eindprojectbackendmetabo.repositories.ProductRepository;

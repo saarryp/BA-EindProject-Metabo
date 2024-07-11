@@ -1,11 +1,7 @@
 package nl.bitsentools.eindprojectbackendmetabo.dto.stock;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import nl.bitsentools.eindprojectbackendmetabo.models.enums.TypeOfMachine;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import java.time.LocalDate;
+
 
 public class StockInputDto {
 

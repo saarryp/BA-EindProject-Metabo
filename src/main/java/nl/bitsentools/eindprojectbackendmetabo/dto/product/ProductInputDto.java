@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ProductInputDto {
 
-//   public Long id;
+
 
     @NotBlank(message = "Merknaam moet worden toegevoegd.")
    public String brandName;

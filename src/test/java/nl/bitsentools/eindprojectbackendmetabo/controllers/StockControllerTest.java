@@ -121,54 +121,11 @@ class StockControllerTest {
         assertThat(result.getResponse().getHeader("Location"), matchesPattern("^.*/stocks/" + createdId));
    }
 
-//    @Test
-//    @Order(3)
-//    void updateStock() throws Exception {
-//
-//        String jsonInput = """
-//            {
-//                "weeksToDelivery": 16,
-//                "productSold: 0,
-//                "quantityInStock": 10,
-//                "outOfStock": false
-//            }
-//            """;
-//
-//        mockMvc.perform(MockMvcRequestBuilders.post("/stocks")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(jsonInput))
-//                .andExpect(MockMvcResultMatchers.status().isCreated());
-//
-//
-//        // Update uitvoeren
-//        String updateJsonInput = """
-//            {
-//                "id" : 1,
-//                "weeksToDelivery": 1,
-//                "productSold"; 0,
-//                "quantityInStock": 1,
-//                "outOfStock": false
-//
-//            }
-//            """;
-//
-//        String stockIdUpdate = "7";
-//        mockMvc.perform(put("/stocks/" + stockIdUpdate)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(updateJsonInput))
-//                .andExpect(MockMvcResultMatchers.status().isOk())
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.weeksToDelivery").value(1))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.productSold").value(0))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.quantityInStock").value(1))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.outOfStock").value(false));
-//
-//   }
 
     @Test
     @Order(3)
     void updateStock() throws Exception {
 
-        // JSON invoer voor het aanmaken van een nieuwe stock
         String jsonInput = """
             {
                 "weeksToDelivery": 16,
@@ -178,19 +135,17 @@ class StockControllerTest {
             }
             """;
 
-        // Maak een nieuwe stock aan
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/stocks")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonInput))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andReturn();
 
-        // Haal de ID van de nieuw aangemaakte stock op uit de response
         String jsonResponse = result.getResponse().getContentAsString();
         JsonNode jsonNode = objectMapper.readTree(jsonResponse);
         String stockIdUpdate = jsonNode.get("id").asText();
 
-        // JSON invoer voor het bijwerken van de stock
+
         String updateJsonInput = """
             {
                 "weeksToDelivery": 1,
@@ -200,7 +155,7 @@ class StockControllerTest {
             }
             """;
 
-        // Voer de update uit
+
         mockMvc.perform(MockMvcRequestBuilders.put("/stocks/" + stockIdUpdate)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(updateJsonInput))

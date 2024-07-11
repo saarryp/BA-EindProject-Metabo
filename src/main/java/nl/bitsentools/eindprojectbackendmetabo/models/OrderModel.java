@@ -16,7 +16,7 @@ public class OrderModel {
 
     private Long id;
     @Column
-//    @NotNull(message = "Bestelnummer is verplicht")
+
     private Integer orderNumber;
     @Column
     private double price;
@@ -36,10 +36,6 @@ public class OrderModel {
     @JoinColumn(name = "invoice_id")
     @NotNull
     InvoiceModel invoiceModel;
-
-//    @OneToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "invoice_id", referencedColumnName = "id")
-//    private InvoiceModel invoiceModel;
 
 
     @ManyToOne(fetch = FetchType.LAZY)

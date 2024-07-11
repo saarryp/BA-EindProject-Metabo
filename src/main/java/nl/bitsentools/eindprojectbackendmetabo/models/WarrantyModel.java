@@ -19,7 +19,6 @@ public class WarrantyModel {
         @Column
         private LocalDate warrantyEnds;
 
-
         @OneToOne
         @JoinColumn(name = "product_model_id", referencedColumnName = "id")
       ProductModel productModel;
@@ -42,12 +41,9 @@ public class WarrantyModel {
             this.id = id;
         }
 
-
-
         public LocalDate getWarrantyStart() {
             return warrantyStart;
         }
-
 
         public void setWarrantyStart(LocalDate warrantyStart) {
             this.warrantyStart = warrantyStart;
