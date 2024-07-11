@@ -57,25 +57,26 @@ class StockControllerTest {
        stockRepository.save(stock2);
     }
 
-        @AfterEach
-        void cleanUp() {
-            stockRepository.deleteById(stock1.getId());
-            stockRepository.deleteById(stock2.getId());
-        }
+//
+
+    @AfterEach
+    void cleanUp() {
+        stockRepository.deleteAll();
+    }
 
     @Test
-    @Order(1    )
+    @Order(1)
     void getAllStocks() throws Exception {
         mockMvc.perform(get("/stocks"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].weeksToDelivery").value(16))
-                .andExpect(jsonPath("$[0].productSold").value(0))
+                .andExpect(jsonPath("$[0].weeksToDelivery").value(10))
+                .andExpect(jsonPath("$[0].productSold").value(16))
                 .andExpect(jsonPath("$[0].quantityInStock").value(10))
                 .andExpect(jsonPath("$[0].outOfStock").value(false))
 
-                .andExpect(jsonPath("$[1].weeksToDelivery").value(12))
-                .andExpect(jsonPath("$[1].productSold").value(2))
-                .andExpect(jsonPath("$[1].quantityInStock").value(0))
+                .andExpect(jsonPath("$[1].weeksToDelivery").value(100))
+                .andExpect(jsonPath("$[1].productSold").value(12))
+                .andExpect(jsonPath("$[1].quantityInStock").value(2))
                 .andExpect(jsonPath("$[1].outOfStock").value(true));
 
     }
@@ -87,9 +88,9 @@ class StockControllerTest {
        mockMvc.perform(get("/stocks/" + stock2.getId().toString()))
                .andExpect(status().isOk())
                .andExpect(jsonPath("id").value(stock2.getId()))
-               .andExpect(jsonPath("weeksToDelivery").value(12))
-               .andExpect(jsonPath("productSold").value(2))
-               .andExpect(jsonPath("quantityInStock").value(0))
+               .andExpect(jsonPath("weeksToDelivery").value(100))
+               .andExpect(jsonPath("productSold").value(12))
+               .andExpect(jsonPath("quantityInStock").value(2))
                .andExpect(jsonPath("outOfStock").value(true));
     }
 
@@ -98,12 +99,10 @@ class StockControllerTest {
     void createStock() throws Exception {
         String jsonInput = """
                 {
-                 
-                    "weeksToDelivery": 16,
+                   "weeksToDelivery": 16,
                     "productSold": 0,
                     "quantityInStock": 10,
-                    "outOfStock: false
-                    
+                    "outOfStock": false
                 }
                 """;
 
@@ -122,47 +121,95 @@ class StockControllerTest {
         assertThat(result.getResponse().getHeader("Location"), matchesPattern("^.*/stocks/" + createdId));
    }
 
+//    @Test
+//    @Order(3)
+//    void updateStock() throws Exception {
+//
+//        String jsonInput = """
+//            {
+//                "weeksToDelivery": 16,
+//                "productSold: 0,
+//                "quantityInStock": 10,
+//                "outOfStock": false
+//            }
+//            """;
+//
+//        mockMvc.perform(MockMvcRequestBuilders.post("/stocks")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(jsonInput))
+//                .andExpect(MockMvcResultMatchers.status().isCreated());
+//
+//
+//        // Update uitvoeren
+//        String updateJsonInput = """
+//            {
+//                "id" : 1,
+//                "weeksToDelivery": 1,
+//                "productSold"; 0,
+//                "quantityInStock": 1,
+//                "outOfStock": false
+//
+//            }
+//            """;
+//
+//        String stockIdUpdate = "7";
+//        mockMvc.perform(put("/stocks/" + stockIdUpdate)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(updateJsonInput))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.weeksToDelivery").value(1))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.productSold").value(0))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.quantityInStock").value(1))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.outOfStock").value(false));
+//
+//   }
+
     @Test
     @Order(3)
     void updateStock() throws Exception {
 
+        // JSON invoer voor het aanmaken van een nieuwe stock
         String jsonInput = """
             {
                 "weeksToDelivery": 16,
-                "productSold: 0,
+                "productSold": 0,
                 "quantityInStock": 10,
                 "outOfStock": false
             }
             """;
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/stocks")
+        // Maak een nieuwe stock aan
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/stocks")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonInput))
-                .andExpect(MockMvcResultMatchers.status().isCreated());
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andReturn();
 
+        // Haal de ID van de nieuw aangemaakte stock op uit de response
+        String jsonResponse = result.getResponse().getContentAsString();
+        JsonNode jsonNode = objectMapper.readTree(jsonResponse);
+        String stockIdUpdate = jsonNode.get("id").asText();
 
-        // Update uitvoeren
+        // JSON invoer voor het bijwerken van de stock
         String updateJsonInput = """
             {
-                "id" : 1,
                 "weeksToDelivery": 1,
-                "productSold"; 0,
+                "productSold": 0,
                 "quantityInStock": 1,
                 "outOfStock": false
-               
             }
             """;
 
-        String stockIdUpdate = "7";
-        mockMvc.perform(put("/stocks/" + stockIdUpdate)
+        // Voer de update uit
+        mockMvc.perform(MockMvcRequestBuilders.put("/stocks/" + stockIdUpdate)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(updateJsonInput))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.brandName").value("MetaboSuper"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.productName").value("Metabo SCHROEFMACHINE"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.productNumber").value(123456));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.weeksToDelivery").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.productSold").value(0))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.quantityInStock").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.outOfStock").value(false));
     }
-
 
     @Test
     @Order(4)

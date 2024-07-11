@@ -12,7 +12,7 @@ public class StockInputDto {
         @Min(value = 0, message = "Aantal weken voor levering moet 0 of groter zijn.")
         public Integer weeksToDelivery;
 
-        @Min(value = 0, message = "Aantalverkochte producten moet minimaal 0 of meer zijn.")
+        @Min(value = 0, message = "Aantal verkochte producten moet minimaal 0 of meer zijn.")
         public Integer productSold;
 
         @Min(value= 0, message = "Aantal producten op voorraad moet minimaal 0 of meer zijn.")
